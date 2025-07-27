@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Abhinav Singh | Mechanical Engineer</title>
   
+  <!-- Favicon -->
+  <link rel="icon" href="logo-as.png" type="image/png" />
+  
   <!-- SEO Meta Tags -->
   <meta name="description" content="Abhinav Singh - Visionary Mechanical Engineering student at Purdue University. Passionate about design, R&D, and innovative problem-solving.">
   <meta name="keywords" content="Abhinav Singh, Mechanical Engineer, Purdue University, CAD Design, Engineering Portfolio">
@@ -21,6 +24,9 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Abhinav Singh | Mechanical Engineer">
   <meta name="twitter:description" content="Mechanical Engineering student at Purdue University - Design, R&D, and Innovation">
+  
+  <!-- Analytics - Plausible -->
+  <script async defer data-domain="abhinavsingh.com" src="https://plausible.io/js/script.js"></script>
   
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
@@ -66,7 +72,7 @@
       color: var(--text);
       line-height: 1.6;
       overflow-x: hidden;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     /* Focus indicators for accessibility */
@@ -124,10 +130,19 @@
       color: var(--primary);
       text-decoration: none;
       transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
     }
 
     .logo:hover {
       transform: scale(1.05);
+    }
+
+    .site-logo {
+      height: 32px;
+      width: auto;
+      vertical-align: middle;
+      margin-right: 8px;
     }
 
     .nav-center {
@@ -367,6 +382,84 @@
       border-radius: 2px;
     }
 
+    /* About Section */
+    .about-bio {
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .about-image {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--primary);
+    }
+
+    .about-bio p {
+      flex: 1;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--text);
+    }
+
+    /* Timeline for Experience */
+    .timeline {
+      position: relative;
+      padding: 2rem 0;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--primary);
+      transform: translateX(-50%);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin: 2rem 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-content {
+      margin-right: 50%;
+      padding-right: 2rem;
+      text-align: right;
+    }
+
+    .timeline-item:nth-child(even) .timeline-content {
+      margin-left: 50%;
+      padding-left: 2rem;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: 50%;
+      width: 12px;
+      height: 12px;
+      background: var(--primary);
+      border-radius: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+
+    .timeline-content {
+      background: var(--surface);
+      border-radius: 15px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 20px var(--shadow);
+      border: 1px solid var(--border);
+    }
+
     /* Experience & Projects Cards */
     .card-grid {
       display: grid;
@@ -419,6 +512,14 @@
     .card p {
       color: var(--text);
       line-height: 1.7;
+    }
+
+    .project-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 1rem;
     }
 
     /* Tech Stack */
@@ -617,6 +718,40 @@
       box-shadow: 0 4px 15px var(--shadow);
     }
 
+    /* Back to Top Button */
+    #backToTop {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      z-index: 1000;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px var(--shadow);
+    }
+
+    #backToTop:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--shadow);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem 0;
+      color: var(--text-light);
+      background: var(--background);
+      border-top: 1px solid var(--border);
+      margin-top: 4rem;
+    }
+
     /* Responsive Design */
     @media (max-width: 768px) {
       .navbar {
@@ -660,6 +795,28 @@
 
       .tech-grid {
         grid-template-columns: 1fr;
+      }
+
+      .about-bio {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .timeline::before {
+        left: 20px;
+      }
+
+      .timeline-item:nth-child(odd) .timeline-content,
+      .timeline-item:nth-child(even) .timeline-content {
+        margin-left: 40px;
+        margin-right: 0;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        text-align: left;
+      }
+
+      .timeline-dot {
+        left: 20px;
       }
     }
 
@@ -708,11 +865,15 @@
   <!-- Navigation -->
   <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
     <div class="nav-left">
-      <a href="#" class="logo" onclick="showPage('home'); return false;" aria-label="Go to Home page">Abhinav</a>
+      <a href="#" class="logo" onclick="showPage('home'); return false;" aria-label="Go to Home page">
+        <img src="logo-as.png" alt="Abhinav Singh Logo" class="site-logo" />
+        <span>Abhinav</span>
+      </a>
     </div>
 
     <div class="nav-center">
       <a href="#" class="nav-link active" onclick="showPage('home'); return false;" data-page="home" aria-label="Go to Home page">Home</a>
+      <a href="#" class="nav-link" onclick="showPage('about'); return false;" data-page="about" aria-label="Go to About page">About</a>
       <a href="#" class="nav-link" onclick="showPage('experience'); return false;" data-page="experience" aria-label="Go to Experience page">Experience</a>
       <a href="#" class="nav-link" onclick="showPage('projects'); return false;" data-page="projects" aria-label="Go to Projects page">Projects</a>
       <a href="#" class="nav-link" onclick="showPage('tech'); return false;" data-page="tech" aria-label="Go to Tech page">Tech</a>
@@ -734,6 +895,7 @@
   <!-- Mobile Menu -->
   <div class="mobile-menu" id="mobileMenu" role="navigation" aria-label="Mobile navigation">
     <a href="#" class="mobile-nav-link active" onclick="showPage('home'); return false;" data-page="home" aria-label="Go to Home page">Home</a>
+    <a href="#" class="mobile-nav-link" onclick="showPage('about'); return false;" data-page="about" aria-label="Go to About page">About</a>
     <a href="#" class="mobile-nav-link" onclick="showPage('experience'); return false;" data-page="experience" aria-label="Go to Experience page">Experience</a>
     <a href="#" class="mobile-nav-link" onclick="showPage('projects'); return false;" data-page="projects" aria-label="Go to Projects page">Projects</a>
     <a href="#" class="mobile-nav-link" onclick="showPage('tech'); return false;" data-page="tech" aria-label="Go to Tech page">Tech</a>
@@ -745,36 +907,63 @@
     <!-- Home Page -->
     <section id="home" class="page active" aria-labelledby="home-title">
       <div class="hero">
-        <h1 id="home-title">Hi! I'm <span class="highlight">Abhinav</span>, a visionary Mechanical Engineering student at Purdue University.</h1>
+        <h1 id="home-title" tabindex="-1">Hi! I'm <span class="highlight">Abhinav</span>, a visionary Mechanical Engineering student at Purdue University.</h1>
         <p>Passionate about design, R&D, and problem-solving. I aspire to be involved in projects bigger than myself, tackling challenges that push the boundaries of human limits and test my abilities as an engineer.</p>
-        <button class="cta-button" onclick="showPage('projects')" onkeypress="handleKeyPress(event, 'projects')">
-          View My Work
-        </button>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <button class="cta-button" onclick="showPage('projects')" onkeypress="handleKeyPress(event, 'projects')">
+            View My Work
+          </button>
+          <a href="Abhinav_Singh_Resume.pdf" class="cta-button" download style="background: var(--secondary);">
+            Download Resume
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Page -->
+    <section id="about" class="page" aria-labelledby="about-title">
+      <div class="content-section">
+        <h2 id="about-title" class="section-title" tabindex="-1">About Me</h2>
+        <div class="about-bio">
+          <img src="profile.jpg" alt="Abhinav Singh portrait" class="about-image" loading="lazy" />
+          <p>
+            Hi! I'm Abhinav Singh, a passionate Mechanical Engineering student at Purdue University. I thrive on solving complex engineering problems, especially in automotive and mechanical design. My journey combines rigorous academic training, hands-on research, and a creative approach to R&D. I love collaborating on projects that challenge the norm and push the boundaries of innovation. Let's build something extraordinary together!
+          </p>
+        </div>
       </div>
     </section>
 
     <!-- Experience Page -->
     <section id="experience" class="page" aria-labelledby="experience-title">
       <div class="content-section">
-        <h2 id="experience-title" class="section-title">Experience</h2>
-        <div class="card-grid">
-          <article class="card">
-            <h3>Mechanical Engineering Student</h3>
-            <div class="meta">Purdue University • 2022 - Present</div>
-            <p>Pursuing a comprehensive education in mechanical engineering with focus on design principles, thermodynamics, materials science, and advanced manufacturing processes. Maintaining strong academic performance while engaging in hands-on projects and research opportunities.</p>
-          </article>
+        <h2 id="experience-title" class="section-title" tabindex="-1">Experience</h2>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h3>Mechanical Engineering Student</h3>
+              <div class="meta">Purdue University • 2022 - Present</div>
+              <p>Pursuing a comprehensive education in mechanical engineering with focus on design principles, thermodynamics, materials science, and advanced manufacturing processes. Maintaining strong academic performance while engaging in hands-on projects and research opportunities.</p>
+            </div>
+          </div>
           
-          <article class="card">
-            <h3>Research & Development Enthusiast</h3>
-            <div class="meta">Personal Projects • 2021 - Present</div>
-            <p>Actively engaged in independent research and development projects, focusing on automotive engineering and mechanical systems design. Dedicated to pushing boundaries through innovative solutions and creative problem-solving approaches.</p>
-          </article>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h3>Research & Development Enthusiast</h3>
+              <div class="meta">Personal Projects • 2021 - Present</div>
+              <p>Actively engaged in independent research and development projects, focusing on automotive engineering and mechanical systems design. Dedicated to pushing boundaries through innovative solutions and creative problem-solving approaches.</p>
+            </div>
+          </div>
           
-          <article class="card">
-            <h3>Design Engineering Focus</h3>
-            <div class="meta">Academic & Personal Work • 2022 - Present</div>
-            <p>Specializing in CAD design, mechanical systems analysis, and prototype development. Experience with industry-standard software and manufacturing processes, with particular interest in automotive applications and precision engineering.</p>
-          </article>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h3>Design Engineering Focus</h3>
+              <div class="meta">Academic & Personal Work • 2022 - Present</div>
+              <p>Specializing in CAD design, mechanical systems analysis, and prototype development. Experience with industry-standard software and manufacturing processes, with particular interest in automotive applications and precision engineering.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -782,21 +971,24 @@
     <!-- Projects Page -->
     <section id="projects" class="page" aria-labelledby="projects-title">
       <div class="content-section">
-        <h2 id="projects-title" class="section-title">Projects</h2>
+        <h2 id="projects-title" class="section-title" tabindex="-1">Projects</h2>
         <div class="card-grid">
           <article class="card">
+            <img src="project1.jpg" alt="Toyota Prius AW60 Custom Wheel CAD Model" loading="lazy" class="project-image" />
             <h3>Custom Toyota Prius AW60 Wheel Design</h3>
             <div class="meta">Automotive Engineering • 2024</div>
             <p>Designed and engineered a custom wheel specifically tailored for the Toyota Prius AW60 model. This project involved comprehensive analysis of load requirements, weight optimization, and aesthetic considerations while maintaining structural integrity and safety standards. The design process included detailed CAD modeling, stress analysis, and material selection to ensure optimal performance and durability.</p>
           </article>
           
           <article class="card">
+            <img src="project2.jpg" alt="Flywheel Assembly Engineering Model" loading="lazy" class="project-image" />
             <h3>Flywheel Assembly Model</h3>
             <div class="meta">Mechanical Systems • 2024</div>
             <p>Developed a comprehensive flywheel model with complete assembly documentation. This project focused on energy storage principles, rotational dynamics, and precision engineering. The design incorporated advanced materials analysis, bearing selection, and safety considerations for high-speed rotation applications. Detailed assembly drawings and manufacturing specifications were created to support potential fabrication.</p>
           </article>
           
           <article class="card">
+            <img src="project3.jpg" alt="Advanced Engineering Solutions Portfolio" loading="lazy" class="project-image" />
             <h3>Advanced Engineering Solutions</h3>
             <div class="meta">Ongoing Research • 2023 - Present</div>
             <p>Continuously working on innovative engineering solutions that challenge conventional approaches. These projects span various domains including mechanical systems optimization, sustainable design principles, and cutting-edge manufacturing techniques. Each project aims to push the boundaries of what's possible in mechanical engineering.</p>
@@ -808,7 +1000,7 @@
     <!-- Tech Stack Page -->
     <section id="tech" class="page" aria-labelledby="tech-title">
       <div class="content-section">
-        <h2 id="tech-title" class="section-title">Technical Expertise</h2>
+        <h2 id="tech-title" class="section-title" tabindex="-1">Technical Expertise</h2>
         <div class="tech-grid">
           <div class="tech-category">
             <h4>CAD & Design Software</h4>
@@ -876,7 +1068,7 @@
     <!-- Contact Page -->
     <section id="contact" class="page" aria-labelledby="contact-title">
       <div class="content-section">
-        <h2 id="contact-title" class="section-title">Get In Touch</h2>
+        <h2 id="contact-title" class="section-title" tabindex="-1">Get In Touch</h2>
         <div class="contact-form">
           <form action="https://formspree.io/f/mvgqawka" method="POST" onsubmit="handleFormSubmit(event)" novalidate>
             <div class="form-group">
@@ -911,7 +1103,7 @@
               </span>
             </button>
             
-            <div class="form-status" id="formStatus"></div>
+            <div class="form-status" id="formStatus" aria-live="polite" aria-atomic="true"></div>
           </form>
         </div>
         
@@ -933,6 +1125,14 @@
     </section>
   </main>
 
+  <!-- Back to Top Button -->
+  <button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'});" aria-label="Back to top">↑ Top</button>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Abhinav Singh. All rights reserved.
+  </footer>
+
   <!-- NoScript fallback -->
   <noscript>
     <div style="position: fixed; top: 0; left: 0; right: 0; background: var(--error); color: white; padding: 1rem; text-align: center; z-index: 10000;">
@@ -942,8 +1142,101 @@
 
   <!-- Scripts -->
   <script>
-    // Theme management with session storage simulation
-    let currentTheme = 'light';
+    // Theme management with localStorage persistence
+    let currentTheme = localStorage.getItem('theme') || 'light';
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      // Apply saved theme
+      if (currentTheme) {
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        const lightIcon = document.querySelector('.light-icon');
+        const darkIcon = document.querySelector('.dark-icon');
+        if (currentTheme === 'dark') {
+          lightIcon.style.display = 'none';
+          darkIcon.style.display = 'inline';
+        } else {
+          lightIcon.style.display = 'inline';
+          darkIcon.style.display = 'none';
+        }
+      }
+      
+      // Set initial ARIA attributes
+      document.querySelectorAll('.page').forEach(page => {
+        if (page.classList.contains('active')) {
+          page.setAttribute('aria-hidden', 'false');
+        } else {
+          page.setAttribute('aria-hidden', 'true');
+        }
+      });
+      
+      // Set initial nav aria-current
+      const activeNav = document.querySelector('.nav-link.active');
+      if (activeNav) {
+        activeNav.setAttribute('aria-current', 'page');
+      }
+      
+      // Initialize mobile menu button
+      const mobileMenuButton = document.getElementById('mobileMenuButton');
+      mobileMenuButton.setAttribute('aria-expanded', 'false');
+      
+      // Add real-time form validation
+      const formFields = document.querySelectorAll('#contact input, #contact textarea');
+      formFields.forEach(field => {
+        field.addEventListener('blur', function() {
+          if (this.value.trim()) {
+            this.classList.remove('error');
+            const errorElement = document.getElementById(this.id + '-error');
+            if (errorElement) {
+              errorElement.style.display = 'none';
+            }
+          }
+        });
+        
+        field.addEventListener('input', function() {
+          if (this.classList.contains('error') && this.value.trim()) {
+            this.classList.remove('error');
+            const errorElement = document.getElementById(this.id + '-error');
+            if (errorElement) {
+              errorElement.style.display = 'none';
+            }
+          }
+        });
+      });
+      
+      // Back to top button visibility
+      window.addEventListener('scroll', function() {
+        const backToTop = document.getElementById('backToTop');
+        if (window.scrollY > 300) {
+          backToTop.style.display = 'block';
+        } else {
+          backToTop.style.display = 'none';
+        }
+      });
+      
+      // Announce page changes to screen readers
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.target.classList.contains('page') && 
+              mutation.target.classList.contains('active')) {
+            const announcement = document.createElement('div');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.setAttribute('aria-atomic', 'true');
+            announcement.style.position = 'absolute';
+            announcement.style.left = '-10000px';
+            announcement.textContent = `Navigated to ${mutation.target.id} page`;
+            document.body.appendChild(announcement);
+            
+            setTimeout(() => {
+              document.body.removeChild(announcement);
+            }, 1000);
+          }
+        });
+      });
+      
+      document.querySelectorAll('.page').forEach(page => {
+        observer.observe(page, { attributes: true, attributeFilter: ['class'] });
+      });
+    });
     
     function toggleTheme() {
       const root = document.documentElement;
@@ -962,6 +1255,9 @@
         darkIcon.style.display = 'inline';
         currentTheme = 'dark';
       }
+      
+      // Save theme preference
+      localStorage.setItem('theme', currentTheme);
     }
 
     // Enhanced page switching with accessibility
@@ -1209,86 +1505,13 @@
       }
     });
 
-    // Initialize page
-    document.addEventListener('DOMContentLoaded', () => {
-      // Set initial theme
-      document.documentElement.setAttribute('data-theme', currentTheme);
-      
-      // Set initial ARIA attributes
-      document.querySelectorAll('.page').forEach(page => {
-        if (page.classList.contains('active')) {
-          page.setAttribute('aria-hidden', 'false');
-        } else {
-          page.setAttribute('aria-hidden', 'true');
-        }
-      });
-      
-      // Set initial nav aria-current
-      const activeNav = document.querySelector('.nav-link.active');
-      if (activeNav) {
-        activeNav.setAttribute('aria-current', 'page');
-      }
-      
-      // Initialize mobile menu button
-      const mobileMenuButton = document.getElementById('mobileMenuButton');
-      mobileMenuButton.setAttribute('aria-expanded', 'false');
-      
-      // Add real-time form validation
-      const formFields = document.querySelectorAll('#contact input, #contact textarea');
-      formFields.forEach(field => {
-        field.addEventListener('blur', function() {
-          if (this.value.trim()) {
-            this.classList.remove('error');
-            const errorElement = document.getElementById(this.id + '-error');
-            if (errorElement) {
-              errorElement.style.display = 'none';
-            }
-          }
-        });
-        
-        field.addEventListener('input', function() {
-          if (this.classList.contains('error') && this.value.trim()) {
-            this.classList.remove('error');
-            const errorElement = document.getElementById(this.id + '-error');
-            if (errorElement) {
-              errorElement.style.display = 'none';
-            }
-          }
-        });
-      });
-      
-      // Announce page changes to screen readers
-      const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-          if (mutation.target.classList.contains('page') && 
-              mutation.target.classList.contains('active')) {
-            const announcement = document.createElement('div');
-            announcement.setAttribute('aria-live', 'polite');
-            announcement.setAttribute('aria-atomic', 'true');
-            announcement.style.position = 'absolute';
-            announcement.style.left = '-10000px';
-            announcement.textContent = `Navigated to ${mutation.target.id} page`;
-            document.body.appendChild(announcement);
-            
-            setTimeout(() => {
-              document.body.removeChild(announcement);
-            }, 1000);
-          }
-        });
-      });
-      
-      document.querySelectorAll('.page').forEach(page => {
-        observer.observe(page, { attributes: true, attributeFilter: ['class'] });
-      });
-    });
-
     // Performance optimization - lazy load animations
     const observerOptions = {
       threshold: 0.1,
       rootMargin: '0px 0px -50px 0px'
     };
 
-    const observer = new IntersectionObserver((entries) => {
+    const intersectionObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.style.animationPlayState = 'running';
@@ -1299,7 +1522,7 @@
     // Observe animated elements
     document.querySelectorAll('.card, .tech-category').forEach(el => {
       el.style.animationPlayState = 'paused';
-      observer.observe(el);
+      intersectionObserver.observe(el);
     });
   </script>
 </body>
