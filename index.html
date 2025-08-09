@@ -4,66 +4,63 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Abhinav Singh | Mechanical Engineer</title>
-  
-  <!-- Favicon -->
+
   <link rel="icon" href="logo-as.png" type="image/png" />
-  
-  <!-- SEO Meta Tags -->
+
   <meta name="description" content="Abhinav Singh - Visionary Mechanical Engineering student at Purdue University. Passionate about design, R&D, and innovative problem-solving.">
-  <meta name="keywords" content="Abhinav Singh, Mechanical Engineer, Purdue University, CAD Design, Engineering Portfolio">
+  <meta name="keywords" content="Abhinav Singh, Mechanical Engineer, Purdue University, CAD Design, Engineering Portfolio, SolidWorks, ANSYS, CNC, MATLAB">
   <meta name="author" content="Abhinav Singh">
-  
-  <!-- Open Graph Tags -->
+
   <meta property="og:title" content="Abhinav Singh | Mechanical Engineer Portfolio" />
   <meta property="og:description" content="A showcase of mechanical engineering projects, CAD designs, and innovative solutions by Abhinav Singh, Purdue University student." />
   <meta property="og:image" content="https://abhinavsingh.com/preview.jpg" />
   <meta property="og:url" content="https://abhinavsingh.com" />
   <meta property="og:type" content="website" />
-  
-  <!-- Twitter Card Tags -->
+
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Abhinav Singh">
   <meta name="twitter:description" content="Mechanical Engineering student at Purdue University - Design, R&D, and Innovation">
-  
-  <!-- Analytics - Plausible -->
+
   <script async defer data-domain="abhinavsingh.com" src="https://plausible.io/js/script.js"></script>
-  
+
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root[data-theme="light"] {
       --primary: #254d70;
       --secondary: #954c2e;
       --accent: #131d4f;
-      --background: #efe4d2;
+      --background: #f8f5f0;
       --surface: #ffffff;
-      --text: #131d4f;
+      --text: #1a1a1a;
       --text-light: #666666;
       --border: #e0e0e0;
-      --shadow: rgba(19, 29, 79, 0.1);
+      --shadow: rgba(0, 0, 0, 0.1);
       --success: #10b981;
       --error: #ef4444;
-      --warning: #f59e0b;
     }
 
     :root[data-theme="dark"] {
       --primary: #ffffff;
       --secondary: #cccccc;
       --accent: #ffffff;
-      --background: #000000;
+      --background: #111111;
       --surface: #1a1a1a;
       --text: #ffffff;
-      --text-light: #cccccc;
+      --text-light: #b3b3b3;
       --border: #333333;
-      --shadow: rgba(0, 0, 0, 0.5);
+      --shadow: rgba(255, 255, 255, 0.1);
       --success: #10b981;
       --error: #ef4444;
-      --warning: #f59e0b;
     }
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
@@ -75,21 +72,12 @@
       transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* Focus indicators for accessibility */
+    /* Accessibility */
     *:focus-visible {
       outline: 3px solid var(--primary);
       outline-offset: 2px;
     }
 
-    /* Prevent text selection for all headings and hero text */
-    h1, h2, h3, h4, h5, h6, .hero p {
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-
-    /* Skip to main content for screen readers */
     .skip-link {
       position: absolute;
       top: -40px;
@@ -106,7 +94,25 @@
       top: 6px;
     }
 
-    /* Navigation */
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--background);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--secondary);
+    }
+
+    /* Navbar */
     .navbar {
       position: fixed;
       top: 0;
@@ -133,23 +139,18 @@
     }
 
     .logo {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--primary);
-      text-decoration: none;
-      transition: all 0.3s ease;
       display: flex;
       align-items: center;
-    }
-
-    .logo:hover {
-      transform: scale(1.05);
     }
 
     .site-logo {
       height: 32px;
       width: auto;
-      vertical-align: middle;
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover .site-logo {
+      transform: scale(1.1) rotate(5deg);
     }
 
     .nav-center {
@@ -176,10 +177,6 @@
     [data-theme="dark"] .nav-link:hover,
     [data-theme="dark"] .nav-link.active {
       background: rgba(255, 255, 255, 0.1);
-    }
-
-    .nav-link:focus-visible {
-      outline: 2px solid var(--primary);
     }
 
     .theme-toggle {
@@ -220,17 +217,9 @@
       border-radius: 2px;
     }
 
-    .mobile-menu-toggle.active span:nth-child(1) {
-      transform: rotate(-45deg) translate(-5px, 6px);
-    }
-
-    .mobile-menu-toggle.active span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .mobile-menu-toggle.active span:nth-child(3) {
-      transform: rotate(45deg) translate(-5px, -6px);
-    }
+    .mobile-menu-toggle.active span:nth-child(1) { transform: rotate(-45deg) translate(-5px, 6px); }
+    .mobile-menu-toggle.active span:nth-child(2) { opacity: 0; }
+    .mobile-menu-toggle.active span:nth-child(3) { transform: rotate(45deg) translate(-5px, -6px); }
 
     .mobile-menu {
       position: fixed;
@@ -289,14 +278,8 @@
     }
 
     @keyframes fadeIn {
-      from { 
-        opacity: 0; 
-        transform: translateY(20px); 
-      }
-      to { 
-        opacity: 1; 
-        transform: translateY(0); 
-      }
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* Home Page */
@@ -369,10 +352,6 @@
       transform: translateY(0);
     }
 
-    .cta-button:focus-visible {
-      outline: 3px solid rgba(37, 77, 112, 0.5);
-    }
-
     .resume-button {
       background: linear-gradient(135deg, var(--secondary), var(--primary));
     }
@@ -427,7 +406,7 @@
       color: var(--text);
     }
 
-    /* Timeline for Experience - Beautiful Modern Design */
+    /* Timeline for Experience */
     .timeline {
       position: relative;
       padding: 4rem 0;
@@ -445,7 +424,7 @@
       background: linear-gradient(180deg, var(--primary), var(--secondary));
       transform: translateX(-50%);
       border-radius: 2px;
-      box-shadow: 0 0 20px rgba(37, 77, 112, 0.2);
+      box-shadow: 0 0 20px var(--primary);
     }
 
     .timeline-item {
@@ -461,6 +440,7 @@
     .timeline-item:nth-child(1) { animation-delay: 0.2s; }
     .timeline-item:nth-child(2) { animation-delay: 0.4s; }
     .timeline-item:nth-child(3) { animation-delay: 0.6s; }
+    .timeline-item:nth-child(4) { animation-delay: 0.8s; }
 
     .timeline-item:nth-child(odd) .timeline-content {
       margin-right: calc(50% + 40px);
@@ -505,7 +485,6 @@
       position: relative;
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       max-width: 450px;
-      backdrop-filter: blur(10px);
     }
 
     .timeline-content:hover {
@@ -539,17 +518,6 @@
       font-size: 1.5rem;
       font-weight: 700;
       margin-bottom: 0.8rem;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    [data-theme="dark"] .timeline-content h3 {
-      background: linear-gradient(135deg, var(--primary), #cccccc);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
     }
 
     .timeline-content .meta {
@@ -558,15 +526,13 @@
       font-weight: 600;
       margin-bottom: 1.5rem;
       padding: 0.8rem 1.5rem;
-      background: linear-gradient(135deg, rgba(37, 77, 112, 0.1), rgba(149, 76, 46, 0.1));
+      background: rgba(37, 77, 112, 0.1);
       border-radius: 25px;
       display: inline-block;
-      border: 1px solid rgba(37, 77, 112, 0.2);
     }
 
     [data-theme="dark"] .timeline-content .meta {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(204, 204, 204, 0.1));
-      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.1);
     }
 
     .timeline-content p {
@@ -597,6 +563,7 @@
     .card:nth-child(1) { animation-delay: 0.1s; }
     .card:nth-child(2) { animation-delay: 0.2s; }
     .card:nth-child(3) { animation-delay: 0.3s; }
+    .card:nth-child(4) { animation-delay: 0.4s; }
 
     @keyframes slideInUp {
       to {
@@ -637,7 +604,7 @@
       margin-bottom: 1rem;
     }
 
-    /* Skills Grid - Symmetrical Layout */
+    /* Skills Grid */
     .skills-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -685,17 +652,6 @@
       font-size: 1.3rem;
       font-weight: 700;
       margin-bottom: 1.5rem;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    [data-theme="dark"] .skill-category h4 {
-      background: linear-gradient(135deg, var(--primary), #cccccc);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
     }
 
     .skill-list {
@@ -976,34 +932,11 @@
         grid-template-columns: 1fr;
         gap: 1.5rem;
       }
-      
+
       .skill-category {
         min-height: auto;
         max-width: none;
       }
-    }
-
-    /* Smooth Scrolling */
-    html {
-      scroll-behavior: smooth;
-    }
-
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: var(--background);
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: var(--primary);
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--secondary);
     }
 
     /* Loading spinner */
@@ -1022,10 +955,8 @@
   </style>
 </head>
 <body>
-  <!-- Skip to main content link for accessibility -->
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  <!-- Navigation -->
   <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
     <div class="nav-left">
       <a href="#" class="logo" onclick="showPage('home'); return false;" aria-label="Go to Home page">
@@ -1054,7 +985,6 @@
     </button>
   </nav>
 
-  <!-- Mobile Menu -->
   <div class="mobile-menu" id="mobileMenu" role="navigation" aria-label="Mobile navigation">
     <a href="#" class="mobile-nav-link active" onclick="showPage('home'); return false;" data-page="home" aria-label="Go to Home page">Home</a>
     <a href="#" class="mobile-nav-link" onclick="showPage('about'); return false;" data-page="about" aria-label="Go to About page">About</a>
@@ -1064,13 +994,11 @@
     <a href="#" class="mobile-nav-link" onclick="showPage('contact'); return false;" data-page="contact" aria-label="Go to Contact page">Contact</a>
   </div>
 
-  <!-- Main Content Container -->
   <main class="container" id="main-content">
-    <!-- Home Page -->
     <section id="home" class="page active" aria-labelledby="home-title">
       <div class="hero">
-        <h1 id="home-title" tabindex="-1">Hi! I'm <span class="highlight">Abhinav</span>, a visionary Mechanical Engineering student at Purdue University.</h1>
-        <p>Passionate about design, R&D, and problem-solving. I aspire to be involved in projects bigger than myself, tackling challenges that push the boundaries of human limits and test my abilities as an engineer.</p>
+        <h1 id="home-title" tabindex="-1">Abhinav Singh: <span class="highlight">Mechanical Engineer</span></h1>
+        <p>A Purdue University student passionate about innovative design, R&D, and solving complex engineering challenges. I am seeking to contribute to projects that push the boundaries of human limits and advance the field of mechanical engineering.</p>
         <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
           <button class="cta-button" onclick="showPage('projects')" onkeypress="handleKeyPress(event, 'projects')">
             View My Work
@@ -1082,20 +1010,18 @@
       </div>
     </section>
 
-    <!-- About Page -->
     <section id="about" class="page" aria-labelledby="about-title">
       <div class="content-section">
         <h2 id="about-title" class="section-title" tabindex="-1">About Me</h2>
         <div class="about-bio">
           <img src="profile.jpg" alt="Abhinav Singh portrait" class="about-image" loading="lazy" />
           <p>
-            Hi! I'm Abhinav Singh, a passionate Mechanical Engineering student at Purdue University. I thrive on solving complex engineering problems, especially in automotive and mechanical design. My journey combines rigorous academic training, hands-on research, and a creative approach to R&D. I love collaborating on projects that challenge the norm and push the boundaries of innovation. Let's build something extraordinary together!
+            I'm a dedicated Mechanical Engineering student at Purdue University with a 3.88 GPA, driven by a passion for design and innovation. My academic journey is complemented by hands-on experience in CAD, simulation, and fabrication. I am an aspiring engineer with a focus on collaborative problem-solving and meticulous documentation, constantly seeking opportunities to apply my skills in dynamic and challenging environments. I'm excited to contribute my expertise to forward-thinking teams.
           </p>
         </div>
       </div>
     </section>
 
-    <!-- Experience Page -->
     <section id="experience" class="page" aria-labelledby="experience-title">
       <div class="content-section">
         <h2 id="experience-title" class="section-title" tabindex="-1">Experience</h2>
@@ -1103,34 +1029,51 @@
           <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-content">
-              <h3>Mechanical Engineering Student</h3>
-              <div class="meta">Purdue University • 2022 - Present</div>
-              <p>Pursuing a comprehensive education in mechanical engineering with focus on design principles, thermodynamics, materials science, and advanced manufacturing processes. Maintaining strong academic performance while engaging in hands-on projects and research opportunities.</p>
+              <h3>Undergraduate Researcher</h3>
+              <div class="meta">Cooling Technologies Research Center, Purdue University • 2025 - Present</div>
+              <p>
+                As an Undergraduate Researcher, I've conducted end-to-end simulations using ANSYS Fluent to analyze heat transfer and pressure drop in pin-fin heatsink geometries. I've performed comparative thermal analysis on different pin-fin orientations, evaluating performance and accuracy tradeoffs. This role has provided me with invaluable experience in computational fluid dynamics (CFD) and thermal management research.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <h3>ME Research Intern</h3>
+              <div class="meta">Maharaja Sayajirao University, Vadodara • July 2023 - August 2023</div>
+              <p>
+                During my internship, I conducted full-time research on parabolic solar concentrators and thermocouple-based heat flux sensors. I drafted a thesis manuscript and led data acquisition to experimentally validate thermal conductivity and sensor sensitivity. This experience exposed me to academic research methodologies, patent drafting, and intellectual property strategies through collaboration with faculty and graduate researchers.
+              </p>
             </div>
           </div>
           
           <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-content">
-              <h3>Research & Development Enthusiast</h3>
-              <div class="meta">Personal Projects • 2021 - Present</div>
-              <p>Actively engaged in independent research and development projects, focusing on automotive engineering and mechanical systems design. Dedicated to pushing boundaries through innovative solutions and creative problem-solving approaches.</p>
+              <h3>Powertrains Team Member</h3>
+              <div class="meta">ASME Racing, Purdue University • 2025 - Present</div>
+              <p>
+                I designed Purdue's first in-house CVT mount using Autodesk Fusion, optimizing packaging and transmission efficiency. I also engineered and fabricated a custom metal shroud for heat protection and a repositionable exhaust mount to correct misalignment. This hands-on experience has been crucial in developing my skills in CAD, fabrication, and problem-solving in a fast-paced team environment.
+              </p>
             </div>
           </div>
           
           <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-content">
-              <h3>Design Engineering Focus</h3>
-              <div class="meta">Academic & Personal Work • 2022 - Present</div>
-              <p>Specializing in CAD design, mechanical systems analysis, and prototype development. Experience with industry-standard software and manufacturing processes, with particular interest in automotive applications and precision engineering.</p>
+              <h3>Project Archivist, Kart Manual Team</h3>
+              <div class="meta">EPICS, Purdue University • 2025</div>
+              <p>
+                As Project Archivist, I developed a beginner-friendly kart assembly manual for high school students participating in the Purdue EV Grand Prix. I collaborated with the Director of Purdue Motorsports and TopKart USA to create instructional templates and integrated CAD visuals from SolidWorks to support hands-on learning. My efforts significantly reduced kart assembly time and improved the learning experience for participants.
+              </p>
             </div>
           </div>
+          
         </div>
       </div>
     </section>
 
-    <!-- Projects Page -->
     <section id="projects" class="page" aria-labelledby="projects-title">
       <div class="content-section">
         <h2 id="projects-title" class="section-title" tabindex="-1">Projects</h2>
@@ -1139,27 +1082,32 @@
             <img src="project1.jpg" alt="Toyota Prius AW60 Custom Wheel CAD Model" loading="lazy" class="project-image" />
             <h3>Custom Toyota Prius AW60 Wheel Design</h3>
             <div class="meta">Automotive Engineering • 2024</div>
-            <p>Designed and engineered a custom wheel specifically tailored for the Toyota Prius AW60 model. This project involved comprehensive analysis of load requirements, weight optimization, and aesthetic considerations while maintaining structural integrity and safety standards. The design process included detailed CAD modeling, stress analysis, and material selection to ensure optimal performance and durability.</p>
-          </article>
-          
+            <p>
+              I engineered a custom wheel for the Toyota Prius AW60 model, focusing on load requirements, weight optimization, and aesthetic design. The project involved detailed CAD modeling, stress analysis, and material selection to ensure structural integrity and durability. This project showcases my proficiency in automotive design principles and industry-standard software.
+            </p>
+            </article>
+
           <article class="card">
             <img src="project2.jpg" alt="Flywheel Assembly Engineering Model" loading="lazy" class="project-image" />
             <h3>Flywheel Assembly Model</h3>
             <div class="meta">Mechanical Systems • 2024</div>
-            <p>Developed a comprehensive flywheel model with complete assembly documentation. This project focused on energy storage principles, rotational dynamics, and precision engineering. The design incorporated advanced materials analysis, bearing selection, and safety considerations for high-speed rotation applications. Detailed assembly drawings and manufacturing specifications were created to support potential fabrication.</p>
-          </article>
-          
+            <p>
+              I developed a comprehensive flywheel model focusing on energy storage, rotational dynamics, and precision engineering. The design incorporated advanced material analysis, bearing selection, and safety considerations for high-speed applications. This project demonstrates my understanding of fundamental mechanical systems and advanced analysis techniques.
+            </p>
+            </article>
+
           <article class="card">
             <img src="project3.jpg" alt="Advanced Engineering Solutions Portfolio" loading="lazy" class="project-image" />
             <h3>Advanced Engineering Solutions</h3>
             <div class="meta">Ongoing Research • 2023 - Present</div>
-            <p>Continuously working on innovative engineering solutions that challenge conventional approaches. These projects span various domains including mechanical systems optimization, sustainable design principles, and cutting-edge manufacturing techniques. Each project aims to push the boundaries of what's possible in mechanical engineering.</p>
-          </article>
+            <p>
+              This ongoing research involves developing innovative engineering solutions that challenge conventional approaches. My work spans mechanical systems optimization, sustainable design, and cutting-edge manufacturing techniques. This portfolio serves as a collection of projects where I continuously push the boundaries of what is possible in mechanical engineering.
+            </p>
+            </article>
         </div>
       </div>
     </section>
 
-    <!-- Skills Page -->
     <section id="skills" class="page" aria-labelledby="skills-title">
       <div class="content-section">
         <h2 id="skills-title" class="section-title" tabindex="-1">Skills</h2>
@@ -1168,66 +1116,73 @@
             <h4>CAD & Design Software</h4>
             <div class="skill-list">
               <span class="skill-item">SolidWorks</span>
+              <span class="skill-item">Autodesk Fusion 360</span>
+              <span class="skill-item">CATIA V5</span>
+              <span class="skill-item">Siemens NX</span>
               <span class="skill-item">AutoCAD</span>
-              <span class="skill-item">Fusion 360</span>
-              <span class="skill-item">CATIA</span>
+              <span class="skill-item">GD&T</span>
             </div>
           </div>
-          
+
           <div class="skill-category">
             <h4>Analysis & Simulation</h4>
             <div class="skill-list">
-              <span class="skill-item">ANSYS</span>
+              <span class="skill-item">ANSYS Fluent</span>
+              <span class="skill-item">ANSYS Mechanical</span>
               <span class="skill-item">MATLAB</span>
               <span class="skill-item">Simulink</span>
               <span class="skill-item">FEA</span>
             </div>
           </div>
-          
+
           <div class="skill-category">
-            <h4>Manufacturing</h4>
+            <h4>Manufacturing & Fabrication</h4>
             <div class="skill-list">
               <span class="skill-item">CNC Machining</span>
               <span class="skill-item">3D Printing</span>
               <span class="skill-item">Welding</span>
-              <span class="skill-item">Assembly</span>
+              <span class="skill-item">Soldering</span>
+              <span class="skill-item">Woodworking</span>
             </div>
           </div>
-          
+
           <div class="skill-category">
-            <h4>Programming</h4>
+            <h4>Programming & Tools</h4>
             <div class="skill-list">
               <span class="skill-item">Python</span>
               <span class="skill-item">C++</span>
-              <span class="skill-item">MATLAB</span>
+              <span class="skill-item">Arduino</span>
               <span class="skill-item">LabVIEW</span>
+              <span class="skill-item">GitHub</span>
+              <span class="skill-item">LaTeX</span>
+              <span class="skill-item">Excel</span>
             </div>
           </div>
-          
+
           <div class="skill-category">
-            <h4>Engineering Principles</h4>
+            <h4>Engineering Fundamentals</h4>
             <div class="skill-list">
               <span class="skill-item">Thermodynamics</span>
               <span class="skill-item">Fluid Mechanics</span>
               <span class="skill-item">Materials Science</span>
               <span class="skill-item">Dynamics</span>
+              <span class="skill-item">Heat Transfer</span>
             </div>
           </div>
-          
+
           <div class="skill-category">
             <h4>Project Management</h4>
             <div class="skill-list">
               <span class="skill-item">Agile</span>
               <span class="skill-item">Design Thinking</span>
-              <span class="skill-item">Research Methods</span>
               <span class="skill-item">Documentation</span>
+              <span class="skill-item">Research Methods</span>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Contact Page -->
     <section id="contact" class="page" aria-labelledby="contact-title">
       <div class="content-section">
         <h2 id="contact-title" class="section-title" tabindex="-1">Get In Touch</h2>
@@ -1238,25 +1193,25 @@
               <input type="text" id="name" name="name" required aria-label="Your full name" placeholder="Your full name">
               <div class="error-message" id="name-error">Please enter your name</div>
             </div>
-            
+
             <div class="form-group">
               <label for="email">Email *</label>
               <input type="email" id="email" name="email" required aria-label="Your email address" placeholder="your.email@example.com">
               <div class="error-message" id="email-error">Please enter a valid email address</div>
             </div>
-            
+
             <div class="form-group">
               <label for="subject">Subject *</label>
               <input type="text" id="subject" name="subject" required aria-label="Message subject" placeholder="What's this about?">
               <div class="error-message" id="subject-error">Please enter a subject</div>
             </div>
-            
+
             <div class="form-group">
               <label for="message">Message *</label>
               <textarea id="message" name="message" required aria-label="Your message" placeholder="Tell me about your project or how we can collaborate..."></textarea>
               <div class="error-message" id="message-error">Please enter your message</div>
             </div>
-            
+
             <button type="submit" class="cta-button submit-button" id="submitButton" style="width: 100%;">
               <span class="text">Send Message</span>
               <span class="loading">
@@ -1264,11 +1219,11 @@
                 Sending...
               </span>
             </button>
-            
+
             <div class="form-status" id="formStatus" aria-live="polite" aria-atomic="true"></div>
           </form>
         </div>
-        
+
         <div class="social-links">
           <a href="mailto:abhinavsingh1176@gmail.com" class="social-link" aria-label="Send email to Abhinav Singh">
             <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
@@ -1293,26 +1248,22 @@
     </section>
   </main>
 
-  <!-- Back to Top Button -->
   <button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'});" aria-label="Back to top">↑</button>
 
-  <!-- Footer -->
   <footer>
     &copy; 2025 Abhinav Singh. All rights reserved.
   </footer>
 
-  <!-- NoScript fallback -->
   <noscript>
     <div style="position: fixed; top: 0; left: 0; right: 0; background: var(--error); color: white; padding: 1rem; text-align: center; z-index: 10000;">
       This site requires JavaScript to function properly. Please enable JavaScript in your browser settings.
     </div>
   </noscript>
 
-  <!-- Scripts -->
   <script>
     // Theme management with localStorage persistence
     let currentTheme = localStorage.getItem('theme') || 'light';
-    
+
     document.addEventListener('DOMContentLoaded', () => {
       // Apply saved theme
       if (currentTheme) {
@@ -1327,7 +1278,7 @@
           darkIcon.style.display = 'none';
         }
       }
-      
+
       // Set initial ARIA attributes
       document.querySelectorAll('.page').forEach(page => {
         if (page.classList.contains('active')) {
@@ -1336,17 +1287,17 @@
           page.setAttribute('aria-hidden', 'true');
         }
       });
-      
+
       // Set initial nav aria-current
       const activeNav = document.querySelector('.nav-link.active');
       if (activeNav) {
         activeNav.setAttribute('aria-current', 'page');
       }
-      
+
       // Initialize mobile menu button
       const mobileMenuButton = document.getElementById('mobileMenuButton');
       mobileMenuButton.setAttribute('aria-expanded', 'false');
-      
+
       // Add real-time form validation
       const formFields = document.querySelectorAll('#contact input, #contact textarea');
       formFields.forEach(field => {
@@ -1359,7 +1310,7 @@
             }
           }
         });
-        
+
         field.addEventListener('input', function() {
           if (this.classList.contains('error') && this.value.trim()) {
             this.classList.remove('error');
@@ -1370,7 +1321,7 @@
           }
         });
       });
-      
+
       // Back to top button visibility
       window.addEventListener('scroll', function() {
         const backToTop = document.getElementById('backToTop');
@@ -1380,32 +1331,32 @@
           backToTop.style.display = 'none';
         }
       });
-      
+
       // Announce page changes to screen readers
       const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
-          if (mutation.target.classList.contains('page') && 
+          if (mutation.target.classList.contains('page') &&
               mutation.target.classList.contains('active')) {
             const announcement = document.createElement('div');
             announcement.setAttribute('aria-live', 'polite');
             announcement.setAttribute('aria-atomic', 'true');
             announcement.style.position = 'absolute';
             announcement.style.left = '-10000px';
-            announcement.textContent = `Navigated to ${mutation.target.id} page`;
+            announcement.textContent = `Mapsd to ${mutation.target.id} page`;
             document.body.appendChild(announcement);
-            
+
             setTimeout(() => {
               document.body.removeChild(announcement);
             }, 1000);
           }
         });
       });
-      
+
       document.querySelectorAll('.page').forEach(page => {
         observer.observe(page, { attributes: true, attributeFilter: ['class'] });
       });
     });
-    
+
     function toggleTheme() {
       const root = document.documentElement;
       const lightIcon = document.querySelector('.light-icon');
@@ -1423,7 +1374,7 @@
         darkIcon.style.display = 'inline';
         currentTheme = 'dark';
       }
-      
+
       // Save theme preference
       localStorage.setItem('theme', currentTheme);
     }
@@ -1435,7 +1386,7 @@
         p.classList.remove('active');
         p.setAttribute('aria-hidden', 'true');
       });
-      
+
       // Show target page
       setTimeout(() => {
         const target = document.getElementById(pageId);
@@ -1475,7 +1426,7 @@
       const mobileMenu = document.getElementById('mobileMenu');
       const toggle = document.getElementById('mobileMenuButton');
       const isOpen = mobileMenu.classList.contains('active');
-      
+
       if (isOpen) {
         mobileMenu.classList.remove('active');
         toggle.classList.remove('active');
@@ -1493,9 +1444,9 @@
     document.addEventListener('click', function(event) {
       const mobileMenu = document.getElementById('mobileMenu');
       const toggle = document.getElementById('mobileMenuButton');
-      
-      if (mobileMenu.classList.contains('active') && 
-          !mobileMenu.contains(event.target) && 
+
+      if (mobileMenu.classList.contains('active') &&
+          !mobileMenu.contains(event.target) &&
           !toggle.contains(event.target)) {
         toggleMobileMenu();
       }
@@ -1518,7 +1469,7 @@
           toggleMobileMenu();
         }
       }
-      
+
       // Arrow key navigation through nav links
       if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
         const navLinks = document.querySelectorAll('.nav-link');
@@ -1543,9 +1494,9 @@
       const email = document.getElementById('email');
       const subject = document.getElementById('subject');
       const message = document.getElementById('message');
-      
+
       let isValid = true;
-      
+
       // Clear previous errors
       document.querySelectorAll('.error-message').forEach(error => {
         error.style.display = 'none';
@@ -1553,13 +1504,13 @@
       document.querySelectorAll('.form-group input, .form-group textarea').forEach(field => {
         field.classList.remove('error');
       });
-      
+
       // Validate name
       if (!name.value.trim()) {
         showFieldError('name', 'Please enter your name');
         isValid = false;
       }
-      
+
       // Validate email
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!email.value.trim()) {
@@ -1569,13 +1520,13 @@
         showFieldError('email', 'Please enter a valid email address');
         isValid = false;
       }
-      
+
       // Validate subject
       if (!subject.value.trim()) {
         showFieldError('subject', 'Please enter a subject');
         isValid = false;
       }
-      
+
       // Validate message
       if (!message.value.trim()) {
         showFieldError('message', 'Please enter your message');
@@ -1584,25 +1535,25 @@
         showFieldError('message', 'Please enter a more detailed message (at least 10 characters)');
         isValid = false;
       }
-      
+
       return isValid;
     }
-    
+
     function showFieldError(fieldId, message) {
       const field = document.getElementById(fieldId);
       const errorElement = document.getElementById(fieldId + '-error');
-      
+
       field.classList.add('error');
       errorElement.textContent = message;
       errorElement.style.display = 'block';
     }
-    
+
     function showFormStatus(message, type) {
       const statusElement = document.getElementById('formStatus');
       statusElement.textContent = message;
       statusElement.className = `form-status ${type}`;
       statusElement.style.display = 'block';
-      
+
       // Auto hide after 5 seconds
       setTimeout(() => {
         statusElement.style.display = 'none';
@@ -1611,21 +1562,21 @@
 
     async function handleFormSubmit(event) {
       event.preventDefault();
-      
+
       if (!validateForm()) {
         return;
       }
-      
+
       const submitButton = document.getElementById('submitButton');
       const form = event.target;
-      
+
       // Show loading state
       submitButton.classList.add('loading');
       submitButton.disabled = true;
-      
+
       try {
         const formData = new FormData(form);
-        
+
         const response = await fetch(form.action, {
           method: 'POST',
           body: formData,
@@ -1633,7 +1584,7 @@
             'Accept': 'application/json'
           }
         });
-        
+
         if (response.ok) {
           showFormStatus('Thank you! Your message has been sent successfully. I\'ll get back to you soon!', 'success');
           form.reset();
@@ -1688,7 +1639,7 @@
     }, observerOptions);
 
     // Observe animated elements
-    document.querySelectorAll('.card, .skill-category').forEach(el => {
+    document.querySelectorAll('.card, .skill-category, .timeline-item').forEach(el => {
       el.style.animationPlayState = 'paused';
       intersectionObserver.observe(el);
     });
