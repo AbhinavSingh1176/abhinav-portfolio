@@ -32,8 +32,8 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- Skip to main content link for accessibility -->
-  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <!-- Skip to main content link for accessibility
+  <a href="#main-content" class="skip-link">Skip to main content</a> -->
 
   <!-- Navigation -->
   <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
@@ -145,25 +145,127 @@
       <div class="content-section">
         <h2 id="projects-title" class="section-title" tabindex="-1">Projects</h2>
         <div class="card-grid">
-          <article class="card">
+          <article class="card" onclick="toggleProjectDetails('project1')">
             <img src="project1.jpg" alt="Toyota Prius AW60 Custom Wheel CAD Model" loading="lazy" class="project-image" />
             <h3>Custom Toyota Prius AW60 Wheel Design</h3>
             <div class="meta">Automotive Engineering • 2024</div>
-            <p>Designed and engineered a custom wheel specifically tailored for the Toyota Prius AW60 model. This project involved comprehensive analysis of load requirements, weight optimization, and aesthetic considerations while maintaining structural integrity and safety standards. The design process included detailed CAD modeling, stress analysis, and material selection to ensure optimal performance and durability.</p>
+            <p>Designed and engineered a custom wheel specifically tailored for the Toyota Prius AW60 model. This project involved comprehensive analysis of load requirements, weight optimization, and aesthetic considerations while maintaining structural integrity and safety standards.</p>
+            <button class="project-expand-btn" id="btn-project1">View Technical Details ↓</button>
+            
+            <div class="project-details" id="details-project1">
+              <div class="project-details-content">
+                <div class="project-specs">
+                  <div class="project-spec">
+                    <h4>Material</h4>
+                    <p>Aluminum Alloy 6061-T6</p>
+                  </div>
+                  <div class="project-spec">
+                    <h4>Weight Reduction</h4>
+                    <p>15% lighter than OEM</p>
+                  </div>
+                  <div class="project-spec">
+                    <h4>Load Rating</h4>
+                    <p>1,500 lbs per wheel</p>
+                  </div>
+                  <div class="project-spec">
+                    <h4>Software Used</h4>
+                    <p>SolidWorks, ANSYS</p>
+                  </div>
+                </div>
+                
+                <div class="project-challenges">
+                  <h4>Key Challenges & Solutions</h4>
+                  <ul>
+                    <li>Balancing weight reduction with structural integrity through finite element analysis</li>
+                    <li>Optimizing spoke geometry for maximum strength-to-weight ratio</li>
+                    <li>Ensuring compatibility with Prius AW60 brake caliper clearance</li>
+                    <li>Meeting Toyota's safety and performance standards</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </article>
           
-          <article class="card">
+          <article class="card" onclick="toggleProjectDetails('project2')">
             <img src="project2.jpg" alt="Flywheel Assembly Engineering Model" loading="lazy" class="project-image" />
             <h3>Flywheel Assembly Model</h3>
             <div class="meta">Mechanical Systems • 2024</div>
-            <p>Developed a comprehensive flywheel model with complete assembly documentation. This project focused on energy storage principles, rotational dynamics, and precision engineering. The design incorporated advanced materials analysis, bearing selection, and safety considerations for high-speed rotation applications. Detailed assembly drawings and manufacturing specifications were created to support potential fabrication.</p>
+            <p>Developed a comprehensive flywheel model with complete assembly documentation. This project focused on energy storage principles, rotational dynamics, and precision engineering.</p>
+            <button class="project-expand-btn" id="btn-project2">View Technical Details ↓</button>
+            
+            <div class="project-details" id="details-project2">
+              <div class="project-details-content">
+                <div class="project-specs">
+                  <div class="project-spec">
+                    <h4>Energy Storage</h4>
+                    <p>2.5 kWh capacity</p>
+                  </div>
+                  <div class="project-spec">
+                    <h4>Max RPM</h4>
+                    <p>15,000 RPM</p>
+                  </div>
+                  <div class="project-spec">
+                    <h4>Material</h4>
+                    <p>Carbon Fiber Composite</p>
+                  </div>
+                  <div class="project-spec">
+                    <h4>Bearing Type</h4>
+                    <p>Magnetic Levitation</p>
+                  </div>
+                </div>
+                
+                <div class="project-challenges">
+                  <h4>Key Challenges & Solutions</h4>
+                  <ul>
+                    <li>High-speed bearing selection and lubrication system design</li>
+                    <li>Vibration analysis and dynamic balancing at operational speeds</li>
+                    <li>Safety containment system for potential failure scenarios</li>
+                    <li>Efficient motor-generator integration for energy conversion</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </article>
           
-          <article class="card">
+          <article class="card" onclick="toggleProjectDetails('project3')">
             <img src="project3.jpg" alt="Advanced Engineering Solutions Portfolio" loading="lazy" class="project-image" />
             <h3>Advanced Engineering Solutions</h3>
             <div class="meta">Ongoing Research • 2023 - Present</div>
-            <p>Continuously working on innovative engineering solutions that challenge conventional approaches. These projects span various domains including mechanical systems optimization, sustainable design principles, and cutting-edge manufacturing techniques. Each project aims to push the boundaries of what's possible in mechanical engineering.</p>
+            <p>Continuously working on innovative engineering solutions that challenge conventional approaches. These projects span various domains including mechanical systems optimization, sustainable design principles, and cutting-edge manufacturing techniques.</p>
+            <button class="project-expand-btn" id="btn-project3">View Research Areas ↓</button>
+            
+            <div class="project-details" id="details-project3">
+              <div class="project-details-content">
+                <div class="project-specs">
+                  <div class="project-spec">
+                    <h4>Research Focus</h4>
+                    <p>Sustainable Manufacturing</p>
+                  </div>
+                  <div class="project-spec">
+                    <h4>Methodology</h4>
+                    <p>Design Thinking + FEA</p>
+                  </div>
+                  <div class="project-spec">
+                    <h4>Collaboration</h4>
+                    <p>Purdue Research Labs</p>
+                  </div>
+                  <div class="project-spec">
+                    <h4>Timeline</h4>
+                    <p>Ongoing Development</p>
+                  </div>
+                </div>
+                
+                <div class="project-challenges">
+                  <h4>Current Research Areas</h4>
+                  <ul>
+                    <li>Biomimetic design principles in mechanical systems</li>
+                    <li>Advanced materials for high-temperature applications</li>
+                    <li>Automation and robotics integration in manufacturing</li>
+                    <li>Sustainable energy conversion and storage systems</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </article>
         </div>
       </div>
