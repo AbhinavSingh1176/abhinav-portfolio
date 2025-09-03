@@ -33,7 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Initialize mobile menu button
   const mobileMenuButton = document.getElementById('mobileMenuButton');
-  mobileMenuButton.setAttribute('aria-expanded', 'false');
+  if (mobileMenuButton) {
+    mobileMenuButton.setAttribute('aria-expanded', 'false');
+  }
   
   // Add real-time form validation
   const formFields = document.querySelectorAll('#contact input, #contact textarea');
@@ -62,10 +64,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Back to top button visibility
   window.addEventListener('scroll', function() {
     const backToTop = document.getElementById('backToTop');
-    if (window.scrollY > 300) {
-      backToTop.style.display = 'flex';
-    } else {
-      backToTop.style.display = 'none';
+    if (backToTop) {
+      if (window.scrollY > 300) {
+        backToTop.style.display = 'flex';
+      } else {
+        backToTop.style.display = 'none';
+      }
     }
   });
   
@@ -182,7 +186,7 @@ document.addEventListener('click', function(event) {
   const mobileMenu = document.getElementById('mobileMenu');
   const toggle = document.getElementById('mobileMenuButton');
   
-  if (mobileMenu.classList.contains('active') && 
+  if (mobileMenu && mobileMenu.classList.contains('active') && 
       !mobileMenu.contains(event.target) && 
       !toggle.contains(event.target)) {
     toggleMobileMenu();
@@ -202,7 +206,7 @@ document.addEventListener('keydown', function(event) {
   // Escape key closes mobile menu
   if (event.key === 'Escape') {
     const mobileMenu = document.getElementById('mobileMenu');
-    if (mobileMenu.classList.contains('active')) {
+    if (mobileMenu && mobileMenu.classList.contains('active')) {
       toggleMobileMenu();
     }
   }
@@ -224,6 +228,25 @@ document.addEventListener('keydown', function(event) {
     }
   }
 });
+
+// NEW: Project details toggle function
+function toggleProjectDetails(projectId) {
+  const details = document.getElementById(`details-${projectId}`);
+  const button = document.getElementById(`btn-${projectId}`);
+  
+  if (details.classList.contains('expanded')) {
+    details.classList.remove('expanded');
+    button.textContent = 'View Technical Details ↓';
+  } else {
+    details.classList.add('expanded');
+    button.textContent = 'Hide Technical Details ↑';
+  }
+  
+  // Prevent event bubbling to avoid triggering card click
+  if (event) {
+    event.stopPropagation();
+  }
+}
 
 // Form validation and submission
 function validateForm() {
