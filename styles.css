@@ -1448,19 +1448,6 @@ html {
     display: block !important;
   }
 }
-/* Fix underline on name so it's not touching the word below */
-.name-underline {
-  border-bottom: 3px solid var(--accent, #0099ff);
-  padding-bottom: 2px;
-  display: inline-block;
-  margin-bottom: 6px;
-}
-
-/* Hide skills navigation tab since merged under About */
-.nav-link[data-page="skills"],
-.mobile-nav-link[data-page="skills"] {
-  display: none !important;
-}
 
 /* Gallery styles for modal */
 .modal {
