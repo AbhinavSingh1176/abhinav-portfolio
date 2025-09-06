@@ -380,3 +380,69 @@ document.querySelectorAll('.card, .skill-category').forEach(el => {
   el.style.animationPlayState = 'paused';
   intersectionObserver.observe(el);
 });
+// Existing code...
+
+function openProjectModal(projectId) {
+  const modal = document.getElementById('projectModal');
+  const title = document.getElementById('modalProjectTitle');
+  const meta = document.getElementById('modalProjectMeta');
+  const desc = document.getElementById('modalProjectDescription');
+  const gallery = document.getElementById('modalProjectGallery');
+
+  // Define project details and images here
+  const data = {
+    project1: {
+      title: "Custom Toyota Prius AW60 Wheel Design",
+      meta: "Automotive Engineering • 2024",
+      desc: "Designed and engineered a custom wheel specifically tailored for the Toyota Prius AW60 model. This project involved comprehensive analysis of load requirements, weight optimization, and aesthetic considerations while maintaining structural integrity and safety standards. The design process included detailed CAD modeling, stress analysis, and material selection to ensure optimal performance and durability.",
+      images: [
+        "project1.jpg",
+        "project1-cad.jpg",
+        "project1-render.jpg"
+      ]
+    },
+    project2: {
+      title: "Flywheel Assembly Model",
+      meta: "Mechanical Systems • 2024",
+      desc: "Developed a comprehensive flywheel model with complete assembly documentation. This project focused on energy storage principles, rotational dynamics, and precision engineering. The design incorporated advanced materials analysis, bearing selection, and safety considerations for high-speed rotation applications. Detailed assembly drawings and manufacturing specifications were created to support potential fabrication.",
+      images: [
+        "project2.jpg",
+        "project2-cad.jpg",
+        "project2-render.jpg"
+      ]
+    },
+    project3: {
+      title: "Advanced Engineering Solutions",
+      meta: "Ongoing Research • 2023 - Present",
+      desc: "Continuously working on innovative engineering solutions that challenge conventional approaches. These projects span various domains including mechanical systems optimization, sustainable design principles, and cutting-edge manufacturing techniques. Each project aims to push the boundaries of what's possible in mechanical engineering.",
+      images: [
+        "project3.jpg"
+      ]
+    }
+  };
+
+  // Fill modal content
+  title.innerHTML = '<h2>' + data[projectId].title + '</h2>';
+  meta.innerHTML = '<div class="meta">' + data[projectId].meta + '</div>';
+  desc.innerHTML = '<p>' + data[projectId].desc + '</p>';
+  gallery.innerHTML = data[projectId].images.map(img =>
+    `<img src="${img}" alt="${data[projectId].title} gallery image" loading="lazy" onclick="window.open('${img}','_blank')">`
+  ).join('');
+
+  modal.style.display = "flex";
+  document.body.style.overflow = "hidden";
+}
+
+function closeProjectModal() {
+  document.getElementById('projectModal').style.display = "none";
+  document.body.style.overflow = "";
+}
+
+// Optional: Close modal on ESC key
+window.addEventListener('keydown', function(e){
+  if(e.key === "Escape"){
+    closeProjectModal();
+  }
+});
+
+// Your other script.js code remains as is
