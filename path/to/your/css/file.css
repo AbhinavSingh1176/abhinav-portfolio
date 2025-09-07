@@ -1,0 +1,8 @@
+/* Update the Projects button styles */
+.projects-button {
+    background-color: #your_gradient_color; /* Change to your desired color */
+    transition: background-color 0.3s ease;
+}
+.projects-button:hover {
+    background-color: #other_gradient_color; /* Change to the other color in the gradient */
+}
