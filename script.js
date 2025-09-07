@@ -33,7 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Initialize mobile menu button
   const mobileMenuButton = document.getElementById('mobileMenuButton');
-  mobileMenuButton.setAttribute('aria-expanded', 'false');
+  if (mobileMenuButton) {
+    mobileMenuButton.setAttribute('aria-expanded', 'false');
+  }
   
   // Add real-time form validation
   const formFields = document.querySelectorAll('#contact input, #contact textarea');
@@ -62,10 +64,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Back to top button visibility
   window.addEventListener('scroll', function() {
     const backToTop = document.getElementById('backToTop');
-    if (window.scrollY > 300) {
-      backToTop.style.display = 'flex';
-    } else {
-      backToTop.style.display = 'none';
+    if (backToTop) {
+      if (window.scrollY > 300) {
+        backToTop.style.display = 'flex';
+      } else {
+        backToTop.style.display = 'none';
+      }
     }
   });
   
@@ -182,7 +186,7 @@ document.addEventListener('click', function(event) {
   const mobileMenu = document.getElementById('mobileMenu');
   const toggle = document.getElementById('mobileMenuButton');
   
-  if (mobileMenu.classList.contains('active') && 
+  if (mobileMenu && mobileMenu.classList.contains('active') && 
       !mobileMenu.contains(event.target) && 
       !toggle.contains(event.target)) {
     toggleMobileMenu();
@@ -202,7 +206,7 @@ document.addEventListener('keydown', function(event) {
   // Escape key closes mobile menu
   if (event.key === 'Escape') {
     const mobileMenu = document.getElementById('mobileMenu');
-    if (mobileMenu.classList.contains('active')) {
+    if (mobileMenu && mobileMenu.classList.contains('active')) {
       toggleMobileMenu();
     }
   }
@@ -224,6 +228,25 @@ document.addEventListener('keydown', function(event) {
     }
   }
 });
+
+// NEW: Project details toggle function
+function toggleProjectDetails(projectId) {
+  const details = document.getElementById(`details-${projectId}`);
+  const button = document.getElementById(`btn-${projectId}`);
+  
+  if (details.classList.contains('expanded')) {
+    details.classList.remove('expanded');
+    button.textContent = 'View Technical Details ↓';
+  } else {
+    details.classList.add('expanded');
+    button.textContent = 'Hide Technical Details ↑';
+  }
+  
+  // Prevent event bubbling to avoid triggering card click
+  if (event) {
+    event.stopPropagation();
+  }
+}
 
 // Form validation and submission
 function validateForm() {
@@ -380,69 +403,207 @@ document.querySelectorAll('.card, .skill-category').forEach(el => {
   el.style.animationPlayState = 'paused';
   intersectionObserver.observe(el);
 });
-// Existing code...
+
+// Project Modal Functionality
+let currentGalleryIndex = 0;
+let currentProjectImages = [];
+
+// Project data with sample images
+const projectData = {
+  project1: {
+    title: "Custom Toyota Prius AW60 Wheel Design",
+    meta: "Automotive Engineering • 2024",
+    description: "Designed and engineered a custom wheel specifically tailored for the Toyota Prius AW60 model. This project involved comprehensive analysis of load requirements, weight optimization, and aesthetic considerations while maintaining structural integrity and safety standards. The design process incorporated advanced finite element analysis to ensure optimal performance while reducing weight by 15% compared to the original equipment manufacturer specifications.",
+    images: [
+      "profile.jpg",
+      "profile.jpg",
+      "profile.jpg",
+      "profile.jpg",
+      "profile.jpg"
+    ],
+    specs: [
+      { title: "Material", value: "Aluminum Alloy 6061-T6" },
+      { title: "Weight Reduction", value: "15% lighter than OEM" },
+      { title: "Load Rating", value: "1,500 lbs per wheel" },
+      { title: "Software Used", value: "SolidWorks, ANSYS" }
+    ],
+    challenges: [
+      "Balancing weight reduction with structural integrity through finite element analysis",
+      "Optimizing spoke geometry for maximum strength-to-weight ratio",
+      "Ensuring compatibility with Prius AW60 brake caliper clearance",
+      "Meeting Toyota's safety and performance standards"
+    ]
+  },
+  project2: {
+    title: "Flywheel Assembly Model",
+    meta: "Mechanical Systems • 2024",
+    description: "Developed a comprehensive flywheel energy storage system model with complete assembly documentation. This project focused on energy storage principles, rotational dynamics, and precision engineering. The design incorporates magnetic levitation bearings for minimal friction losses and advanced composite materials for optimal energy density while ensuring safe operation at high rotational speeds.",
+    images: [
+      "profile.jpg",
+      "profile.jpg",
+      "profile.jpg",
+      "profile.jpg",
+      "profile.jpg",
+      "profile.jpg",
+      "profile.jpg"
+    ],
+    specs: [
+      { title: "Energy Storage", value: "2.5 kWh capacity" },
+      { title: "Max RPM", value: "15,000 RPM" },
+      { title: "Material", value: "Carbon Fiber Composite" },
+      { title: "Bearing Type", value: "Magnetic Levitation" }
+    ],
+    challenges: [
+      "High-speed bearing selection and lubrication system design",
+      "Vibration analysis and dynamic balancing at operational speeds",
+      "Safety containment system for potential failure scenarios",
+      "Efficient motor-generator integration for energy conversion"
+    ]
+  },
+  project3: {
+    title: "Advanced Engineering Solutions",
+    meta: "Ongoing Research • 2023 - Present",
+    description: "Continuously working on innovative engineering solutions that challenge conventional approaches. These projects span various domains including mechanical systems optimization, sustainable design principles, and cutting-edge manufacturing techniques. The research focuses on biomimetic design principles, advanced materials science, and automation integration to create next-generation engineering solutions.",
+    images: [
+      "profile.jpg",
+      "profile.jpg",
+      "profile.jpg",
+      "profile.jpg",
+      "profile.jpg",
+      "profile.jpg",
+      "profile.jpg",
+      "profile.jpg",
+      "profile.jpg",
+      "profile.jpg",
+      "profile.jpg",
+      "profile.jpg"
+    ],
+    specs: [
+      { title: "Research Focus", value: "Sustainable Manufacturing" },
+      { title: "Methodology", value: "Design Thinking + FEA" },
+      { title: "Collaboration", value: "Purdue Research Labs" },
+      { title: "Timeline", value: "Ongoing Development" }
+    ],
+    challenges: [
+      "Biomimetic design principles in mechanical systems",
+      "Advanced materials for high-temperature applications",
+      "Automation and robotics integration in manufacturing",
+      "Sustainable energy conversion and storage systems"
+    ]
+  }
+};
 
 function openProjectModal(projectId) {
+  const project = projectData[projectId];
+  if (!project) return;
+
   const modal = document.getElementById('projectModal');
-  const title = document.getElementById('modalProjectTitle');
-  const meta = document.getElementById('modalProjectMeta');
-  const desc = document.getElementById('modalProjectDescription');
-  const gallery = document.getElementById('modalProjectGallery');
+  const modalTitle = document.getElementById('modal-title');
+  const modalMeta = document.querySelector('.modal-meta');
+  const modalDescription = document.getElementById('modal-description');
+  const modalSpecs = document.getElementById('modal-specs');
+  const modalChallenges = document.getElementById('modal-challenges');
 
-  // Define project details and images here
-  const data = {
-    project1: {
-      title: "Custom Toyota Prius AW60 Wheel Design",
-      meta: "Automotive Engineering • 2024",
-      desc: "Designed and engineered a custom wheel specifically tailored for the Toyota Prius AW60 model. This project involved comprehensive analysis of load requirements, weight optimization, and aesthetic considerations while maintaining structural integrity and safety standards. The design process included detailed CAD modeling, stress analysis, and material selection to ensure optimal performance and durability.",
-      images: [
-        "project1.jpg",
-        "project1-cad.jpg",
-        "project1-render.jpg"
-      ]
-    },
-    project2: {
-      title: "Flywheel Assembly Model",
-      meta: "Mechanical Systems • 2024",
-      desc: "Developed a comprehensive flywheel model with complete assembly documentation. This project focused on energy storage principles, rotational dynamics, and precision engineering. The design incorporated advanced materials analysis, bearing selection, and safety considerations for high-speed rotation applications. Detailed assembly drawings and manufacturing specifications were created to support potential fabrication.",
-      images: [
-        "project2.jpg",
-        "project2-cad.jpg",
-        "project2-render.jpg"
-      ]
-    },
-    project3: {
-      title: "Advanced Engineering Solutions",
-      meta: "Ongoing Research • 2023 - Present",
-      desc: "Continuously working on innovative engineering solutions that challenge conventional approaches. These projects span various domains including mechanical systems optimization, sustainable design principles, and cutting-edge manufacturing techniques. Each project aims to push the boundaries of what's possible in mechanical engineering.",
-      images: [
-        "project3.jpg"
-      ]
-    }
-  };
+  // Set content
+  modalTitle.textContent = project.title;
+  modalMeta.textContent = project.meta;
+  modalDescription.textContent = project.description;
 
-  // Fill modal content
-  title.innerHTML = '<h2>' + data[projectId].title + '</h2>';
-  meta.innerHTML = '<div class="meta">' + data[projectId].meta + '</div>';
-  desc.innerHTML = '<p>' + data[projectId].desc + '</p>';
-  gallery.innerHTML = data[projectId].images.map(img =>
-    `<img src="${img}" alt="${data[projectId].title} gallery image" loading="lazy" onclick="window.open('${img}','_blank')">`
-  ).join('');
+  // Set up gallery
+  currentProjectImages = project.images;
+  currentGalleryIndex = 0;
+  setupGallery();
 
-  modal.style.display = "flex";
-  document.body.style.overflow = "hidden";
+  // Set up specs
+  modalSpecs.innerHTML = project.specs.map(spec => `
+    <div class="project-spec-modal">
+      <h4>${spec.title}</h4>
+      <p>${spec.value}</p>
+    </div>
+  `).join('');
+
+  // Set up challenges
+  modalChallenges.innerHTML = `
+    <h4>Key Challenges & Solutions</h4>
+    <ul>
+      ${project.challenges.map(challenge => `<li>${challenge}</li>`).join('')}
+    </ul>
+  `;
+
+  // Show modal
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  // Focus trap
+  modalTitle.focus();
 }
 
 function closeProjectModal() {
-  document.getElementById('projectModal').style.display = "none";
-  document.body.style.overflow = "";
+  const modal = document.getElementById('projectModal');
+  modal.classList.remove('active');
+  document.body.style.overflow = '';
 }
 
-// Optional: Close modal on ESC key
-window.addEventListener('keydown', function(e){
-  if(e.key === "Escape"){
-    closeProjectModal();
+function setupGallery() {
+  const mainImage = document.getElementById('gallery-main-image');
+  const thumbnailContainer = document.getElementById('gallery-thumbnails');
+  const prevBtn = document.querySelector('.gallery-nav.prev');
+  const nextBtn = document.querySelector('.gallery-nav.next');
+
+  if (currentProjectImages.length === 0) return;
+
+  // Set main image
+  mainImage.src = currentProjectImages[currentGalleryIndex];
+  mainImage.alt = `Project image ${currentGalleryIndex + 1}`;
+
+  // Create thumbnails
+  thumbnailContainer.innerHTML = currentProjectImages.map((src, index) => `
+    <img 
+      src="${src}" 
+      alt="Thumbnail ${index + 1}" 
+      class="gallery-thumbnail ${index === currentGalleryIndex ? 'active' : ''}"
+      onclick="setGalleryImage(${index})"
+    />
+  `).join('');
+
+  // Update navigation buttons
+  prevBtn.disabled = currentGalleryIndex === 0;
+  nextBtn.disabled = currentGalleryIndex === currentProjectImages.length - 1;
+}
+
+function setGalleryImage(index) {
+  currentGalleryIndex = index;
+  setupGallery();
+}
+
+function navigateGallery(direction) {
+  const newIndex = currentGalleryIndex + direction;
+  if (newIndex >= 0 && newIndex < currentProjectImages.length) {
+    currentGalleryIndex = newIndex;
+    setupGallery();
+  }
+}
+
+// Close modal on ESC key
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') {
+    const modal = document.getElementById('projectModal');
+    if (modal && modal.classList.contains('active')) {
+      closeProjectModal();
+    }
   }
 });
 
-// Your other script.js code remains as is
+// Keyboard navigation for gallery
+document.addEventListener('keydown', function(event) {
+  const modal = document.getElementById('projectModal');
+  if (modal && modal.classList.contains('active')) {
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      navigateGallery(-1);
+    } else if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      navigateGallery(1);
+    }
+  }
+});
