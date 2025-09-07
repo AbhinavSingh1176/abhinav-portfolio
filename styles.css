@@ -864,6 +864,72 @@ h1, h2, h3, h4, h5, h6, .hero p {
 }
 
 /* Skills Grid - Engineering Specification Style */
+/* --- Enhanced Skills Section Styles --- */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  justify-items: center;   /* Center each skill-category horizontally */
+  align-items: start;
+}
+
+.skill-category {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  box-shadow: 0 6px 32px var(--shadow);
+  border: 1px solid var(--border);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 220px;
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;      /* Center contents inside each skill-category */
+  position: relative;
+  overflow: hidden;
+}
+
+.skill-category h4 {
+  margin-bottom: 1.8rem;
+}
+
+.skill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: center;
+  align-items: center;      /* Center skill items vertically */
+  width: 100%;
+}
+
+.skill-item {
+  min-width: 120px;         /* Ensures all pills have a minimum width */
+  text-align: center;
+  padding: 0.7rem 1.4rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: rgba(44, 82, 130, 0.08);
+  color: var(--engineering-blue);
+  font-weight: 600;
+  border: 1px solid var(--border-light);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin: 0.2rem 0;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;  /* Vertically/horizontally center text within pill */
+}
+
+/* Responsive for mobile */
+@media (max-width: 600px) {
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .skills-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
