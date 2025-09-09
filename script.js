@@ -408,87 +408,78 @@ document.querySelectorAll('.card, .skill-category').forEach(el => {
 let currentGalleryIndex = 0;
 let currentProjectImages = [];
 
-// Project data with sample images
+// Project data with sample images - REPLACE THIS ENTIRE SECTION
 const projectData = {
   project1: {
-    title: "Custom Toyota Prius AW60 Wheel Design",
-    meta: "Automotive Engineering • 2024",
-    description: "Designed and engineered a custom wheel specifically tailored for the Toyota Prius AW60 model. This project involved comprehensive analysis of load requirements, weight optimization, and aesthetic considerations while maintaining structural integrity and safety standards. The design process incorporated advanced finite element analysis to ensure optimal performance while reducing weight by 15% compared to the original equipment manufacturer specifications.",
+    title: "Powertrains Development - ASME Racing",
+    meta: "Automotive Engineering • Jan 2025 - Present",
+    description: "Designed Purdue's first in-house CVT mount in Autodesk Fusion, coordinating with chassis and engine teams to optimize transmission packaging. Fabricated custom metal shroud for heat protection and engineered repositionable exhaust mount to correct misalignment issues, ensuring secure fit and improved drivetrain stability.",
     images: [
-      "profile.jpg",
-      "profile.jpg",
-      "profile.jpg",
-      "profile.jpg",
-      "profile.jpg"
+      "images/projects/asme-racing/main.jpg",
+      "images/projects/asme-racing/cvt-mount-1.jpg",
+      "images/projects/asme-racing/cvt-mount-2.jpg",
+      "images/projects/asme-racing/exhaust-system-1.jpg",
+      "images/projects/asme-racing/exhaust-system-2.jpg"
     ],
     specs: [
-      { title: "Material", value: "Aluminum Alloy 6061-T6" },
-      { title: "Weight Reduction", value: "15% lighter than OEM" },
-      { title: "Load Rating", value: "1,500 lbs per wheel" },
-      { title: "Software Used", value: "SolidWorks, ANSYS" }
+      { title: "Software", value: "Autodesk Fusion 360" },
+      { title: "Materials", value: "Steel, Aluminum" },
+      { title: "Team Size", value: "3 engineers across chassis and engine teams" },
+      { title: "Timeline", value: "4 months development" }
     ],
     challenges: [
-      "Balancing weight reduction with structural integrity through finite element analysis",
-      "Optimizing spoke geometry for maximum strength-to-weight ratio",
-      "Ensuring compatibility with Prius AW60 brake caliper clearance",
-      "Meeting Toyota's safety and performance standards"
+      "Coordinated with multiple teams to ensure optimal packaging",
+      "Designed heat protection system for exhaust components",
+      "Resolved transmission misalignment issues through custom mounting",
+      "Balanced performance requirements with manufacturing constraints"
     ]
   },
   project2: {
-    title: "Flywheel Assembly Model",
-    meta: "Mechanical Systems • 2024",
-    description: "Developed a comprehensive flywheel energy storage system model with complete assembly documentation. This project focused on energy storage principles, rotational dynamics, and precision engineering. The design incorporates magnetic levitation bearings for minimal friction losses and advanced composite materials for optimal energy density while ensuring safe operation at high rotational speeds.",
+    title: "EV Kart Manual Development - EPICS",
+    meta: "Technical Documentation • Jan 2025 - May 2025",
+    description: "Produced comprehensive beginner-friendly assembly manual for MSTEM3 EV Kart, partnering with Purdue Motorsports and TopKart USA. Created detailed CAD visuals using SolidWorks and integrated customer feedback from high school teams to streamline processes for the Purdue EV Grand Prix.",
     images: [
-      "profile.jpg",
-      "profile.jpg",
-      "profile.jpg",
-      "profile.jpg",
-      "profile.jpg",
-      "profile.jpg",
-      "profile.jpg"
+      "images/projects/ev-kart/main.jpg",
+      "images/projects/ev-kart/manual-page-1.jpg",
+      "images/projects/ev-kart/manual-page-2.jpg",
+      "images/projects/ev-kart/cad-visual-1.jpg",
+      "images/projects/ev-kart/assembly-guide.jpg"
     ],
     specs: [
-      { title: "Energy Storage", value: "2.5 kWh capacity" },
-      { title: "Max RPM", value: "15,000 RPM" },
-      { title: "Material", value: "Carbon Fiber Composite" },
-      { title: "Bearing Type", value: "Magnetic Levitation" }
+      { title: "Software", value: "SolidWorks, Adobe Creative Suite" },
+      { title: "Manual Length", value: "50+ detailed assembly instructions" },
+      { title: "Target Audience", value: "High school students" },
+      { title: "Partners", value: "Purdue Motorsports, TopKart USA" }
     ],
     challenges: [
-      "High-speed bearing selection and lubrication system design",
-      "Vibration analysis and dynamic balancing at operational speeds",
-      "Safety containment system for potential failure scenarios",
-      "Efficient motor-generator integration for energy conversion"
+      "Created beginner-friendly instructions for complex assembly",
+      "Integrated feedback from multiple stakeholder groups",
+      "Developed clear visual communication for technical processes",
+      "Streamlined assembly process for competitive racing events"
     ]
   },
   project3: {
-    title: "Advanced Engineering Solutions",
-    meta: "Ongoing Research • 2023 - Present",
-    description: "Continuously working on innovative engineering solutions that challenge conventional approaches. These projects span various domains including mechanical systems optimization, sustainable design principles, and cutting-edge manufacturing techniques. The research focuses on biomimetic design principles, advanced materials science, and automation integration to create next-generation engineering solutions.",
+    title: "Custom Wheel Rim & Exhaust Manifold Design",
+    meta: "CAD Engineering • Jan 2025 - May 2025",
+    description: "Designed 17-inch steel wheel rim meeting Toyota Prius V AW60 specifications in Siemens NX, applying GD&T and precise engineering drawings. Developed multi-branch exhaust manifold for BB6 header set on 1955-57 Chevy, emphasizing airflow optimization and thermal performance with manufacturing-ready drawings.",
     images: [
-      "profile.jpg",
-      "profile.jpg",
-      "profile.jpg",
-      "profile.jpg",
-      "profile.jpg",
-      "profile.jpg",
-      "profile.jpg",
-      "profile.jpg",
-      "profile.jpg",
-      "profile.jpg",
-      "profile.jpg",
-      "profile.jpg"
+      "images/projects/wheel-exhaust/main.jpg",
+      "images/projects/wheel-exhaust/wheel-rim-cad.jpg",
+      "images/projects/wheel-exhaust/wheel-rim-drawing.jpg",
+      "images/projects/wheel-exhaust/exhaust-manifold-1.jpg",
+      "images/projects/wheel-exhaust/exhaust-manifold-2.jpg"
     ],
     specs: [
-      { title: "Research Focus", value: "Sustainable Manufacturing" },
-      { title: "Methodology", value: "Design Thinking + FEA" },
-      { title: "Collaboration", value: "Purdue Research Labs" },
-      { title: "Timeline", value: "Ongoing Development" }
+      { title: "Software", value: "Siemens NX" },
+      { title: "Wheel Specs", value: "17-inch Toyota Prius V AW60" },
+      { title: "Exhaust Type", value: "Multi-branch manifold for BB6 header" },
+      { title: "Standards", value: "GD&T applied, manufacturing-ready drawings" }
     ],
     challenges: [
-      "Biomimetic design principles in mechanical systems",
-      "Advanced materials for high-temperature applications",
-      "Automation and robotics integration in manufacturing",
-      "Sustainable energy conversion and storage systems"
+      "Met precise OEM specifications for wheel rim design",
+      "Optimized exhaust manifold for airflow and thermal performance",
+      "Applied proper GD&T standards for manufacturing accuracy",
+      "Balanced structural integrity with weight optimization"
     ]
   }
 };
