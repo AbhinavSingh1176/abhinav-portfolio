@@ -435,27 +435,29 @@ const projectData = {
     ]
   },
   project2: {
-    title: "EV Kart Manual Development - EPICS",
-    meta: "Technical Documentation • Jan 2025 - May 2025",
-    description: "Produced comprehensive beginner-friendly assembly manual for MSTEM3 EV Kart, partnering with Purdue Motorsports and TopKart USA. Created detailed CAD visuals using SolidWorks and integrated customer feedback from high school teams to streamline processes for the Purdue EV Grand Prix.",
+    title: "Heat Transfer Research - Micro Pin-Fin Heatsinks",
+    meta: "Thermal Systems Research • Apr 2025 - Present",
+    description: "Executed end-to-end simulation pipeline in ANSYS Fluent and Mechanical to analyze heat transfer and pressure drop across micro pin-fin heatsinks. Optimized pin-fin designs by comparing 2D vs. 3D models, symmetry layouts, and mesh resolutions to balance accuracy and computational cost for enhanced cooling performance at the Cooling Technologies Research Center.",
     images: [
-      "images/projects/ev-kart/main.jpg",
-      "images/projects/ev-kart/manual-page-1.jpg",
-      "images/projects/ev-kart/manual-page-2.jpg",
-      "images/projects/ev-kart/cad-visual-1.jpg",
-      "images/projects/ev-kart/assembly-guide.jpg"
+      "images/projects/thermal-research/main.jpg",
+      "images/projects/thermal-research/ansys-fluent-setup.jpg",
+      "images/projects/thermal-research/mesh-analysis.jpg",
+      "images/projects/thermal-research/temperature-contours.jpg",
+      "images/projects/thermal-research/pressure-drop-results.jpg",
+      "images/projects/thermal-research/pin-fin-geometry.jpg",
+      "images/projects/thermal-research/heat-transfer-plots.jpg"
     ],
     specs: [
-      { title: "Software", value: "SolidWorks, Adobe Creative Suite" },
-      { title: "Manual Length", value: "50+ detailed assembly instructions" },
-      { title: "Target Audience", value: "High school students" },
-      { title: "Partners", value: "Purdue Motorsports, TopKart USA" }
+      { title: "Software", value: "ANSYS Fluent, ANSYS Mechanical" },
+      { title: "Research Focus", value: "Micro pin-fin heatsink optimization" },
+      { title: "Analysis Type", value: "Heat transfer and pressure drop analysis" },
+      { title: "Institution", value: "Cooling Technologies Research Center, Purdue" }
     ],
     challenges: [
-      "Created beginner-friendly instructions for complex assembly",
-      "Integrated feedback from multiple stakeholder groups",
-      "Developed clear visual communication for technical processes",
-      "Streamlined assembly process for competitive racing events"
+      "Developed comprehensive simulation pipeline from geometry creation to post-processing",
+      "Balanced computational accuracy with cost through mesh resolution optimization",
+      "Compared 2D vs. 3D modeling approaches for design optimization",
+      "Analyzed symmetry layouts to reduce computational requirements while maintaining precision"
     ]
   },
   project3: {
