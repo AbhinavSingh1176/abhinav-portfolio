@@ -3,376 +3,311 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Abhinav Singh | Mechanical Engineer</title>
-  
-  <!-- Favicon -->
+  <title>Abhinav Singh — Mechanical Engineer</title>
+
   <link rel="icon" href="logo-as.png" type="image/png" />
-  
-  <!-- SEO Meta Tags -->
-  <meta name="description" content="Abhinav Singh - Mechanical Engineering student at Purdue University. Passionate about design, R&D, and innovative problem-solving.">
-  <meta name="keywords" content="Abhinav Singh, Automotive, Mechanical Engineer, Purdue University, CAD Design, CFD, Engineering Portfolio">
+
+  <meta name="description" content="Abhinav Singh — Purdue mechanical engineer building battery and thermal systems. Currently a Combustion Performance & Emissions co-op at Cummins.">
   <meta name="author" content="Abhinav Singh">
-  
-  <!-- Open Graph Tags -->
-  <meta property="og:title" content="Abhinav Singh | Mechanical Engineer Portfolio" />
-  <meta property="og:description" content="A showcase of mechanical engineering projects, CAD designs, and innovative solutions by Abhinav Singh, Purdue University student." />
-  <meta property="og:image" content="https://abhinavsingh.com/preview.jpg" />
-  <meta property="og:url" content="https://abhinavsingh.com" />
+  <meta property="og:title" content="Abhinav Singh — Mechanical Engineer" />
+  <meta property="og:description" content="Purdue ME building battery and thermal systems. Co-op engineer at Cummins. Case studies in vibration isolation, thermal simulation, and powertrain hardware." />
   <meta property="og:type" content="website" />
-  
-  <!-- Twitter Card Tags -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Abhinav Singh">
-  <meta name="twitter:description" content="Mechanical Engineering student at Purdue University - Design, R&D, and Innovation">
-  
-  <!-- Analytics - Plausible -->
+
+  <!-- Analytics -->
   <script async defer data-domain="abhinavsingh.com" src="https://plausible.io/js/script.js"></script>
-  
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- Skip to main content link for accessibility -->
-  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <a href="#work" class="skip-link">Skip to work</a>
 
-  <!-- Navigation -->
-  <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
-    <div class="nav-left">
-      <a href="#" class="logo" onclick="showPage('home'); return false;" aria-label="Go to Home page">
-        <img src="logo-as.png" alt="Abhinav Singh Logo" class="site-logo" />
-      </a>
-    </div>
-
-    <div class="nav-center">
-      <a href="#" class="nav-link active" onclick="showPage('home'); return false;" data-page="home" aria-label="Go to Home page">Home</a>
-      <a href="#" class="nav-link" onclick="showPage('about'); return false;" data-page="about" aria-label="Go to About page">About</a>
-      <a href="#" class="nav-link" onclick="showPage('experience'); return false;" data-page="experience" aria-label="Go to Experience page">Experience</a>
-      <a href="#" class="nav-link" onclick="showPage('projects'); return false;" data-page="projects" aria-label="Go to Projects page">Projects</a>
-      <a href="#" class="nav-link" onclick="showPage('contact'); return false;" data-page="contact" aria-label="Go to Contact page">Contact</a>
-    </div>
-
-    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Open mobile menu" id="mobileMenuButton">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-
+  <!-- ============ NAV ============ -->
+  <header class="nav" id="top">
+    <a class="nav-name" href="#top">A.SINGH</a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#now">Now</a>
+      <a href="#work">Work</a>
+      <a href="#log">Build log</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+    </nav>
     <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
-      <span class="light-icon">🌙</span>
-      <span class="dark-icon" style="display: none;">☀️</span>
+      <span data-theme-label>DARK</span>
     </button>
-  </nav>
+  </header>
 
-  <!-- Mobile Menu -->
-  <div class="mobile-menu" id="mobileMenu" role="navigation" aria-label="Mobile navigation">
-    <a href="#" class="mobile-nav-link active" onclick="showPage('home'); return false;" data-page="home" aria-label="Go to Home page">Home</a>
-    <a href="#" class="mobile-nav-link" onclick="showPage('about'); return false;" data-page="about" aria-label="Go to About page">About</a>
-    <a href="#" class="mobile-nav-link" onclick="showPage('experience'); return false;" data-page="experience" aria-label="Go to Experience page">Experience</a>
-    <a href="#" class="mobile-nav-link" onclick="showPage('projects'); return false;" data-page="projects" aria-label="Go to Projects page">Projects</a>
-    <a href="#" class="mobile-nav-link" onclick="showPage('contact'); return false;" data-page="contact" aria-label="Go to Contact page">Contact</a>
-  </div>
+  <main>
+    <!-- ============ HERO : drawing sheet ============ -->
+    <section class="sheet" aria-label="Introduction">
+      <div class="sheet-frame">
+        <p class="eyebrow">MECHANICAL ENGINEER · PURDUE UNIVERSITY</p>
+        <h1>Abhinav Singh builds<br>battery &amp; thermal systems —<br><span class="redline">and tests them.</span></h1>
+        <p class="hero-sub">
+          Combustion Performance &amp; Emissions co-op at Cummins (Thermal &amp; Fluid
+          Sciences). I take hardware from first-principles model to fabricated,
+          instrumented, validated — and document every step.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#work">See the work</a>
+          <a class="btn" href="Abhinav_Singh_Resume.pdf" target="_blank" rel="noopener noreferrer">Resume (PDF)</a>
+          <a class="btn" href="mailto:abhinavsingh1176@gmail.com">Email</a>
+        </div>
 
-  <!-- Main Content Container -->
-  <main class="container" id="main-content">
-    <!-- Home Page -->
-    <section id="home" class="page active" aria-labelledby="home-title">
-      <div class="hero">
-        <h1 id="home-title" tabindex="-1">Hi! I'm <span class="highlight">Abhinav</span>.</h1>
-        <p>I love building, designing, researching and solving problems. My goal is to work on projects that challenge me, push boundaries, and make a real impact.</p>
-        <div class="cta-container">
-          <button class="cta-button" onclick="showPage('projects')" onkeypress="handleKeyPress(event, 'projects')">
-            View My Work
-          </button>
-          <a href="Abhinav_Singh_Resume.pdf" class="cta-button resume-button" target="_blank" rel="noopener noreferrer">
-            View Resume
-          </a>
+        <!-- Signature: drawing title block. Bump REV + DATE when you update the site. -->
+        <div class="title-block" role="presentation">
+          <div><span>DRAWN BY</span><strong>A. SINGH</strong></div>
+          <div><span>LOCATION</span><strong>SEYMOUR, IN</strong></div>
+          <div><span>REV</span><strong>2.0</strong></div>
+          <div><span>DATE</span><strong data-stamp>2026-06-10</strong></div>
+          <div><span>SHEET</span><strong>1 OF 1</strong></div>
         </div>
       </div>
     </section>
 
-    <!-- About Page -->
-    <section id="about" class="page" aria-labelledby="about-title">
-      <div class="content-section">
-        <h2 id="about-title" class="section-title" tabindex="-1">About Me</h2>
-        <div class="about-bio">
-          <img src="profile.jpg" alt="Abhinav Singh portrait" class="about-image" loading="lazy" />
+    <!-- ============ NOW ============ -->
+    <section class="section" id="now" aria-labelledby="now-title">
+      <h2 class="section-label" id="now-title"><span class="sec-no">/</span> NOW</h2>
+      <ul class="now-list">
+        <li><span class="dot dot-live" aria-hidden="true"></span><span class="mono">CO-OP</span><span class="now-text">Owning an EPA Tier 4 emissions audit of a 30L industrial diesel platform at Cummins — install review through compliance reporting.</span></li>
+        <li><span class="dot dot-live" aria-hidden="true"></span><span class="mono">BUILDING</span><span class="now-text">A passive vibration isolation module for a 2.5&nbsp;kg robotic sensor payload — MATLAB model → CAD → FEA → fabrication → accelerometer validation.</span></li>
+        <li><span class="dot" aria-hidden="true"></span><span class="mono">NEXT</span><span class="now-text">4P4S battery module prototype with embedded thermal instrumentation, informed by a production EV module teardown.</span></li>
+      </ul>
+    </section>
+
+    <!-- ============ WORK : case studies ============ -->
+    <section class="section" id="work" aria-labelledby="work-title">
+      <h2 class="section-label" id="work-title"><span class="sec-no">/</span> WORK</h2>
+
+      <!-- VIM — in progress. Swap in real images + measured numbers as phases complete. -->
+      <article class="case">
+        <div class="case-media">
+          <!-- TODO: replace with VIM hero image when CAD exists: images/projects/vim/main.jpg -->
+          <div class="media-placeholder mono">VIM-001<br>CAD render — July 2026</div>
+        </div>
+        <div class="case-body">
+          <div class="case-meta mono">
+            <span>PROJ-005</span>
+            <span class="status status-live"><span class="dot dot-live"></span>IN PROGRESS</span>
+            <span>JUN–SEP 2026</span>
+          </div>
+          <h3>Vibration Isolation Module</h3>
           <p>
-            Hi! I'm Abhinav Singh, a Sophomore Mechanical Engineering student at Purdue University. I am a thinker, designer, researcher, public speaker, collaborator, and a problem solver. I thrive on solving complex engineering problems, especially in automotive and mechanical design. I love collaborating on projects that challenge the norm and push the boundaries of innovation. Let's build something extraordinary together!
+            Passive parallel-link isolation stage for a 2.5&nbsp;kg camera/LiDAR payload on a
+            delivery robot. Designed from a validated SDOF model (f<sub>n</sub> = 3.5&nbsp;Hz,
+            ζ ≈ 0.12), targeting ≥40% RMS acceleration reduction over the 5–30&nbsp;Hz band,
+            verified with a dual-accelerometer Arduino test rig.
+          </p>
+          <details>
+            <summary>Specifications &amp; approach</summary>
+            <table class="spec-table">
+              <tr><th class="mono">MODEL</th><td>MATLAB SDOF — transmissibility, terrain PSD response, bump response</td></tr>
+              <tr><th class="mono">STRUCTURE</th><td>Parallel 4-bar linkage, waterjet 6061 Al, ±15 mm stroke, k = 1200 N/m</td></tr>
+              <tr><th class="mono">ANALYSIS</th><td>ANSYS static (3g, SF ≥ 2) + modal (structural modes &gt; 50 Hz)</td></tr>
+              <tr><th class="mono">VALIDATION</th><td>2× MPU6050 + Arduino DAQ; log-decrement &amp; broadband PSD comparison</td></tr>
+            </table>
+          </details>
+          <a class="case-link mono" href="https://github.com/abhinavsingh1176" target="_blank" rel="noopener noreferrer">BUILD REPO →</a>
+        </div>
+      </article>
+
+      <article class="case">
+        <div class="case-media">
+          <img src="images/projects/thermal-research/thermal-main.jpg" alt="Temperature contours from micro pin-fin heatsink simulation" loading="lazy">
+        </div>
+        <div class="case-body">
+          <div class="case-meta mono">
+            <span>PROJ-004</span>
+            <span class="status">COMPLETE</span>
+            <span>APR 2025 – 2026</span>
+          </div>
+          <h3>Micro Pin-Fin Heatsink Simulation — CTRC</h3>
+          <p>
+            End-to-end thermal simulation pipelines in ANSYS Fluent and Mechanical at Purdue's
+            Cooling Technologies Research Center: geometry, meshing, solver setup, and
+            post-processing for high-heat-flux pin-fin arrays. Cut simulation turnaround ~35%
+            by validating reduced-order 2D and symmetry models against full 3D baselines.
+          </p>
+          <details>
+            <summary>Specifications &amp; approach</summary>
+            <table class="spec-table">
+              <tr><th class="mono">DOMAIN</th><td>Conjugate heat transfer + pressure drop, micro pin-fin arrays</td></tr>
+              <tr><th class="mono">TOOLS</th><td>ANSYS Fluent (CFD), ANSYS Mechanical (FEA)</td></tr>
+              <tr><th class="mono">METHOD</th><td>Mesh-resolution studies; 2D vs 3D and symmetry-layout trade studies</td></tr>
+              <tr><th class="mono">OUTCOME</th><td>~35% lower computational cost at preserved accuracy</td></tr>
+            </table>
+          </details>
+        </div>
+      </article>
+
+      <article class="case">
+        <div class="case-media">
+          <img src="images/projects/asme-racing/main.jpg" alt="CVT mount and exhaust system on the ASME Racing kart" loading="lazy">
+        </div>
+        <div class="case-body">
+          <div class="case-meta mono">
+            <span>PROJ-003</span>
+            <span class="status">COMPLETE</span>
+            <span>JAN 2025 – MAY 2026</span>
+          </div>
+          <h3>Powertrain Hardware — ASME Racing</h3>
+          <p>
+            Designed Purdue's first in-house CVT mount in Autodesk Fusion, coordinating with the
+            chassis and engine teams on packaging, weight, and cost. Fabricated sheet-metal
+            fixtures, drivetrain heat shrouds, and an adjustable exhaust mount; closed heat-related
+            failure modes through root cause analysis.
+          </p>
+          <details>
+            <summary>Specifications &amp; approach</summary>
+            <table class="spec-table">
+              <tr><th class="mono">CAD</th><td>Autodesk Fusion — CVT mount, exhaust mount, shrouds</td></tr>
+              <tr><th class="mono">FAB</th><td>Manual mill, sheet metal, bandsaw; in-house at Purdue shops</td></tr>
+              <tr><th class="mono">TEAMS</th><td>Cross-functional with chassis and engine subteams</td></tr>
+            </table>
+          </details>
+        </div>
+      </article>
+
+      <article class="case">
+        <div class="case-media">
+          <img src="images/projects/wheel-exhaust/cad-main.jpg" alt="Wheel rim and exhaust manifold CAD models in Siemens NX" loading="lazy">
+        </div>
+        <div class="case-body">
+          <div class="case-meta mono">
+            <span>PROJ-002</span>
+            <span class="status">COMPLETE</span>
+            <span>JAN – MAY 2025</span>
+          </div>
+          <h3>Wheel Rim &amp; Exhaust Manifold — GD&amp;T Study</h3>
+          <p>
+            A 17-inch steel wheel rim to OEM specifications and a 4-cylinder exhaust manifold,
+            modeled in Siemens NX with manufacturing-ready drawings and full GD&amp;T — datum
+            schemes, position tolerances, and drawing standards applied end to end.
           </p>
         </div>
-        
-        <div class="skills-section">
-          <h3 class="skills-title">Technical Skills & Expertise</h3>
-        <div class="skills-grid">
-          <div class="skill-category">
-            <h4>Computer Aided Design Softwares</h4>
-            <div class="skill-list">
-              <span class="skill-item">Siemens NX</span>
-              <span class="skill-item">Autodesk Fusion</span>
-              <span class="skill-item">SolidWorks</span>
-              <span class="skill-item">GD&T</span>
-              <span class="skill-item">Drafting</span>
-            </div>
-          </div>
-          
-          <div class="skill-category">
-            <h4>Analysis & Simulation</h4>
-            <div class="skill-list">
-              <span class="skill-item">Ansys Fluent</span>
-              <span class="skill-item">Ansys Mechanical</span>
-              <span class="skill-item">MATLAB</span>
-              <span class="skill-item">Simulink</span>
-            </div>
-          </div>
-          
-          <div class="skill-category">
-            <h4>Manufacturing</h4>
-            <div class="skill-list">
-              <span class="skill-item">CNC Machining</span>
-              <span class="skill-item">Woodworking</span>
-              <span class="skill-item">Bandsaw</span>
-              <span class="skill-item">Drilling</span>
-              <span class="skill-item">3D Printing</span>
-            </div>
-          </div>
-          
-          <div class="skill-category">
-            <h4>Programming</h4>
-            <div class="skill-list">
-              <span class="skill-item">Python</span>
-              <span class="skill-item">Arduino</span>
-              <span class="skill-item">C++</span>
-              <span class="skill-item">HTML</span>
-              <span class="skill-item">SQL</span>
-              <span class="skill-item">JavaScript</span>
-            </div>
-          </div>
-          
-          <div class="skill-category">
-            <h4>Engineering Principles</h4>
-            <div class="skill-list">
-              <span class="skill-item">Thermodynamics</span>
-              <span class="skill-item">Controls</span>
-              <span class="skill-item">Materials Science</span>
-              <span class="skill-item">Statics</span>
-              <span class="skill-item">Dynamics</span>
-              <span class="skill-item">Computer Aided Design</span>
-                <span class="skill-item">MATLAB</span>
-            </div>
-          </div>
-          
-          <div class="skill-category">
-              <h4>Project Management</h4>
-              <div class="skill-list">
-                <span class="skill-item">Countermeasure Analysis</span>
-                <span class="skill-item">Risk Management</span>
-                <span class="skill-item">Design Thinking</span>
-                <span class="skill-item">Research Methods</span>
-                <span class="skill-item">Documentation</span>
-              </div>
-            </div>
-          </div>
+      </article>
+
+      <article class="case">
+        <div class="case-media">
+          <!-- TODO: add an EPICS device photo if you have one: images/projects/epics/main.jpg -->
+          <div class="media-placeholder mono">PEEPS<br>air purification device</div>
         </div>
-      </div>
+        <div class="case-body">
+          <div class="case-meta mono">
+            <span>PROJ-001</span>
+            <span class="status">COMPLETE</span>
+            <span>AUG 2024 – MAY 2025</span>
+          </div>
+          <h3>Air Purifier Controls &amp; EV Kart Manuals — EPICS</h3>
+          <p>
+            Built the Arduino control system for a portable air purification device for a local
+            middle school — halved the breadboard footprint and refined the PID loop — then
+            authored standardized EV kart assembly manuals with instructional CAD visuals,
+            coordinating with TopKart USA and Purdue Motorsports.
+          </p>
+        </div>
+      </article>
     </section>
 
-    <!-- Experience Page -->
-    <section id="experience" class="page" aria-labelledby="experience-title">
-      <div class="content-section">
-        <h2 id="experience-title" class="section-title" tabindex="-1">Experience</h2>
-        <div class="timeline">
-    
-          <!-- Heat Transfer Undergraduate Researcher -->
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content">
-              <h3>Heat Transfer Undergraduate Researcher</h3>
-              <div class="meta">Cooling Technologies Research Center, Purdue University • Apr 2025 – Present</div>
-              <p>Executed simulation pipeline in ANSYS Fluent and Mechanical to analyze heat transfer and pressure drop across micro pin-fin heatsinks. Optimized designs by testing layouts and mesh strategies to balance accuracy with computational cost.</p>
-            </div>
-          </div>
-    
-          <!-- Mechanical Engineering Research Intern -->
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content">
-              <h3>Mechanical Engineering Research Intern</h3>
-              <div class="meta">Maharaja Sayajirao University • Jul 2023 – Aug 2023</div>
-              <p>Researched parabolic solar concentrators and thermocouple-based heat flux sensors. Led experiments, data acquisition, and thesis writing while collaborating on patent development and research methodologies.</p>
-            </div>
-          </div>
-    
-          <!-- Powertrains Member - ASME Racing -->
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content">
-              <h3>Powertrains Member</h3>
-              <div class="meta">ASME Racing Team, Purdue University • Jan 2025 – Present</div>
-              <p>Designed Purdue’s first in-house CVT mount and fabricated custom drivetrain components, improving fitment, heat protection, and performance. Worked with chassis and engine teams to optimize packaging and cost.</p>
-            </div>
-          </div>
-    
-          <!-- Project Archivist - EPICS -->
-          <div class="timeline-item">
-            <div class="timeline-dot"></div>
-            <div class="timeline-content">
-              <h3>Project Archivist, Kart Manual Team</h3>
-              <div class="meta">EPICS, Purdue University • Jan 2025 – May 2025</div>
-              <p>Created a beginner-friendly kart assembly manual for MSTEM3 EV Kart. Produced CAD visuals and integrated stakeholder feedback to streamline the Purdue EV Grand Prix assembly process.</p>
-            </div>
-          </div>
-    
-        </div>
-      </div>
+    <!-- ============ BUILD LOG ============ -->
+    <section class="section" id="log" aria-labelledby="log-title">
+      <h2 class="section-label" id="log-title"><span class="sec-no">/</span> BUILD LOG</h2>
+      <p class="section-note">A running record of what shipped. Newest first. <!-- Add a <li> at the TOP each week. Keep entries one line, factual, dated. --></p>
+      <ul class="log-list mono">
+        <li><time>2026-06-10</time><span>VIM repo initialized — requirements frozen, spring and DAQ hardware ordered.</span></li>
+        <li><time>2026-06-08</time><span>Assigned engineer for EPA Tier 4 audit program at Cummins; install review in progress.</span></li>
+        <li><time>2026-06-01</time><span>Started Combustion Performance &amp; Emissions co-op, Cummins Seymour Engine Plant.</span></li>
+        <li><time>2026-05</time><span>Wrapped Spring semester; CTRC micro pin-fin simulation work concluded.</span></li>
+      </ul>
     </section>
 
-    <!-- Projects Page -->
-    <section id="projects" class="page" aria-labelledby="projects-title">
-      <div class="content-section">
-        <h2 id="projects-title" class="section-title" tabindex="-1">Projects</h2>
-        <div class="card-grid">
-          <article class="card" onclick="openProjectModal('project1')">
-            <div class="project-image-container">
-              <img src="images/projects/asme-racing/main.jpg" alt="ASME Racing CVT Mount and Exhaust System" loading="lazy" class="project-image" />
-            </div>
-            <h3>Powertrains Development - ASME Racing</h3>
-            <div class="meta">Automotive Engineering • Jan 2025 - Present</div>
-            <p>Designed Purdue's first in-house CVT mount in Autodesk Fusion, coordinating with chassis and engine teams to optimize transmission packaging. Fabricated custom metal shroud for heat protection and engineered repositionable exhaust mount to correct misalignment issues, ensuring secure fit and improved drivetrain stability.</p>
-            <button class="project-view-btn">View Full Project →</button>
-          </article>
-          
-          <article class="card" onclick="openProjectModal('project2')">
-            <div class="project-image-container">
-              <img src="images/projects/thermal-research/thermal-main.jpg" alt="Micro Pin-Fin Heatsink Thermal Analysis" loading="lazy" class="project-image" />
-            </div>
-            <h3>Heat Transfer Research - Micro Pin-Fin Heatsinks</h3>
-            <div class="meta">Thermal Systems Research • Apr 2025 - Present</div>
-            <p>Executed end-to-end simulation pipeline in ANSYS Fluent and Mechanical to analyze heat transfer and pressure drop across micro pin-fin heatsinks. Optimized pin-fin designs by comparing 2D vs. 3D models, symmetry layouts, and mesh resolutions to balance accuracy and computational cost for enhanced cooling performance.</p>
-            <button class="project-view-btn">View Full Project →</button>
-          </article>
-          
-          <article class="card" onclick="openProjectModal('project3')">
-            <div class="project-image-container">
-              <img src="images/projects/wheel-exhaust/cad-main.jpg" alt="Custom Wheel Rim and Exhaust Manifold CAD Models" loading="lazy" class="project-image" />
-            </div>
-            <h3>Custom Wheel Rim & Exhaust Manifold Design</h3>
-            <div class="meta">CAD Engineering • Jan 2025 - May 2025</div>
-            <p>Designed 17-inch steel wheel rim meeting Toyota Prius V AW60 specifications in Siemens NX, applying GD&T and precise engineering drawings. Developed multi-branch exhaust manifold for BB6 header set on 1955-57 Chevy, emphasizing airflow optimization and thermal performance with manufacturing-ready drawings.</p>
-            <button class="project-view-btn">View Full Project →</button>
-          </article>
-        </div>
-      </div>
+    <!-- ============ EXPERIENCE ============ -->
+    <section class="section" id="experience" aria-labelledby="exp-title">
+      <h2 class="section-label" id="exp-title"><span class="sec-no">/</span> EXPERIENCE</h2>
+      <ul class="exp-list">
+        <li>
+          <div>
+            <h3>Combustion Performance &amp; Emissions Engineer Co-op</h3>
+            <p>Cummins Inc. — Power Systems, Thermal &amp; Fluid Sciences</p>
+          </div>
+          <span class="mono">JUN – DEC 2026</span>
+        </li>
+        <li>
+          <div>
+            <h3>Heat Transfer Undergraduate Researcher</h3>
+            <p>Cooling Technologies Research Center, Purdue University</p>
+          </div>
+          <span class="mono">APR 2025 – 2026</span>
+        </li>
+        <li>
+          <div>
+            <h3>Board of Directors — Professional Development</h3>
+            <p>Purdue Alumni Student Experience</p>
+          </div>
+          <span class="mono">SEP 2025 – PRESENT</span>
+        </li>
+        <li>
+          <div>
+            <h3>Mechanical Engineering Research Intern</h3>
+            <p>Maharaja Sayajirao University, Gujarat, India</p>
+          </div>
+          <span class="mono">JUL – AUG 2023</span>
+        </li>
+      </ul>
     </section>
 
-    <!-- Contact Page -->
-    <section id="contact" class="page" aria-labelledby="contact-title">
-      <div class="content-section">
-        <h2 id="contact-title" class="section-title" tabindex="-1">Get In Touch</h2>
-        <div class="contact-form">
-          <form action="https://formspree.io/f/mvgqawka" method="POST" onsubmit="handleFormSubmit(event)" novalidate>
-            <div class="form-group">
-              <label for="name">Name *</label>
-              <input type="text" id="name" name="name" required aria-label="Your full name" placeholder="Your full name">
-              <div class="error-message" id="name-error">Please enter your name</div>
-            </div>
-            
-            <div class="form-group">
-              <label for="email">Email *</label>
-              <input type="email" id="email" name="email" required aria-label="Your email address" placeholder="your.email@example.com">
-              <div class="error-message" id="email-error">Please enter a valid email address</div>
-            </div>
-            
-            <div class="form-group">
-              <label for="subject">Subject *</label>
-              <input type="text" id="subject" name="subject" required aria-label="Message subject" placeholder="What's this about?">
-              <div class="error-message" id="subject-error">Please enter a subject</div>
-            </div>
-            
-            <div class="form-group">
-              <label for="message">Message *</label>
-              <textarea id="message" name="message" required aria-label="Your message" placeholder="Tell me about your project or how we can collaborate..."></textarea>
-              <div class="error-message" id="message-error">Please enter your message</div>
-            </div>
-            
-            <button type="submit" class="cta-button submit-button" id="submitButton" style="width: 100%;">
-              <span class="text">Send Message</span>
-              <span class="loading">
-                <div class="spinner"></div>
-                Sending...
-              </span>
-            </button>
-            
-            <div class="form-status" id="formStatus" aria-live="polite" aria-atomic="true"></div>
-          </form>
+    <!-- ============ CAPABILITIES : datasheet table ============ -->
+    <section class="section" id="capabilities" aria-labelledby="cap-title">
+      <h2 class="section-label" id="cap-title"><span class="sec-no">/</span> CAPABILITIES</h2>
+      <table class="cap-table">
+        <tr><th class="mono">CAD &amp; DESIGN</th><td>SolidWorks · Siemens NX · Autodesk Fusion · GD&amp;T · DFM/DFA · fixture design · engineering drawings</td></tr>
+        <tr><th class="mono">SIMULATION</th><td>ANSYS Fluent (CFD) · ANSYS Mechanical (FEA) · MATLAB · Simulink</td></tr>
+        <tr><th class="mono">TEST &amp; DATA</th><td>Arduino DAQ · thermocouples &amp; accelerometers · Python data analysis · root cause analysis</td></tr>
+        <tr><th class="mono">FABRICATION</th><td>Manual mill &amp; lathe · waterjet · sheet metal · welding · 3D printing</td></tr>
+        <tr><th class="mono">SOFTWARE</th><td>Python · C++ · Git/GitHub · LaTeX</td></tr>
+      </table>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="section" id="contact" aria-labelledby="contact-title">
+      <h2 class="section-label" id="contact-title"><span class="sec-no">/</span> CONTACT</h2>
+      <div class="contact-grid">
+        <div class="contact-copy">
+          <p>
+            Recruiting for battery, thermal, or mechanical design roles — or want to tear
+            apart one of my designs? I answer fast.
+          </p>
+          <ul class="contact-links mono">
+            <li><a href="mailto:abhinavsingh1176@gmail.com">abhinavsingh1176@gmail.com</a></li>
+            <li><a href="https://linkedin.com/in/abhinav-bhanupratap-singh" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></li>
+            <li><a href="https://github.com/abhinavsingh1176" target="_blank" rel="noopener noreferrer">GitHub ↗</a></li>
+          </ul>
         </div>
-        
-        <div class="social-links">
-          <a href="mailto:abhinavsingh1176@gmail.com" class="social-link" aria-label="Send email to Abhinav Singh">
-            <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-            </svg>
-            <span>Gmail</span>
-          </a>
-          <a href="https://www.linkedin.com/in/abhinav-bhanupratap-singh/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Visit Abhinav Singh's LinkedIn profile">
-            <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-            </svg>
-            <span>LinkedIn</span>
-          </a>
-          <a href="https://www.instagram.com/_xbhinxv/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Visit Abhinav Singh's Instagram profile">
-            <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
-            <span>Instagram</span>
-          </a>
-        </div>
+        <form class="contact-form" action="https://formspree.io/f/mvgqawka" method="POST" onsubmit="handleFormSubmit(event)">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required autocomplete="name">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required autocomplete="email">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+          <button type="submit" class="btn btn-primary" id="submitButton">Send message</button>
+          <p class="form-status" id="formStatus" aria-live="polite"></p>
+        </form>
       </div>
     </section>
   </main>
 
-  <!-- Project Detail Modal -->
-  <div id="projectModal" class="project-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <div class="modal-overlay" onclick="closeProjectModal()"></div>
-    <div class="modal-content">
-      <button class="modal-close" onclick="closeProjectModal()" aria-label="Close modal">×</button>
-      <div class="modal-header">
-        <h2 id="modal-title"></h2>
-        <div class="modal-meta"></div>
-      </div>
-      <div class="modal-body">
-        <div class="project-gallery">
-          <div class="gallery-main">
-            <img id="gallery-main-image" src="" alt="" class="main-gallery-image">
-            <div class="gallery-controls">
-              <button class="gallery-nav prev" onclick="navigateGallery(-1)" aria-label="Previous image">‹</button>
-              <button class="gallery-nav next" onclick="navigateGallery(1)" aria-label="Next image">›</button>
-            </div>
-          </div>
-          <div class="gallery-thumbnails" id="gallery-thumbnails"></div>
-        </div>
-        <div class="project-description">
-          <p id="modal-description"></p>
-          <div id="modal-specs" class="project-specs-modal"></div>
-          <div id="modal-challenges" class="project-challenges-modal"></div>
-        </div>
-      </div>
+  <!-- ============ FOOTER : closing title block ============ -->
+  <footer class="footer">
+    <div class="title-block title-block-footer" role="presentation">
+      <div><span>DOC</span><strong>PORTFOLIO</strong></div>
+      <div><span>REV</span><strong>2.0</strong></div>
+      <div><span>LAST UPDATED</span><strong data-stamp>2026-06-10</strong></div>
+      <div><span>©</span><strong data-year>2026</strong></div>
     </div>
-  </div>
-
-  <!-- Back to Top Button -->
-  <button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'});" aria-label="Back to top">↑</button>
-
-  <!-- Footer -->
-  <footer>
-    &copy; 2025 Abhinav Singh. All rights reserved.
   </footer>
-
-  <!-- NoScript fallback -->
-  <noscript>
-    <div style="position: fixed; top: 0; left: 0; right: 0; background: var(--error); color: white; padding: 1rem; text-align: center; z-index: 10000;">
-      This site requires JavaScript to function properly. Please enable JavaScript in your browser settings.
-    </div>
-  </noscript>
 
   <script src="script.js"></script>
 </body>
