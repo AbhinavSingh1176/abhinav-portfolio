@@ -7,14 +7,18 @@
 
   <link rel="icon" href="logo-as.png" type="image/png" />
 
-  <meta name="description" content="Abhinav Singh — Purdue mechanical engineer building battery and thermal systems. Currently a Combustion Performance & Emissions co-op at Cummins.">
+  <meta name="description" content="Abhinav Singh — Purdue mechanical engineer working on battery and thermal systems. Co-op at Cummins. Case studies in vibration isolation, thermal simulation, and powertrain hardware.">
   <meta name="author" content="Abhinav Singh">
   <meta property="og:title" content="Abhinav Singh — Mechanical Engineer" />
-  <meta property="og:description" content="Purdue ME building battery and thermal systems. Co-op engineer at Cummins. Case studies in vibration isolation, thermal simulation, and powertrain hardware." />
+  <meta property="og:description" content="Purdue ME working on battery and thermal systems. Works well under pressure — also heat, vibration, and tight tolerances." />
   <meta property="og:type" content="website" />
 
-  <!-- Analytics -->
-  <script async defer data-domain="abhinavsingh.com" src="https://plausible.io/js/script.js"></script>
+  <!-- Privacy-friendly analytics by Plausible -->
+  <script async src="https://plausible.io/js/pa-jOArPUBn8GhXnTdNBM_c7.js"></script>
+  <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,16 +26,41 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+<!-- ================================================================
+  HOW TO EDIT THIS SITE
+
+  Easiest way: open /admin.html on the live site. It can add build-log
+  entries, upload images, and bump the REV — no GitHub needed (you
+  authenticate once with a repo-scoped token; see instructions there).
+
+  Manual edits, the three usual places:
+  1. BUILD LOG  — add one <li> at the TOP of the #log list.
+  2. WORK       — copy an <article class="case"> block and edit.
+                  Extra photos go in the <details class="more-views">
+                  block — delete that block if a project has only one
+                  image, the "+N MORE VIEWS" toggle disappears with it.
+  3. REV + DATE — the data-rev / data-stamp values in the hero and
+                  footer title blocks (admin.html does this for you).
+
+  Images: put files in images/projects/<project>/ and reference the
+  EXACT case (lowercase "images" — that's how git tracks the folder;
+  GitHub Pages is case-sensitive even though Windows isn't).
+  Any image that's missing or fails to load automatically becomes a
+  labeled placeholder — nothing ever looks broken.
+================================================================ -->
+  <div class="thermo" aria-hidden="true"></div>
   <a href="#work" class="skip-link">Skip to work</a>
 
   <!-- ============ NAV ============ -->
   <header class="nav" id="top">
-    <a class="nav-name" href="#top">A.SINGH</a>
+    <a class="nav-name" href="#top" id="navTop" title="Back to top" aria-label="Abhinav Singh — back to top">
+      <svg class="gear" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+    </a>
     <nav class="nav-links" aria-label="Main">
       <a href="#now">Now</a>
       <a href="#work">Work</a>
-      <a href="#log">Build log</a>
-      <a href="#experience">Experience</a>
+      <a href="#log">Log</a>
+      <a href="#about">About</a>
       <a href="#contact">Contact</a>
     </nav>
     <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
@@ -43,12 +72,14 @@
     <!-- ============ HERO : drawing sheet ============ -->
     <section class="sheet" aria-label="Introduction">
       <div class="sheet-frame">
-        <p class="eyebrow">MECHANICAL ENGINEER · PURDUE UNIVERSITY</p>
-        <h1>Abhinav Singh builds<br>battery &amp; thermal systems —<br><span class="redline">and tests them.</span></h1>
+        <p class="eyebrow">SUBJECT: A. SINGH · TESTS COMPLETE · FINDING:</p>
+        <h1>Works well under pressure.<span class="fn-mark" aria-hidden="true">*</span></h1>
+        <p class="hero-note mono">* ALSO HEAT, VIBRATION, AND TIGHT TOLERANCES.</p>
         <p class="hero-sub">
-          Combustion Performance &amp; Emissions co-op at Cummins (Thermal &amp; Fluid
-          Sciences). I take hardware from first-principles model to fabricated,
-          instrumented, validated — and document every step.
+          I'm a mechanical engineering student at Purdue, and my favorite part
+          of the job is the middle: build the model, build the hardware, then
+          find out which one was lying. Data that agrees with prediction makes
+          my day. Data that agrees too well makes me rerun the test.
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#work">See the work</a>
@@ -56,87 +87,108 @@
           <a class="btn" href="mailto:abhinavsingh1176@gmail.com">Email</a>
         </div>
 
-        <!-- Signature: drawing title block. Bump REV + DATE when you update the site. -->
+        <!-- Signature: drawing title block. data-rev / data-stamp are updated by admin.html. -->
         <div class="title-block" role="presentation">
           <div><span>DRAWN BY</span><strong>A. SINGH</strong></div>
           <div><span>LOCATION</span><strong>SEYMOUR, IN</strong></div>
-          <div><span>REV</span><strong>2.0</strong></div>
+          <div><span>SCALE</span><strong>NTS</strong></div>
+          <div><span>REV</span><strong data-rev>3.4</strong></div>
           <div><span>DATE</span><strong data-stamp>2026-06-10</strong></div>
-          <div><span>SHEET</span><strong>1 OF 1</strong></div>
         </div>
       </div>
     </section>
 
     <!-- ============ NOW ============ -->
     <section class="section" id="now" aria-labelledby="now-title">
-      <h2 class="section-label" id="now-title"><span class="sec-no">/</span> NOW</h2>
+      <h2 class="section-label" id="now-title"><span class="sec-no">01</span> NOW</h2>
+      <p class="section-note">What's on the bench right now. Red dots mean active. I update this when reality changes.</p>
       <ul class="now-list">
-        <li><span class="dot dot-live" aria-hidden="true"></span><span class="mono">CO-OP</span><span class="now-text">Owning an EPA Tier 4 emissions audit of a 30L industrial diesel platform at Cummins — install review through compliance reporting.</span></li>
-        <li><span class="dot dot-live" aria-hidden="true"></span><span class="mono">BUILDING</span><span class="now-text">A passive vibration isolation module for a 2.5&nbsp;kg robotic sensor payload — MATLAB model → CAD → FEA → fabrication → accelerometer validation.</span></li>
-        <li><span class="dot" aria-hidden="true"></span><span class="mono">NEXT</span><span class="now-text">4P4S battery module prototype with embedded thermal instrumentation, informed by a production EV module teardown.</span></li>
+        <li><span class="dot dot-live" aria-hidden="true"></span><span class="mono">CO-OP</span><span class="now-text">Owning an EPA Tier 4 emissions audit of a 30L industrial diesel platform at Cummins, from install review through compliance reporting.</span></li>
+        <li><span class="dot dot-live" aria-hidden="true"></span><span class="mono">BUILDING</span><span class="now-text">A passive vibration isolation module for a 2.5&nbsp;kg robotic sensor payload: MATLAB model → CAD → FEA → fabrication → accelerometer validation.</span></li>
+        <li><span class="dot" aria-hidden="true"></span><span class="mono">NEXT</span><span class="now-text">A 4P4S battery module prototype with embedded thermal instrumentation, informed by a production EV module teardown.</span></li>
       </ul>
     </section>
 
-    <!-- ============ WORK : case studies ============ -->
+    <!-- ============ WORK : case studies ============
+         To add a project: copy an <article class="case"> block, bump the
+         balloon number, swap the image (or leave a placeholder div).
+         Extra photos: keep/edit the <details class="more-views"> block;
+         delete it entirely if there's only one image. -->
     <section class="section" id="work" aria-labelledby="work-title">
-      <h2 class="section-label" id="work-title"><span class="sec-no">/</span> WORK</h2>
+      <h2 class="section-label" id="work-title"><span class="sec-no">02</span> WORK</h2>
+      <p class="section-note">Case studies, newest first. The spec tables open if you want the full details.</p>
 
-      <!-- VIM — in progress. Swap in real images + measured numbers as phases complete. -->
       <article class="case">
         <div class="case-media">
-          <!-- TODO: replace with VIM hero image when CAD exists: images/projects/vim/main.jpg -->
+          <!-- Replace with VIM hero image when CAD exists: images/projects/vim/main.jpg -->
           <div class="media-placeholder mono">VIM-001<br>CAD render — July 2026</div>
         </div>
         <div class="case-body">
           <div class="case-meta mono">
-            <span>PROJ-005</span>
+            <span class="balloon" aria-hidden="true">06</span>
             <span class="status status-live"><span class="dot dot-live"></span>IN PROGRESS</span>
             <span>JUN–SEP 2026</span>
           </div>
           <h3>Vibration Isolation Module</h3>
           <p>
-            Passive parallel-link isolation stage for a 2.5&nbsp;kg camera/LiDAR payload on a
-            delivery robot. Designed from a validated SDOF model (f<sub>n</sub> = 3.5&nbsp;Hz,
-            ζ ≈ 0.12), targeting ≥40% RMS acceleration reduction over the 5–30&nbsp;Hz band,
-            verified with a dual-accelerometer Arduino test rig.
+            A passive isolation stage for the 2.5&nbsp;kg camera and LiDAR payload on a
+            delivery robot. I started from a MATLAB single-degree-of-freedom model
+            (f<sub>n</sub> = 3.5&nbsp;Hz, ζ ≈ 0.12) with one target: cut RMS acceleration
+            by 40% or more across the 5–30&nbsp;Hz band. The structure is a parallel
+            four-bar linkage in waterjet-cut 6061 aluminum with ±15&nbsp;mm of stroke.
+            Once it's built, two accelerometers and an Arduino get the final word on
+            whether the model was right.
           </p>
           <details>
             <summary>Specifications &amp; approach</summary>
             <table class="spec-table">
-              <tr><th class="mono">MODEL</th><td>MATLAB SDOF — transmissibility, terrain PSD response, bump response</td></tr>
+              <tr><th class="mono">MODEL</th><td>MATLAB SDOF: transmissibility, terrain PSD response, bump response</td></tr>
               <tr><th class="mono">STRUCTURE</th><td>Parallel 4-bar linkage, waterjet 6061 Al, ±15 mm stroke, k = 1200 N/m</td></tr>
               <tr><th class="mono">ANALYSIS</th><td>ANSYS static (3g, SF ≥ 2) + modal (structural modes &gt; 50 Hz)</td></tr>
               <tr><th class="mono">VALIDATION</th><td>2× MPU6050 + Arduino DAQ; log-decrement &amp; broadband PSD comparison</td></tr>
+              <tr><th class="mono">PROCESS</th><td>Phase gated: requirements, model, CAD, FEA, fabrication, test. Each phase is reviewed before the next starts.</td></tr>
+              <tr><th class="mono">STATUS</th><td>Model phase. ON SCHEDULE ±2 WEEKS.</td></tr>
             </table>
           </details>
-          <a class="case-link mono" href="https://github.com/abhinavsingh1176" target="_blank" rel="noopener noreferrer">BUILD REPO →</a>
+          <a class="case-link mono" href="https://github.com/AbhinavSingh1176" target="_blank" rel="noopener noreferrer">BUILD REPO →</a>
         </div>
       </article>
 
       <article class="case">
         <div class="case-media">
-          <img src="images/projects/thermal-research/thermal-main.jpg" alt="Temperature contours from micro pin-fin heatsink simulation" loading="lazy">
+          <img src="images/projects/thermal-research/thermal-main.jpg" alt="Temperature contours from micro pin-fin heatsink simulation" data-fallback="THERMAL-001 — simulation contours" loading="lazy">
+          <details class="more-views">
+            <summary class="mono">+2 MORE VIEWS</summary>
+            <div class="views-grid">
+              <img src="images/projects/thermal-research/heat-transfer-plots.jpg" alt="Heat transfer validation plots" data-fallback="HT PLOTS" loading="lazy">
+              <img src="images/projects/thermal-research/pressure-drop-results.jpg" alt="Pressure drop results across pin-fin array" data-fallback="ΔP RESULTS" loading="lazy">
+            </div>
+          </details>
         </div>
         <div class="case-body">
           <div class="case-meta mono">
-            <span>PROJ-004</span>
+            <span class="balloon" aria-hidden="true">05</span>
             <span class="status">COMPLETE</span>
             <span>APR 2025 – 2026</span>
           </div>
           <h3>Micro Pin-Fin Heatsink Simulation — CTRC</h3>
           <p>
-            End-to-end thermal simulation pipelines in ANSYS Fluent and Mechanical at Purdue's
-            Cooling Technologies Research Center: geometry, meshing, solver setup, and
-            post-processing for high-heat-flux pin-fin arrays. Cut simulation turnaround ~35%
-            by validating reduced-order 2D and symmetry models against full 3D baselines.
+            I ran thermal simulation pipelines end to end at Purdue's Cooling Technologies
+            Research Center: geometry, meshing, solver setup, and post-processing for
+            micro pin-fin heatsink arrays in ANSYS Fluent and Mechanical. My main
+            contribution was proving that reduced 2D and symmetry models could stand in
+            for full 3D baselines without losing accuracy, which cut simulation turnaround
+            by about 35%. I closed out by documenting the methods so the lab could keep
+            using them after I left.
           </p>
           <details>
             <summary>Specifications &amp; approach</summary>
             <table class="spec-table">
               <tr><th class="mono">DOMAIN</th><td>Conjugate heat transfer + pressure drop, micro pin-fin arrays</td></tr>
               <tr><th class="mono">TOOLS</th><td>ANSYS Fluent (CFD), ANSYS Mechanical (FEA)</td></tr>
-              <tr><th class="mono">METHOD</th><td>Mesh-resolution studies; 2D vs 3D and symmetry-layout trade studies</td></tr>
+              <tr><th class="mono">METHOD</th><td>Mesh-resolution studies; 2D vs 3D and symmetry-layout trade studies validated against full 3D baselines</td></tr>
               <tr><th class="mono">OUTCOME</th><td>~35% lower computational cost at preserved accuracy</td></tr>
+              <tr><th class="mono">DOCS</th><td>Methods documented for reuse by the lab's next researchers</td></tr>
             </table>
           </details>
         </div>
@@ -144,27 +196,40 @@
 
       <article class="case">
         <div class="case-media">
-          <img src="images/projects/asme-racing/main.jpg" alt="CVT mount and exhaust system on the ASME Racing kart" loading="lazy">
+          <img src="images/projects/asme-racing/main.jpg" alt="CVT mount and exhaust system on the ASME Racing kart" data-fallback="PWT-001 — kart powertrain" loading="lazy">
+          <details class="more-views">
+            <summary class="mono">+3 MORE VIEWS</summary>
+            <div class="views-grid">
+              <img src="images/projects/asme-racing/cvt-mount-1.jpg" alt="CVT mount CAD model" data-fallback="CVT MOUNT CAD" loading="lazy">
+              <img src="images/projects/asme-racing/cvt-mount-2.jpg" alt="CVT mount installed on the kart" data-fallback="CVT MOUNT INSTALLED" loading="lazy">
+              <img src="images/projects/asme-racing/exhaust-system-1.jpg" alt="Adjustable exhaust mount and heat shroud" data-fallback="EXHAUST + SHROUD" loading="lazy">
+            </div>
+          </details>
         </div>
         <div class="case-body">
           <div class="case-meta mono">
-            <span>PROJ-003</span>
+            <span class="balloon" aria-hidden="true">04</span>
             <span class="status">COMPLETE</span>
             <span>JAN 2025 – MAY 2026</span>
           </div>
-          <h3>Powertrain Hardware — ASME Racing</h3>
+          <h3>Powertrain Hardware — ASME Racing, Purdue University</h3>
           <p>
-            Designed Purdue's first in-house CVT mount in Autodesk Fusion, coordinating with the
-            chassis and engine teams on packaging, weight, and cost. Fabricated sheet-metal
-            fixtures, drivetrain heat shrouds, and an adjustable exhaust mount; closed heat-related
-            failure modes through root cause analysis.
+            Our kart's CVT had a rough 2025 season. Chassis flex and belt wear got bad
+            enough that the team was swapping belts by hand at pit stops, giving away
+            time and track position every race. I owned the fix: sketched concepts,
+            designed Purdue's first in-house CVT mount in Autodesk Fusion, prototyped
+            with 3D printing, and proved it on track with the team. A fabricated heat
+            shroud and an adjustable exhaust mount rounded out the package, and the
+            belt problem was finally contained.
           </p>
           <details>
             <summary>Specifications &amp; approach</summary>
             <table class="spec-table">
-              <tr><th class="mono">CAD</th><td>Autodesk Fusion — CVT mount, exhaust mount, shrouds</td></tr>
-              <tr><th class="mono">FAB</th><td>Manual mill, sheet metal, bandsaw; in-house at Purdue shops</td></tr>
-              <tr><th class="mono">TEAMS</th><td>Cross-functional with chassis and engine subteams</td></tr>
+              <tr><th class="mono">PROBLEM</th><td>Chassis flex + severe CVT belt wear; manual belt replacement at every pit stop</td></tr>
+              <tr><th class="mono">CAD</th><td>Autodesk Fusion: CVT mount, adjustable exhaust mount, heat shroud</td></tr>
+              <tr><th class="mono">FAB</th><td>3D-printed prototypes; manual mill, sheet metal, bandsaw at the Purdue shops</td></tr>
+              <tr><th class="mono">VERIFICATION</th><td>On-track testing with the team across the season</td></tr>
+              <tr><th class="mono">TEAMS</th><td>Packaging, weight, and cost trades negotiated with the chassis and engine subteams</td></tr>
             </table>
           </details>
         </div>
@@ -172,117 +237,252 @@
 
       <article class="case">
         <div class="case-media">
-          <img src="images/projects/wheel-exhaust/cad-main.jpg" alt="Wheel rim and exhaust manifold CAD models in Siemens NX" loading="lazy">
+          <img src="images/projects/wheel-exhaust/cad-main.jpg" alt="Wheel rim and exhaust manifold CAD models in Siemens NX" data-fallback="CAD-001 — NX models" loading="lazy">
+          <details class="more-views">
+            <summary class="mono">+3 MORE VIEWS</summary>
+            <div class="views-grid">
+              <img src="images/projects/wheel-exhaust/wheel-rim-cad.jpg" alt="17-inch steel wheel rim CAD model" data-fallback="WHEEL RIM CAD" loading="lazy">
+              <img src="images/projects/wheel-exhaust/exhaust-manifold-1.jpg" alt="Exhaust manifold CAD, view 1" data-fallback="MANIFOLD V1" loading="lazy">
+              <img src="images/projects/wheel-exhaust/exhaust-manifold-2.jpg" alt="Exhaust manifold CAD, view 2" data-fallback="MANIFOLD V2" loading="lazy">
+            </div>
+          </details>
         </div>
         <div class="case-body">
           <div class="case-meta mono">
-            <span>PROJ-002</span>
+            <span class="balloon" aria-hidden="true">03</span>
             <span class="status">COMPLETE</span>
             <span>JAN – MAY 2025</span>
           </div>
           <h3>Wheel Rim &amp; Exhaust Manifold — GD&amp;T Study</h3>
           <p>
-            A 17-inch steel wheel rim to OEM specifications and a 4-cylinder exhaust manifold,
-            modeled in Siemens NX with manufacturing-ready drawings and full GD&amp;T — datum
-            schemes, position tolerances, and drawing standards applied end to end.
+            Two components with real-world basis: a 17-inch steel wheel rim built to
+            Toyota Prius V (AW60) specifications, and a 4-cylinder exhaust manifold
+            designed for a BB6 header on a 1955–57 Chevy. Both were modeled in Siemens
+            NX from real reference data. The deliverable was the drawing package: datum
+            schemes, position tolerances, and manufacturing-ready drawings held to
+            ASME Y14.5. Slow, careful work, and I genuinely enjoyed it.
           </p>
+          <details>
+            <summary>Specifications &amp; approach</summary>
+            <table class="spec-table">
+              <tr><th class="mono">BASIS</th><td>Wheel: Toyota Prius V, AW60 spec. Manifold: BB6 header, 1955–57 Chevy</td></tr>
+              <tr><th class="mono">TOOLS</th><td>Siemens NX, modeling and drafting</td></tr>
+              <tr><th class="mono">DELIVERABLE</th><td>Manufacturing-ready drawings: datum schemes, position tolerances, full title blocks</td></tr>
+              <tr><th class="mono">STANDARD</th><td>GD&amp;T per ASME Y14.5 (see footer, note 2)</td></tr>
+            </table>
+          </details>
         </div>
       </article>
 
       <article class="case">
         <div class="case-media">
-          <!-- TODO: add an EPICS device photo if you have one: images/projects/epics/main.jpg -->
+          <!-- Add a manual page or kart photo if you have one: images/projects/epics-karts/main.jpg -->
+          <div class="media-placeholder mono">KART-001<br>assembly manual</div>
+        </div>
+        <div class="case-body">
+          <div class="case-meta mono">
+            <span class="balloon" aria-hidden="true">02</span>
+            <span class="status">COMPLETE</span>
+            <span>JAN – MAY 2025</span>
+          </div>
+          <h3>EV Kart Assembly Manuals — EPICS, Purdue University</h3>
+          <p>
+            As Project Archivist on the Kart Manual team, I wrote the standardized
+            assembly manuals for MSTEM3 electric karts headed to high school racing
+            teams. The job was technical communication at production scale: instructional
+            CAD visuals, build steps a first-timer could follow, and revisions driven by
+            feedback from TopKart USA and Purdue Motorsports. The karts get built by
+            teams we never meet; the manual is the engineer in the room.
+          </p>
+          <details>
+            <summary>Specifications &amp; approach</summary>
+            <table class="spec-table">
+              <tr><th class="mono">ROLE</th><td>Project Archivist, Kart Manual Team</td></tr>
+              <tr><th class="mono">DELIVERABLE</th><td>Standardized assembly manuals with instructional CAD templates and visuals</td></tr>
+              <tr><th class="mono">STAKEHOLDERS</th><td>TopKart USA, Purdue Motorsports, MSTEM3 high-school racing teams</td></tr>
+            </table>
+          </details>
+        </div>
+      </article>
+
+      <article class="case">
+        <div class="case-media">
+          <!-- Add an EPICS device photo if you have one: images/projects/epics/main.jpg -->
           <div class="media-placeholder mono">PEEPS<br>air purification device</div>
         </div>
         <div class="case-body">
           <div class="case-meta mono">
-            <span>PROJ-001</span>
+            <span class="balloon" aria-hidden="true">01</span>
             <span class="status">COMPLETE</span>
-            <span>AUG 2024 – MAY 2025</span>
+            <span>AUG – DEC 2024</span>
           </div>
-          <h3>Air Purifier Controls &amp; EV Kart Manuals — EPICS</h3>
+          <h3>Air Purifier Controls — EPICS, Purdue University</h3>
           <p>
-            Built the Arduino control system for a portable air purification device for a local
-            middle school — halved the breadboard footprint and refined the PID loop — then
-            authored standardized EV kart assembly manuals with instructional CAD visuals,
-            coordinating with TopKart USA and Purdue Motorsports.
+            PEEPS is a portable air purification device commissioned by a local middle
+            school, which set two hard constraints: it had to read particulate matter and
+            VOC levels reliably, and it had to stay small enough for a classroom. The
+            original electronics did neither well. I redesigned the circuitry, cut the
+            breadboard footprint by 50%, and rebuilt the PID logic around the newer
+            Sensirion SEN45 sensor, which reduced reading errors and gave the fan RPM
+            control real data to act on. Validated at Purdue's Tiny House Lab, with
+            feedback surveys from the students and staff who would live with it.
           </p>
+          <details>
+            <summary>Specifications &amp; approach</summary>
+            <table class="spec-table">
+              <tr><th class="mono">PROBLEM</th><td>Unreliable PM and VOC readings; strict classroom size limit</td></tr>
+              <tr><th class="mono">CONTROLS</th><td>Arduino + PID rebuilt for the Sensirion SEN45; breadboard footprint cut by 50%</td></tr>
+              <tr><th class="mono">OUTCOME</th><td>Fewer reading errors; fan RPM control driven by trustworthy sensor data</td></tr>
+              <tr><th class="mono">VALIDATION</th><td>Performance testing at Purdue's Tiny House Lab; user surveys with students and staff</td></tr>
+            </table>
+          </details>
         </div>
       </article>
     </section>
 
     <!-- ============ BUILD LOG ============ -->
     <section class="section" id="log" aria-labelledby="log-title">
-      <h2 class="section-label" id="log-title"><span class="sec-no">/</span> BUILD LOG</h2>
-      <p class="section-note">A running record of what shipped. Newest first. <!-- Add a <li> at the TOP each week. Keep entries one line, factual, dated. --></p>
+      <h2 class="section-label" id="log-title"><span class="sec-no">03</span> BUILD LOG</h2>
+      <p class="section-note">A running record of what shipped, newest first.</p>
       <ul class="log-list mono">
-        <li><time>2026-06-10</time><span>VIM repo initialized — requirements frozen, spring and DAQ hardware ordered.</span></li>
+        <li><time>2026-06-10</time><span>Portfolio rev 3.4 shipped: gear masthead, project war stories, EPICS split into two case studies, about rewritten.</span></li>
+        <li><time>2026-06-10</time><span>VIM repo initialized. Requirements frozen, spring and DAQ hardware ordered.</span></li>
         <li><time>2026-06-08</time><span>Assigned engineer for EPA Tier 4 audit program at Cummins; install review in progress.</span></li>
         <li><time>2026-06-01</time><span>Started Combustion Performance &amp; Emissions co-op, Cummins Seymour Engine Plant.</span></li>
         <li><time>2026-05</time><span>Wrapped Spring semester; CTRC micro pin-fin simulation work concluded.</span></li>
       </ul>
     </section>
 
+    <!-- ============ ABOUT ============ -->
+    <section class="section" id="about" aria-labelledby="about-title">
+      <h2 class="section-label" id="about-title"><span class="sec-no">04</span> ABOUT</h2>
+      <div class="about-grid">
+        <div class="about-copy">
+          <p>
+            I've never been the loudest person in the room. I'm the one who
+            stays with the problems other people walk past: the half-finished
+            idea, the broken part, the test that keeps failing for no obvious
+            reason. Home was the UAE, where summers hit 45°C and air
+            conditioning is a load-bearing appliance, so I came by my respect
+            for thermal systems honestly. Purdue gave the rest of it a name:
+            mechanical engineering.
+          </p>
+          <p>
+            What I've learned about myself since: I like it when the
+            simulation lies. Late nights fixing CAD that looked right but
+            wasn't, meshes that refused to converge, hardware that disagreed
+            with a clean model. That gap between prediction and reality is
+            where the actual engineering happens, and it's where I'm most
+            comfortable. I've chased it through a research lab, a race team,
+            and now a co-op at Cummins. The road, if I get my way, ends at
+            batteries and thermal systems for electric vehicles.
+          </p>
+          <p>
+            As a teammate, I'm the documentation guy. If I built it, there's a
+            write-up; if I broke it, there's an honest one. I'd rather sit
+            with uncertainty and force it to make sense than hand it to
+            someone else. Off the clock you'll find me gaming, watching F1 at
+            hours my sleep schedule regrets, playing chess a bit too
+            seriously, or at the gym. And yes, I'm still learning to drive.
+            Everyone has a validation phase.
+          </p>
+        </div>
+        <figure class="about-photo">
+          <img src="profile.jpg" alt="Abhinav Singh" data-fallback="FIG. A — PHOTO PENDING" loading="lazy">
+          <figcaption class="mono">FIG. A — THE ENGINEER, AS BUILT</figcaption>
+        </figure>
+      </div>
+
+      <p class="table-caption mono">TABLE 1 — GENERAL SPECIFICATIONS</p>
+      <table class="spec-table about-spec">
+        <tr><th class="mono">SUBJECT</th><td>Abhinav Singh</td></tr>
+        <tr><th class="mono">TYPE</th><td>Mechanical engineer, student grade. Hardening in progress.</td></tr>
+        <tr><th class="mono">AGE</th><td data-age>19 yr (+334 d / −0 d)</td></tr>
+        <tr><th class="mono">EDUCATION</th><td>B.S. Mechanical Engineering, Purdue University — West Lafayette, IN. Class of 2027.</td></tr>
+        <tr><th class="mono">STATION</th><td>Cummins Inc., Seymour, Indiana — co-op through Dec 2026</td></tr>
+        <tr><th class="mono">RATED AMBIENT</th><td>45°C, field tested (UAE)</td></tr>
+      </table>
+    </section>
+
     <!-- ============ EXPERIENCE ============ -->
     <section class="section" id="experience" aria-labelledby="exp-title">
-      <h2 class="section-label" id="exp-title"><span class="sec-no">/</span> EXPERIENCE</h2>
+      <h2 class="section-label" id="exp-title"><span class="sec-no">05</span> EXPERIENCE</h2>
+      <p class="section-note">The short version. The resume PDF carries the full bullet points.</p>
       <ul class="exp-list">
         <li>
           <div>
             <h3>Combustion Performance &amp; Emissions Engineer Co-op</h3>
             <p>Cummins Inc. — Power Systems, Thermal &amp; Fluid Sciences</p>
           </div>
-          <span class="mono">JUN – DEC 2026</span>
+          <div class="exp-right mono">
+            <span>JUN – DEC 2026</span>
+            <span class="exp-loc">SEYMOUR, IN</span>
+          </div>
         </li>
         <li>
           <div>
             <h3>Heat Transfer Undergraduate Researcher</h3>
-            <p>Cooling Technologies Research Center, Purdue University</p>
+            <p>Cooling Technologies Research Center — Purdue University</p>
           </div>
-          <span class="mono">APR 2025 – 2026</span>
+          <div class="exp-right mono">
+            <span>APR 2025 – 2026</span>
+            <span class="exp-loc">WEST LAFAYETTE, IN</span>
+          </div>
         </li>
         <li>
           <div>
             <h3>Board of Directors — Professional Development</h3>
-            <p>Purdue Alumni Student Experience</p>
+            <p>Purdue Alumni Student Experience — Purdue University</p>
           </div>
-          <span class="mono">SEP 2025 – PRESENT</span>
+          <div class="exp-right mono">
+            <span>SEP 2025 – PRESENT</span>
+            <span class="exp-loc">WEST LAFAYETTE, IN</span>
+          </div>
         </li>
         <li>
           <div>
             <h3>Mechanical Engineering Research Intern</h3>
-            <p>Maharaja Sayajirao University, Gujarat, India</p>
+            <p>Dept. of Mechanical Engineering — Maharaja Sayajirao University</p>
           </div>
-          <span class="mono">JUL – AUG 2023</span>
+          <div class="exp-right mono">
+            <span>JUL – AUG 2023</span>
+            <span class="exp-loc">GUJARAT, INDIA</span>
+          </div>
         </li>
       </ul>
     </section>
 
     <!-- ============ CAPABILITIES : datasheet table ============ -->
     <section class="section" id="capabilities" aria-labelledby="cap-title">
-      <h2 class="section-label" id="cap-title"><span class="sec-no">/</span> CAPABILITIES</h2>
+      <h2 class="section-label" id="cap-title"><span class="sec-no">06</span> CAPABILITIES</h2>
+      <p class="section-note">Self-reported. Ask me about any of them.</p>
       <table class="cap-table">
-        <tr><th class="mono">CAD &amp; DESIGN</th><td>SolidWorks · Siemens NX · Autodesk Fusion · GD&amp;T · DFM/DFA · fixture design · engineering drawings</td></tr>
+        <tr><th class="mono">CAD &amp; DESIGN</th><td>SolidWorks · Siemens NX · Autodesk Fusion · Onshape · AutoCAD · GD&amp;T (ASME Y14.5) · DFM/DFA · fixture design · engineering drawings</td></tr>
         <tr><th class="mono">SIMULATION</th><td>ANSYS Fluent (CFD) · ANSYS Mechanical (FEA) · MATLAB · Simulink</td></tr>
         <tr><th class="mono">TEST &amp; DATA</th><td>Arduino DAQ · thermocouples &amp; accelerometers · Python data analysis · root cause analysis</td></tr>
+        <tr><th class="mono">INDUSTRY TOOLS</th><td>AVL Concerto · engine calibration tooling · GT-Power · Minitab — in daily use or active training at Cummins</td></tr>
         <tr><th class="mono">FABRICATION</th><td>Manual mill &amp; lathe · waterjet · sheet metal · welding · 3D printing</td></tr>
-        <tr><th class="mono">SOFTWARE</th><td>Python · C++ · Git/GitHub · LaTeX</td></tr>
+        <tr><th class="mono">SOFTWARE</th><td>Python · C++ · Git/GitHub · LaTeX · Excel</td></tr>
+        <tr><th class="mono">PROFESSIONAL</th><td>Technical writing · design reviews · stakeholder communication · requirements definition · project documentation · cross-functional teamwork</td></tr>
+        <tr><th class="mono">LANGUAGES</th><td>English · Hindi · German (A2) · MATLAB error messages</td></tr>
       </table>
     </section>
 
     <!-- ============ CONTACT ============ -->
     <section class="section" id="contact" aria-labelledby="contact-title">
-      <h2 class="section-label" id="contact-title"><span class="sec-no">/</span> CONTACT</h2>
+      <h2 class="section-label" id="contact-title"><span class="sec-no">07</span> CONTACT</h2>
       <div class="contact-grid">
         <div class="contact-copy">
           <p>
-            Recruiting for battery, thermal, or mechanical design roles — or want to tear
-            apart one of my designs? I answer fast.
+            Recruiting for battery, thermal, or mechanical design roles? Or
+            maybe you found a flaw in one of my designs and need to tell me
+            about it. Either way, reach out.
           </p>
+          <p class="mono contact-typ">RESPONSE TIME: &lt;24 HR (TYP)</p>
           <ul class="contact-links mono">
             <li><a href="mailto:abhinavsingh1176@gmail.com">abhinavsingh1176@gmail.com</a></li>
             <li><a href="https://linkedin.com/in/abhinav-bhanupratap-singh" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></li>
-            <li><a href="https://github.com/abhinavsingh1176" target="_blank" rel="noopener noreferrer">GitHub ↗</a></li>
+            <li><a href="https://github.com/AbhinavSingh1176" target="_blank" rel="noopener noreferrer">GitHub ↗</a></li>
           </ul>
         </div>
         <form class="contact-form" action="https://formspree.io/f/mvgqawka" method="POST" onsubmit="handleFormSubmit(event)">
@@ -299,15 +499,31 @@
     </section>
   </main>
 
-  <!-- ============ FOOTER : closing title block ============ -->
+  <!-- ============ FOOTER : general notes + closing title block ============ -->
   <footer class="footer">
+    <div class="general-notes mono" role="presentation">
+      <p>GENERAL NOTES</p>
+      <ol>
+        <li>UNLESS OTHERWISE SPECIFIED: ALL OPINIONS MY OWN, ALL DIMENSIONS IN MM.</li>
+        <li>INTERPRET PER ASME Y14.5. HUMOR PER OPERATOR DISCRETION.</li>
+        <li>HAND-BUILT — HTML, CSS, AND ONE SMALL JS FILE. NO FRAMEWORKS.</li>
+        <li>SPOTTED AN ERROR? GOOD EYE. EMAIL ME.</li>
+      </ol>
+    </div>
     <div class="title-block title-block-footer" role="presentation">
       <div><span>DOC</span><strong>PORTFOLIO</strong></div>
-      <div><span>REV</span><strong>2.0</strong></div>
+      <div><span>REV</span><strong data-rev>3.4</strong></div>
       <div><span>LAST UPDATED</span><strong data-stamp>2026-06-10</strong></div>
       <div><span>©</span><strong data-year>2026</strong></div>
     </div>
   </footer>
+
+  <!-- Shared lightbox for project images -->
+  <dialog class="lightbox" id="lightbox">
+    <button class="lightbox-close mono" aria-label="Close">CLOSE ×</button>
+    <img src="" alt="">
+    <figcaption class="mono"></figcaption>
+  </dialog>
 
   <script src="script.js"></script>
 </body>

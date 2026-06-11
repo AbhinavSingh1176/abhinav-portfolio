@@ -1,0 +1,15 @@
+# local tooling
+.claude/
+
+# private planning documents
+Personal Website Idea.pdf
+Personal Website Idea.pptx
+
+# local duplicates of images/projects/ (kept on disk, not in repo)
+Images/asme-racing/
+Images/cad/
+Images/thermal-research/
+
+# OS junk
+Thumbs.db
+desktop.ini

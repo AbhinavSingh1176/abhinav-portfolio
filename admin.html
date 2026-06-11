@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>±SINGH — Maintenance Panel</title>
+<link rel="icon" href="logo-as.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Self-contained on purpose — this page must work even if the main
+     stylesheet changes. Same drawing-sheet palette. */
+  :root {
+    --paper:#fcfcfa; --paper-2:#f4f4f0; --ink:#17191e; --ink-soft:#4b505c;
+    --muted:#7a7f8c; --line:#dddedb; --line-strong:#b9bab6; --red:#c8362e;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper:#121316; --paper-2:#1a1c20; --ink:#ececea; --ink-soft:#b7bac2;
+      --muted:#82868f; --line:#2a2c31; --line-strong:#43464d; --red:#e85a50;
+    }
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:"IBM Plex Sans",sans-serif; background:var(--paper); color:var(--ink);
+    line-height:1.6; font-size:16px; padding:clamp(1rem,4vw,3rem); max-width:760px; margin:0 auto;
+  }
+  h1 { font-family:"Archivo",sans-serif; font-weight:800; font-size:1.6rem; letter-spacing:-0.01em; }
+  .mono { font-family:"IBM Plex Mono",monospace; font-size:0.75rem; letter-spacing:0.05em; }
+  .eyebrow { color:var(--muted); margin-bottom:0.4rem; }
+  .sub { color:var(--ink-soft); margin:0.6rem 0 2rem; max-width:55ch; }
+  .panel {
+    border:1.5px solid var(--ink); padding:1.3rem; margin-bottom:1.4rem; position:relative;
+  }
+  .panel h2 {
+    font-family:"IBM Plex Mono",monospace; font-size:0.78rem; font-weight:500;
+    letter-spacing:0.12em; color:var(--ink); margin-bottom:0.9rem;
+  }
+  .panel h2 .no { color:var(--red); margin-right:0.4rem; }
+  label { display:block; font-family:"IBM Plex Mono",monospace; font-size:0.68rem;
+    letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin:0.8rem 0 0.25rem; }
+  input, textarea, select {
+    width:100%; font-family:inherit; font-size:0.95rem; color:var(--ink);
+    background:var(--paper); border:1px solid var(--line-strong); border-radius:2px;
+    padding:0.55rem 0.7rem;
+  }
+  input:focus, textarea:focus, select:focus { outline:none; border-color:var(--red); }
+  button {
+    font-family:"IBM Plex Mono",monospace; font-size:0.78rem; letter-spacing:0.05em;
+    background:var(--ink); color:var(--paper); border:1px solid var(--ink); border-radius:2px;
+    padding:0.6rem 1.2rem; cursor:pointer; margin-top:1rem;
+  }
+  button:hover { background:var(--red); border-color:var(--red); color:#fff; }
+  button.ghost { background:transparent; color:var(--ink-soft); border-color:var(--line-strong); }
+  button.ghost:hover { color:var(--red); border-color:var(--red); background:transparent; }
+  .status { font-family:"IBM Plex Mono",monospace; font-size:0.72rem; letter-spacing:0.04em;
+    color:var(--muted); margin-top:0.7rem; min-height:1.1em; word-break:break-word; }
+  .status.ok { color:var(--red); }
+  .help { color:var(--muted); font-size:0.85rem; max-width:55ch; }
+  .help a { color:var(--red); }
+  details.howto { margin-top:0.8rem; }
+  details.howto summary { cursor:pointer; font-family:"IBM Plex Mono",monospace;
+    font-size:0.72rem; letter-spacing:0.06em; color:var(--ink-soft); }
+  details.howto ol { margin:0.6rem 0 0 1.2rem; font-size:0.85rem; color:var(--ink-soft); }
+  .footer-note { color:var(--muted); margin-top:2rem; }
+  .row { display:flex; gap:0.6rem; flex-wrap:wrap; }
+  .row button { flex:none; }
+</style>
+</head>
+<body>
+  <p class="eyebrow mono">DOC: ADMIN · ACCESS: OPERATOR ONLY (THAT'S YOU)</p>
+  <h1>Maintenance Panel</h1>
+  <p class="sub">Edits the live site by committing straight to GitHub — Pages redeploys
+  automatically in about a minute. This page is harmless without your token, so it can
+  sit in public. Like a control cabinet: visible to all, keyed to one.</p>
+
+  <!-- ================= TOKEN ================= -->
+  <section class="panel">
+    <h2><span class="no">00</span> ACCESS TOKEN</h2>
+    <p class="help">Stored only in this browser's local storage, never in the repo.</p>
+    <details class="howto">
+      <summary>HOW TO CREATE THE TOKEN (ONE-TIME, ~2 MIN)</summary>
+      <ol>
+        <li>GitHub → Settings → Developer settings → <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Fine-grained tokens → Generate new</a></li>
+        <li>Name: <span class="mono">portfolio-admin</span> · Expiration: 90 days (you'll regenerate, it's fine)</li>
+        <li>Repository access: <strong>Only select repositories</strong> → <span class="mono">abhinav-portfolio</span></li>
+        <li>Permissions → Repository permissions → <strong>Contents: Read and write</strong>. Nothing else.</li>
+        <li>Generate, copy, paste below, save. Done.</li>
+      </ol>
+    </details>
+    <label for="token">Token</label>
+    <input type="password" id="token" placeholder="github_pat_…" autocomplete="off">
+    <div class="row">
+      <button onclick="saveToken()">Save &amp; test</button>
+      <button class="ghost" onclick="clearToken()">Forget token</button>
+    </div>
+    <p class="status" id="tokenStatus"></p>
+  </section>
+
+  <!-- ================= LOG ENTRY ================= -->
+  <section class="panel">
+    <h2><span class="no">01</span> ADD BUILD LOG ENTRY</h2>
+    <label for="logDate">Date</label>
+    <input type="date" id="logDate">
+    <label for="logText">What shipped (one line, factual)</label>
+    <input type="text" id="logText" placeholder="VIM Phase 1 complete — MATLAB model validated against hand calcs.">
+    <button onclick="addLogEntry()">Commit log entry</button>
+    <p class="status" id="logStatus"></p>
+  </section>
+
+  <!-- ================= IMAGE UPLOAD ================= -->
+  <section class="panel">
+    <h2><span class="no">02</span> UPLOAD IMAGE</h2>
+    <label for="imgFolder">Project folder</label>
+    <select id="imgFolder">
+      <option value="vim">vim</option>
+      <option value="battery-module">battery-module</option>
+      <option value="thermal-research">thermal-research</option>
+      <option value="asme-racing">asme-racing</option>
+      <option value="wheel-exhaust">wheel-exhaust</option>
+      <option value="epics">epics</option>
+      <option value="__custom">custom…</option>
+    </select>
+    <input type="text" id="imgFolderCustom" placeholder="new-folder-name" style="display:none; margin-top:0.4rem;">
+    <label for="imgFile">Image file</label>
+    <input type="file" id="imgFile" accept="image/*">
+    <button onclick="uploadImage()">Commit image</button>
+    <p class="status" id="imgStatus"></p>
+    <p class="help" style="margin-top:0.5rem;">After upload, reference it in
+      <span class="mono">index.html</span> as
+      <span class="mono" id="imgPathPreview">images/projects/…</span>
+      — remember the site needs an <span class="mono">&lt;img&gt;</span> tag added
+      to actually show it (galleries: the <span class="mono">more-views</span> block).</p>
+  </section>
+
+  <!-- ================= REV BUMP ================= -->
+  <section class="panel">
+    <h2><span class="no">03</span> BUMP REV + DATE</h2>
+    <p class="help">Updates the REV and DATE in both title blocks (hero + footer). Do this after meaningful updates — it's the drawing-revision discipline, kept honest.</p>
+    <label for="revValue">New REV</label>
+    <input type="text" id="revValue" placeholder="3.2">
+    <button onclick="bumpRev()">Commit rev bump</button>
+    <p class="status" id="revStatus"></p>
+  </section>
+
+  <p class="footer-note mono">GENERAL NOTES: 1. COMMITS LAND ON MAIN. 2. PAGES REDEPLOYS IN ~1 MIN. 3. IF SOMETHING BREAKS, GIT REMEMBERS EVERYTHING — NOTHING IS EVER LOST.</p>
+
+<script>
+  const OWNER = "AbhinavSingh1176";
+  const REPO = "abhinav-portfolio";
+  const BRANCH = "main";
+  const KEY = "gh_token";
+
+  const $ = (id) => document.getElementById(id);
+  const today = () => new Date().toISOString().slice(0, 10);
+  $("logDate").value = today();
+
+  // ---------- token ----------
+  const token = () => localStorage.getItem(KEY) || "";
+  if (token()) $("tokenStatus").textContent = "TOKEN ON FILE. SAVED FROM A PREVIOUS SESSION.";
+
+  async function saveToken() {
+    const t = $("token").value.trim();
+    if (!t) return setStatus("tokenStatus", "PASTE A TOKEN FIRST.", false);
+    localStorage.setItem(KEY, t);
+    try {
+      await gh(`contents/index.html?ref=${BRANCH}`);
+      setStatus("tokenStatus", "TOKEN VERIFIED — REPO REACHABLE. YOU'RE IN.", true);
+      $("token").value = "";
+    } catch (e) {
+      localStorage.removeItem(KEY);
+      setStatus("tokenStatus", "TOKEN FAILED: " + e.message, false);
+    }
+  }
+  function clearToken() {
+    localStorage.removeItem(KEY);
+    setStatus("tokenStatus", "TOKEN FORGOTTEN ON THIS DEVICE.", true);
+  }
+
+  // ---------- GitHub API ----------
+  async function gh(path, opts = {}) {
+    const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/${path}`, {
+      ...opts,
+      headers: {
+        Authorization: `Bearer ${token()}`,
+        Accept: "application/vnd.github+json",
+        ...(opts.headers || {}),
+      },
+    });
+    if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+    return res.json();
+  }
+
+  // UTF-8 <-> base64, chunked so large files don't blow the stack
+  function b64encode(bytes) {
+    let bin = "";
+    for (let i = 0; i < bytes.length; i += 8192) {
+      bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 8192));
+    }
+    return btoa(bin);
+  }
+  const encodeText = (s) => b64encode(new TextEncoder().encode(s));
+  const decodeText = (b) =>
+    new TextDecoder().decode(Uint8Array.from(atob(b.replace(/\n/g, "")), (c) => c.charCodeAt(0)));
+
+  async function getFile(path) {
+    const data = await gh(`contents/${path}?ref=${BRANCH}`);
+    return { text: decodeText(data.content), sha: data.sha };
+  }
+  async function putFile(path, contentB64, message, sha) {
+    return gh(`contents/${path}`, {
+      method: "PUT",
+      body: JSON.stringify({ message, content: contentB64, branch: BRANCH, ...(sha ? { sha } : {}) }),
+    });
+  }
+
+  const escapeHtml = (s) =>
+    s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+  function setStatus(id, msg, ok) {
+    const el = $(id);
+    el.textContent = msg;
+    el.classList.toggle("ok", !!ok);
+  }
+
+  // ---------- 01: log entry ----------
+  async function addLogEntry() {
+    const date = $("logDate").value || today();
+    const text = $("logText").value.trim();
+    if (!token()) return setStatus("logStatus", "NO TOKEN — SEE PANEL 00.", false);
+    if (!text) return setStatus("logStatus", "WRITE THE LINE FIRST.", false);
+    setStatus("logStatus", "COMMITTING…", false);
+    try {
+      const { text: html, sha } = await getFile("index.html");
+      const marker = '<ul class="log-list mono">';
+      if (!html.includes(marker)) throw new Error("log marker not found in index.html");
+      const entry = `\n        <li><time>${date}</time><span>${escapeHtml(text)}</span></li>`;
+      const updated = html.replace(marker, marker + entry);
+      await putFile("index.html", encodeText(updated), `log: ${text.slice(0, 60)}`, sha);
+      setStatus("logStatus", "COMMITTED. LIVE IN ~1 MIN.", true);
+      $("logText").value = "";
+    } catch (e) {
+      setStatus("logStatus", "FAILED: " + e.message, false);
+    }
+  }
+
+  // ---------- 02: image upload ----------
+  $("imgFolder").addEventListener("change", () => {
+    $("imgFolderCustom").style.display = $("imgFolder").value === "__custom" ? "block" : "none";
+    updatePathPreview();
+  });
+  $("imgFolderCustom").addEventListener("input", updatePathPreview);
+  $("imgFile").addEventListener("change", updatePathPreview);
+
+  function imgFolder() {
+    return $("imgFolder").value === "__custom"
+      ? $("imgFolderCustom").value.trim().toLowerCase().replace(/[^a-z0-9-]/g, "-")
+      : $("imgFolder").value;
+  }
+  function imgName() {
+    const f = $("imgFile").files[0];
+    return f ? f.name.toLowerCase().replace(/[^a-z0-9.-]/g, "-") : "";
+  }
+  function updatePathPreview() {
+    $("imgPathPreview").textContent =
+      `images/projects/${imgFolder() || "…"}/${imgName() || "…"}`;
+  }
+
+  async function uploadImage() {
+    const file = $("imgFile").files[0];
+    if (!token()) return setStatus("imgStatus", "NO TOKEN — SEE PANEL 00.", false);
+    if (!file) return setStatus("imgStatus", "PICK A FILE FIRST.", false);
+    if (!imgFolder()) return setStatus("imgStatus", "NAME THE FOLDER FIRST.", false);
+    setStatus("imgStatus", "UPLOADING…", false);
+    try {
+      const bytes = new Uint8Array(await file.arrayBuffer());
+      const path = `images/projects/${imgFolder()}/${imgName()}`;
+      // if the file already exists we need its sha to overwrite
+      let sha;
+      try { sha = (await gh(`contents/${path}?ref=${BRANCH}`)).sha; } catch { /* new file */ }
+      await putFile(path, b64encode(bytes), `img: add ${path}`, sha);
+      setStatus("imgStatus", `COMMITTED: ${path}`, true);
+    } catch (e) {
+      setStatus("imgStatus", "FAILED: " + e.message, false);
+    }
+  }
+
+  // ---------- 03: rev bump ----------
+  async function bumpRev() {
+    const rev = $("revValue").value.trim();
+    if (!token()) return setStatus("revStatus", "NO TOKEN — SEE PANEL 00.", false);
+    if (!rev) return setStatus("revStatus", "ENTER THE NEW REV FIRST.", false);
+    setStatus("revStatus", "COMMITTING…", false);
+    try {
+      const { text: html, sha } = await getFile("index.html");
+      const updated = html
+        .replace(/(data-rev>)[^<]*(<)/g, `$1${escapeHtml(rev)}$2`)
+        .replace(/(data-stamp>)[^<]*(<)/g, `$1${today()}$2`);
+      if (updated === html) throw new Error("data-rev / data-stamp markers not found");
+      await putFile("index.html", encodeText(updated), `rev: bump to ${rev}`, sha);
+      setStatus("revStatus", `COMMITTED. NOW AT REV ${rev}, DATED ${today()}.`, true);
+      $("revValue").value = "";
+    } catch (e) {
+      setStatus("revStatus", "FAILED: " + e.message, false);
+    }
+  }
+</script>
+</body>
+</html>
