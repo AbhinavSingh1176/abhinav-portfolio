@@ -47,15 +47,22 @@
   pointer-events: none;
 }
 
-/* Custom scrollbar — thin, boxy, theme-aware. One scrollbar, ours. */
-html { scrollbar-width: thin; scrollbar-color: var(--line-strong) var(--paper); }
-::-webkit-scrollbar { width: 9px; height: 9px; }
-::-webkit-scrollbar-track { background: var(--paper); }
+/* Custom scrollbar — a thin streamline. The visible thumb is a 3px
+   line (transparent borders + content-box clip) but the grab area
+   stays the full 11px, so it reads subtle and drags easy. */
+html { scrollbar-width: thin; scrollbar-color: var(--line-strong) transparent; }
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
   background: var(--line-strong);
-  border: 2px solid var(--paper);
+  background-clip: content-box;
+  border: 4px solid transparent;
 }
-::-webkit-scrollbar-thumb:hover { background: var(--ink); }
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ink-soft);
+  background-clip: content-box;
+  border-width: 3px;
+}
 
 html { scroll-behavior: smooth; }
 
@@ -243,6 +250,8 @@ a { color: inherit; }
 }
 
 .section-note { color: var(--muted); font-size: 0.92rem; margin: -1.4rem 0 1.6rem; max-width: 60ch; }
+.section-note a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid var(--red); }
+.section-note a:hover { color: var(--red); }
 
 /* ============ NOW ============ */
 .now-list { list-style: none; display: grid; gap: 1rem; max-width: 760px; }
