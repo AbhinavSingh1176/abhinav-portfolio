@@ -10,6 +10,10 @@ Images/asme-racing/
 Images/cad/
 Images/thermal-research/
 
+# private feedback / notes
+abhi website feedback*.txt
+*feedback*simi*.txt
+
 # OS junk
 Thumbs.db
 desktop.ini

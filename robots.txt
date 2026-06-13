@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /og-card.html
+
+Sitemap: https://abhinavsingh1176.github.io/abhinav-portfolio/sitemap.xml

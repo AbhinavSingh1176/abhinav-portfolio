@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<title>OG card source — not a page</title>
+<!-- ================================================================
+  This file is the SOURCE for og-image.png (the 1200x630 preview card
+  shown when the site is shared on LinkedIn, iMessage, Slack, etc.).
+  It is not linked from anywhere and not meant to be visited.
+
+  To regenerate after a rev bump or headline change:
+    msedge --headless --screenshot=og-image.png --window-size=1200,630 og-card.html
+  (full command in README)
+================================================================ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Fixed light palette — link previews don't have a dark mode. */
+  :root {
+    --paper:#fcfcfa; --ink:#17191e; --ink-soft:#4b505c; --muted:#7a7f8c;
+    --line-strong:#b9bab6; --red:#c8362e; --grid:rgba(23,25,30,0.045);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1200px; height:630px; overflow:hidden; }
+  body { background:var(--paper); color:var(--ink); }
+  .mono { font-family:"IBM Plex Mono",monospace; }
+
+  .sheet {
+    position:absolute; inset:34px;
+    border:2px solid var(--ink);
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size:28px 28px;
+    padding:58px 64px 0;
+    display:flex; flex-direction:column;
+  }
+  .sheet::before {
+    content:""; position:absolute; inset:8px;
+    border:1px solid var(--line-strong); pointer-events:none;
+  }
+
+  .eyebrow {
+    font-family:"IBM Plex Mono",monospace; font-size:19px;
+    letter-spacing:0.14em; color:var(--muted); margin-bottom:30px;
+  }
+  h1 {
+    font-family:"Archivo",sans-serif; font-weight:800;
+    font-size:88px; line-height:1.04; letter-spacing:-0.02em;
+    max-width:16ch;
+  }
+  .fn-mark { color:var(--red); }
+  .hero-note {
+    font-family:"IBM Plex Mono",monospace; font-size:21px;
+    letter-spacing:0.05em; color:var(--muted); margin-top:18px;
+  }
+
+  .title-block {
+    margin-top:auto; margin-bottom:46px;
+    display:grid; grid-template-columns:1.6fr 1.4fr 0.7fr 1fr;
+    border:1.5px solid var(--ink); background:var(--paper);
+  }
+  .title-block > div {
+    padding:13px 20px 15px; border-right:1px solid var(--line-strong);
+    display:flex; flex-direction:column; gap:4px;
+  }
+  .title-block > div:last-child { border-right:none; }
+  .title-block span {
+    font-family:"IBM Plex Mono",monospace; font-size:13px;
+    letter-spacing:0.12em; color:var(--muted);
+  }
+  .title-block strong {
+    font-family:"IBM Plex Mono",monospace; font-size:19px;
+    font-weight:500; letter-spacing:0.03em;
+  }
+  .title-block .red { color:var(--red); }
+</style>
+</head>
+<body>
+  <div class="sheet">
+    <p class="eyebrow">ABHINAV SINGH · MECHANICAL ENGINEER · PURDUE ME '28</p>
+    <h1>Works well under pressure.<span class="fn-mark">*</span></h1>
+    <p class="hero-note">* ALSO HEAT, VIBRATION, AND TIGHT TOLERANCES.</p>
+    <div class="title-block">
+      <div><span>DRAWN BY</span><strong>ABHINAV B. SINGH</strong></div>
+      <div><span>DOC</span><strong>PORTFOLIO</strong></div>
+      <div><span>REV</span><strong class="red" data-rev>3.7</strong></div>
+      <div><span>SCALE</span><strong>NTS</strong></div>
+    </div>
+  </div>
+</body>
+</html>

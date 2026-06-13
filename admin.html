@@ -67,6 +67,13 @@
   .footer-note { color:var(--muted); margin-top:2rem; }
   .row { display:flex; gap:0.6rem; flex-wrap:wrap; }
   .row button { flex:none; }
+  .row select { flex:1; min-width:200px; }
+  .row button.inline { margin-top:0; align-self:stretch; }
+  .now-row { display:flex; gap:0.5rem; margin-top:0.5rem; align-items:center; flex-wrap:wrap; }
+  .now-row select { width:90px; flex:none; }
+  .now-row .now-label { width:110px; flex:none; }
+  .now-row input:not(.now-label) { flex:1; min-width:180px; }
+  .now-row button { margin-top:0; padding:0.45rem 0.7rem; }
 </style>
 </head>
 <body>
@@ -128,16 +135,74 @@
     <input type="file" id="imgFile" accept="image/*">
     <button onclick="uploadImage()">Commit image</button>
     <p class="status" id="imgStatus"></p>
-    <p class="help" style="margin-top:0.5rem;">After upload, reference it in
-      <span class="mono">index.html</span> as
+    <p class="help" style="margin-top:0.5rem;">After upload, reference it as
       <span class="mono" id="imgPathPreview">images/projects/…</span>
-      — remember the site needs an <span class="mono">&lt;img&gt;</span> tag added
-      to actually show it (galleries: the <span class="mono">more-views</span> block).</p>
+      in panel 04 below — main image or extra views, no hand-editing needed.</p>
+  </section>
+
+  <!-- ================= PROJECT CARDS ================= -->
+  <section class="panel">
+    <h2><span class="no">04</span> PROJECT CARDS</h2>
+    <p class="help">Add a new case study or edit an existing one — this writes the
+      full <span class="mono">&lt;article class="case"&gt;</span> block into
+      <span class="mono">index.html</span>. Text fields accept raw HTML
+      (<span class="mono">&amp;amp;</span>, <span class="mono">&lt;sub&gt;</span>,
+      <span class="mono">&amp;nbsp;</span> all fine). Upload images in panel 02
+      first, then reference the committed paths here.</p>
+    <label for="projSelect">Card</label>
+    <div class="row">
+      <select id="projSelect"><option value="-1">— NEW CARD —</option></select>
+      <button class="ghost inline" onclick="loadCards()">Load existing</button>
+    </div>
+    <label for="projTitle">Title</label>
+    <input type="text" id="projTitle" placeholder="Battery Module Prototype">
+    <label for="projStatus">Status</label>
+    <select id="projStatus">
+      <option value="live">IN PROGRESS</option>
+      <option value="done">COMPLETE</option>
+    </select>
+    <label for="projDates">Dates (as shown, e.g. SEP–DEC 2026)</label>
+    <input type="text" id="projDates" placeholder="SEP–DEC 2026">
+    <label for="projDesc">Description (one paragraph)</label>
+    <textarea id="projDesc" rows="5" placeholder="What it is, what you did, what the data said."></textarea>
+    <label for="projImg">Main image path (leave blank for a placeholder)</label>
+    <input type="text" id="projImg" placeholder="images/projects/battery-module/main.jpg">
+    <label for="projImgAlt">Main image alt text</label>
+    <input type="text" id="projImgAlt" placeholder="4P4S battery module with thermocouple harness">
+    <label for="projImgFb">Fallback / placeholder label</label>
+    <input type="text" id="projImgFb" placeholder="BAT-001&lt;br&gt;module prototype">
+    <label for="projViews">Extra views — one per line: path | alt text</label>
+    <textarea id="projViews" rows="3" placeholder="images/projects/battery-module/teardown.jpg | Production EV module teardown"></textarea>
+    <label for="projSpecs">Spec table — one row per line: LABEL | value</label>
+    <textarea id="projSpecs" rows="5" placeholder="CELLS | 4P4S, 21700 cylindrical
+SENSING | 8× T-type thermocouples, embedded"></textarea>
+    <label for="projRepo">Repo / external link (optional)</label>
+    <input type="text" id="projRepo" placeholder="https://github.com/AbhinavSingh1176/…">
+    <div class="row">
+      <button onclick="saveCard()">Commit card</button>
+      <button class="ghost" onclick="resetCardForm()">Clear form</button>
+    </div>
+    <p class="status" id="projMsg"></p>
+  </section>
+
+  <!-- ================= NOW LIST ================= -->
+  <section class="panel">
+    <h2><span class="no">05</span> NOW LIST</h2>
+    <p class="help">The lines under NOW on the main page. Load, edit, commit.
+      LIVE gets the blinking red dot; the label is the mono tag
+      (CO-OP / BUILDING / NEXT).</p>
+    <div id="nowRows"></div>
+    <div class="row">
+      <button class="ghost" onclick="loadNow()">Load current</button>
+      <button class="ghost" onclick="addNowRow()">+ Row</button>
+      <button onclick="saveNow()">Commit NOW list</button>
+    </div>
+    <p class="status" id="nowMsg"></p>
   </section>
 
   <!-- ================= REV BUMP ================= -->
   <section class="panel">
-    <h2><span class="no">03</span> BUMP REV + DATE</h2>
+    <h2><span class="no">06</span> BUMP REV + DATE</h2>
     <p class="help">Updates the REV and DATE in both title blocks (hero + footer). Do this after meaningful updates — it's the drawing-revision discipline, kept honest.</p>
     <label for="revValue">New REV</label>
     <input type="text" id="revValue" placeholder="3.2">
@@ -287,7 +352,253 @@
     }
   }
 
-  // ---------- 03: rev bump ----------
+  // ---------- 04: project cards ----------
+  // Cards are located as raw-text blocks (articles never nest, so the
+  // non-greedy match is safe) and the Nth raw block lines up with the
+  // Nth DOMParser article — edits replace the exact substring.
+  const CARD_RE = /<article class="case">[\s\S]*?<\/article>/g;
+  let cardCache = null; // { html, sha, blocks }
+
+  function parseCard(block) {
+    const a = new DOMParser().parseFromString(block, "text/html").querySelector("article");
+    const img = a.querySelector(".case-media > img");
+    const ph = a.querySelector(".case-media > .media-placeholder");
+    const metaSpans = [...a.querySelectorAll(".case-meta > span")];
+    const dates = metaSpans.find((s) => !s.classList.contains("balloon") && !s.classList.contains("status"));
+    return {
+      balloon: (a.querySelector(".balloon")?.textContent || "").trim(),
+      live: !!a.querySelector(".status-live"),
+      dates: (dates?.textContent || "").trim(),
+      title: a.querySelector("h3")?.innerHTML.trim() || "",
+      desc: (a.querySelector(".case-body > p")?.innerHTML || "").replace(/\s+/g, " ").trim(),
+      img: img?.getAttribute("src") || "",
+      alt: img?.getAttribute("alt") || "",
+      fb: img?.getAttribute("data-fallback") || ph?.innerHTML.trim() || "",
+      views: [...a.querySelectorAll(".views-grid img")].map(
+        (v) => `${v.getAttribute("src")} | ${v.getAttribute("alt")}`
+      ),
+      specs: [...a.querySelectorAll(".spec-table tr")].map(
+        (tr) => `${tr.querySelector("th")?.innerHTML.trim()} | ${tr.querySelector("td")?.innerHTML.replace(/\s+/g, " ").trim()}`
+      ),
+      repo: a.querySelector(".case-link")?.getAttribute("href") || "",
+    };
+  }
+
+  function buildCard(f) {
+    const views = f.views.map((line) => {
+      const [src, alt = ""] = line.split("|").map((s) => s.trim());
+      return `              <img src="${src}" alt="${alt}" data-fallback="${alt.toUpperCase()}" loading="lazy">`;
+    });
+    const media = f.img
+      ? `<img src="${f.img}" alt="${f.alt}" data-fallback="${f.fb}" loading="lazy">`
+      : `<div class="media-placeholder mono">${f.fb}</div>`;
+    const more = views.length
+      ? `\n          <details class="more-views">
+            <summary class="mono">+${views.length} MORE VIEWS</summary>
+            <div class="views-grid">\n${views.join("\n")}\n            </div>
+          </details>`
+      : "";
+    const status = f.live
+      ? `<span class="status status-live"><span class="dot dot-live"></span>IN PROGRESS</span>`
+      : `<span class="status">COMPLETE</span>`;
+    const specs = f.specs.map((line) => {
+      const i = line.indexOf("|");
+      const th = (i < 0 ? line : line.slice(0, i)).trim();
+      const td = i < 0 ? "" : line.slice(i + 1).trim();
+      return `              <tr><th class="mono">${th}</th><td>${td}</td></tr>`;
+    });
+    const details = specs.length
+      ? `\n          <details>
+            <summary>Specifications &amp; approach</summary>
+            <table class="spec-table">\n${specs.join("\n")}\n            </table>
+          </details>`
+      : "";
+    const repo = f.repo
+      ? `\n          <a class="case-link mono" href="${f.repo}" target="_blank" rel="noopener noreferrer">BUILD REPO →</a>`
+      : "";
+    return `<article class="case">
+        <div class="case-media">
+          ${media}${more}
+        </div>
+        <div class="case-body">
+          <div class="case-meta mono">
+            <span class="balloon" aria-hidden="true">${f.balloon}</span>
+            ${status}
+            <span>${f.dates}</span>
+          </div>
+          <h3>${f.title}</h3>
+          <p>
+            ${f.desc}
+          </p>${details}${repo}
+        </div>
+      </article>`;
+  }
+
+  async function loadCards() {
+    if (!token()) return setStatus("projMsg", "NO TOKEN — SEE PANEL 00.", false);
+    setStatus("projMsg", "LOADING…", false);
+    try {
+      const { text: html, sha } = await getFile("index.html");
+      const blocks = html.match(CARD_RE) || [];
+      cardCache = { html, sha, blocks };
+      const sel = $("projSelect");
+      sel.innerHTML = '<option value="-1">— NEW CARD —</option>';
+      blocks.forEach((b, i) => {
+        const c = parseCard(b);
+        const opt = document.createElement("option");
+        opt.value = i;
+        opt.textContent = `${c.balloon} · ${c.title.replace(/<[^>]*>/g, "").replace(/&amp;/g, "&")}`;
+        sel.appendChild(opt);
+      });
+      setStatus("projMsg", `${blocks.length} CARDS LOADED. PICK ONE OR STAY ON NEW.`, true);
+    } catch (e) {
+      setStatus("projMsg", "FAILED: " + e.message, false);
+    }
+  }
+
+  $("projSelect").addEventListener("change", () => {
+    const i = +$("projSelect").value;
+    if (i < 0 || !cardCache) return resetCardForm(true);
+    const c = parseCard(cardCache.blocks[i]);
+    $("projTitle").value = c.title;
+    $("projStatus").value = c.live ? "live" : "done";
+    $("projDates").value = c.dates;
+    $("projDesc").value = c.desc;
+    $("projImg").value = c.img;
+    $("projImgAlt").value = c.alt;
+    $("projImgFb").value = c.fb;
+    $("projViews").value = c.views.join("\n");
+    $("projSpecs").value = c.specs.join("\n");
+    $("projRepo").value = c.repo;
+  });
+
+  function resetCardForm(keepSelect) {
+    ["projTitle", "projDates", "projDesc", "projImg", "projImgAlt", "projImgFb",
+     "projViews", "projSpecs", "projRepo"].forEach((id) => ($(id).value = ""));
+    $("projStatus").value = "live";
+    if (!keepSelect) $("projSelect").value = "-1";
+  }
+
+  async function saveCard() {
+    if (!token()) return setStatus("projMsg", "NO TOKEN — SEE PANEL 00.", false);
+    const title = $("projTitle").value.trim();
+    if (!title) return setStatus("projMsg", "TITLE FIRST.", false);
+    if (!$("projImg").value.trim() && !$("projImgFb").value.trim())
+      return setStatus("projMsg", "NEED AN IMAGE PATH OR A PLACEHOLDER LABEL.", false);
+    setStatus("projMsg", "COMMITTING…", false);
+    try {
+      // re-fetch so we never clobber an edit that landed since loadCards()
+      const { text: html, sha } = await getFile("index.html");
+      const blocks = html.match(CARD_RE) || [];
+      const i = +$("projSelect").value;
+      const editing = i >= 0 && cardCache && cardCache.blocks[i];
+      if (editing && !blocks.includes(cardCache.blocks[i]))
+        throw new Error("card changed on GitHub since load — reload and retry");
+      const lines = (id) => $(id).value.split("\n").map((s) => s.trim()).filter(Boolean);
+      const balloon = editing
+        ? parseCard(cardCache.blocks[i]).balloon
+        : String(blocks.reduce((m, b) => Math.max(m, +parseCard(b).balloon || 0), 0) + 1).padStart(2, "0");
+      const card = buildCard({
+        balloon,
+        live: $("projStatus").value === "live",
+        dates: $("projDates").value.trim(),
+        title,
+        desc: $("projDesc").value.replace(/\s+/g, " ").trim(),
+        img: $("projImg").value.trim(),
+        alt: $("projImgAlt").value.trim(),
+        fb: $("projImgFb").value.trim(),
+        views: lines("projViews"),
+        specs: lines("projSpecs"),
+        repo: $("projRepo").value.trim(),
+      });
+      let updated;
+      if (editing) {
+        updated = html.replace(cardCache.blocks[i], card);
+      } else {
+        const first = html.indexOf('<article class="case">');
+        if (first < 0) throw new Error("no case markers found in index.html");
+        updated = html.slice(0, first) + card + "\n\n      " + html.slice(first);
+      }
+      const plain = title.replace(/<[^>]*>/g, "").replace(/&amp;/g, "&");
+      await putFile("index.html", encodeText(updated),
+        `work: ${editing ? "update" : "add"} ${plain.slice(0, 50)}`, sha);
+      cardCache = null;
+      $("projSelect").innerHTML = '<option value="-1">— NEW CARD —</option>';
+      resetCardForm();
+      setStatus("projMsg", `COMMITTED ${editing ? "UPDATE" : "NEW CARD " + balloon}. LIVE IN ~1 MIN.`, true);
+    } catch (e) {
+      setStatus("projMsg", "FAILED: " + e.message, false);
+    }
+  }
+
+  // ---------- 05: NOW list ----------
+  const NOW_RE = /<ul class="now-list">[\s\S]*?<\/ul>/;
+  let nowSha = null;
+
+  function addNowRow(dot = "", label = "", text = "") {
+    const row = document.createElement("div");
+    row.className = "now-row";
+    row.innerHTML = `
+      <select>
+        <option value="live"${dot === "live" ? " selected" : ""}>LIVE</option>
+        <option value="idle"${dot === "idle" ? " selected" : ""}>IDLE</option>
+      </select>
+      <input type="text" class="now-label" placeholder="CO-OP">
+      <input type="text" placeholder="One line of what's happening.">
+      <button class="ghost" title="Remove row">×</button>`;
+    row.querySelector(".now-label").value = label;
+    row.querySelectorAll("input")[1].value = text;
+    row.querySelector("button").onclick = () => row.remove();
+    $("nowRows").appendChild(row);
+  }
+
+  async function loadNow() {
+    if (!token()) return setStatus("nowMsg", "NO TOKEN — SEE PANEL 00.", false);
+    setStatus("nowMsg", "LOADING…", false);
+    try {
+      const { text: html, sha } = await getFile("index.html");
+      nowSha = sha;
+      const m = html.match(NOW_RE);
+      if (!m) throw new Error("now-list marker not found");
+      $("nowRows").innerHTML = "";
+      const ul = new DOMParser().parseFromString(m[0], "text/html");
+      ul.querySelectorAll("li").forEach((li) => {
+        const spans = li.querySelectorAll("span");
+        addNowRow(
+          li.querySelector(".dot-live") ? "live" : "idle",
+          spans[1]?.textContent.trim() || "",
+          (li.querySelector(".now-text")?.innerHTML || "").replace(/\s+/g, " ").trim()
+        );
+      });
+      setStatus("nowMsg", "LOADED. EDIT AND COMMIT.", true);
+    } catch (e) {
+      setStatus("nowMsg", "FAILED: " + e.message, false);
+    }
+  }
+
+  async function saveNow() {
+    if (!token()) return setStatus("nowMsg", "NO TOKEN — SEE PANEL 00.", false);
+    const rows = [...$("nowRows").querySelectorAll(".now-row")];
+    if (!rows.length) return setStatus("nowMsg", "LOAD CURRENT FIRST, OR ADD A ROW.", false);
+    setStatus("nowMsg", "COMMITTING…", false);
+    try {
+      const items = rows.map((row) => {
+        const live = row.querySelector("select").value === "live";
+        const [label, text] = [...row.querySelectorAll("input")].map((i) => i.value.trim());
+        return `        <li><span class="dot${live ? " dot-live" : ""}" aria-hidden="true"></span><span class="mono">${escapeHtml(label)}</span><span class="now-text">${text}</span></li>`;
+      });
+      const { text: html, sha } = await getFile("index.html");
+      if (!NOW_RE.test(html)) throw new Error("now-list marker not found");
+      const updated = html.replace(NOW_RE,
+        `<ul class="now-list">\n${items.join("\n")}\n      </ul>`);
+      await putFile("index.html", encodeText(updated), "now: update NOW list", sha);
+      setStatus("nowMsg", "COMMITTED. LIVE IN ~1 MIN.", true);
+    } catch (e) {
+      setStatus("nowMsg", "FAILED: " + e.message, false);
+    }
+  }
+
+  // ---------- 06: rev bump ----------
   async function bumpRev() {
     const rev = $("revValue").value.trim();
     if (!token()) return setStatus("revStatus", "NO TOKEN — SEE PANEL 00.", false);

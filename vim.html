@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vibration Isolation Module: Build Log | Abhinav Singh</title>
+  <link rel="icon" href="logo-as.png" type="image/png" />
+  <meta name="description" content="Build log for VIM-001, a passive vibration isolation module: MATLAB model to validated hardware.">
+  <meta name="robots" content="index, follow">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="thermo" aria-hidden="true"></div>
+
+  <!-- ============ NAV ============ -->
+  <header class="nav" id="top">
+    <a class="nav-name" href="index.html" title="Back to portfolio">
+      <svg class="gear" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+    </a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="index.html#now">On Deck</a>
+      <a href="index.html#work">Work</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">
+      <span data-theme-icon aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <main>
+    <!-- ============ HERO ============ -->
+    <section class="sheet" aria-label="Project header">
+      <div class="sheet-frame">
+        <p class="eyebrow"><a class="now-link" href="index.html#now">← BACK TO ON DECK</a></p>
+        <h1>Vibration Isolation Module</h1>
+        <p class="hero-note mono">VIM-001 · PASSIVE PARALLEL-LINK STAGE · IN PROGRESS</p>
+        <p class="hero-sub">
+          A passive isolation stage for the 2.5&nbsp;kg camera and LiDAR
+          payload on a delivery robot. The goal is simple to state and hard to
+          earn: cut RMS acceleration by 40% or more across the 5–30&nbsp;Hz
+          band, and prove it with hardware rather than a slide. This page is
+          the running log, updated as each phase clears.
+        </p>
+        <div class="title-block" role="presentation">
+          <div><span>DOC</span><strong>VIM-001</strong></div>
+          <div><span>STATUS</span><strong>MODEL PHASE</strong></div>
+          <div><span>TARGET</span><strong>SEP 2026</strong></div>
+          <div><span>REV</span><strong>0.1</strong></div>
+          <div><span>UPDATED</span><strong>2026-06-12</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SPECS ============ -->
+    <section class="section" aria-labelledby="spec-title">
+      <h2 class="section-label" id="spec-title"><span class="sec-no">01</span> SPECIFICATIONS</h2>
+      <table class="spec-table about-spec">
+        <tr><th class="mono">PAYLOAD</th><td>2.5 kg camera + LiDAR package on a last-mile delivery robot</td></tr>
+        <tr><th class="mono">TARGET</th><td>≥ 40% RMS acceleration reduction across the 5–30 Hz band</td></tr>
+        <tr><th class="mono">MODEL</th><td>MATLAB SDOF: transmissibility, terrain PSD response, bump response (f<sub>n</sub> = 3.5 Hz, ζ ≈ 0.12)</td></tr>
+        <tr><th class="mono">STRUCTURE</th><td>Parallel 4-bar linkage, waterjet 6061 Al, ±15 mm stroke, k = 1200 N/m</td></tr>
+        <tr><th class="mono">ANALYSIS</th><td>ANSYS static (3g, SF ≥ 2) + modal (structural modes &gt; 50 Hz)</td></tr>
+        <tr><th class="mono">VALIDATION</th><td>2× MPU6050 + Arduino DAQ; log-decrement and broadband PSD comparison</td></tr>
+      </table>
+    </section>
+
+    <!-- ============ PHASE PLAN ============ -->
+    <section class="section" aria-labelledby="phase-title">
+      <h2 class="section-label" id="phase-title"><span class="sec-no">02</span> PHASE PLAN</h2>
+      <p class="section-note">Phase gated. Nothing advances until the previous phase is reviewed.</p>
+      <table class="spec-table about-spec">
+        <tr><th class="mono">1 · REQUIREMENTS</th><td>Payload, band, stroke, and targets frozen. <span style="color:var(--ok)">DONE</span></td></tr>
+        <tr><th class="mono">2 · MODEL</th><td>MATLAB SDOF, transmissibility and bump response. <span style="color:var(--red)">IN PROGRESS</span></td></tr>
+        <tr><th class="mono">3 · CAD</th><td>Parallel four-bar linkage, drawings with GD&amp;T. <span class="mono">QUEUED</span></td></tr>
+        <tr><th class="mono">4 · FEA</th><td>ANSYS static + modal, sign-off SF ≥ 2. <span class="mono">QUEUED</span></td></tr>
+        <tr><th class="mono">5 · FABRICATION</th><td>Waterjet 6061, assemble the stage. <span class="mono">QUEUED</span></td></tr>
+        <tr><th class="mono">6 · TEST</th><td>Dual-accelerometer DAQ, compare to model. <span class="mono">QUEUED</span></td></tr>
+      </table>
+    </section>
+
+    <!-- ============ LOG ============ -->
+    <section class="section" aria-labelledby="vlog-title">
+      <h2 class="section-label" id="vlog-title"><span class="sec-no">03</span> LOG</h2>
+      <ul class="log-list mono">
+        <li><time>2026-06-10</time><span>Repo initialized. Requirements doc drafted; springs and DAQ hardware ordered.</span></li>
+        <li><time>2026-06</time><span>Building the SDOF model. Next gate: validate transmissibility against hand calculations.</span></li>
+      </ul>
+    </section>
+
+    <!-- ============ GALLERY ============ -->
+    <section class="section" aria-labelledby="gal-title">
+      <h2 class="section-label" id="gal-title"><span class="sec-no">04</span> IMAGES</h2>
+      <p class="section-note">Renders, plots, and hardware photos land here as the build moves.</p>
+      <div class="views-grid" style="max-width:760px">
+        <img src="images/projects/vim/main.jpg" alt="VIM CAD render" data-fallback="VIM-001: CAD render pending" loading="lazy">
+        <img src="images/projects/vim/model-plot.jpg" alt="MATLAB transmissibility plot" data-fallback="MODEL: plot pending" loading="lazy">
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="general-notes mono" role="presentation">
+      <p>GENERAL NOTES</p>
+      <ol>
+        <li>THIS IS A LIVING DOCUMENT. NUMBERS FIRM UP AS PHASES CLEAR.</li>
+        <li>INTERPRET PER ASME Y14.5. HUMOR PER OPERATOR DISCRETION.</li>
+      </ol>
+    </div>
+    <div class="title-block title-block-footer" role="presentation">
+      <div><span>DOC</span><strong>VIM-001</strong></div>
+      <div><span>REV</span><strong>0.1</strong></div>
+      <div><span>UPDATED</span><strong>2026-06-12</strong></div>
+      <div><span>©</span><strong data-year>2026</strong></div>
+    </div>
+  </footer>
+
+  <!-- Shared lightbox for project images -->
+  <dialog class="lightbox" id="lightbox">
+    <button class="lightbox-close mono" aria-label="Close">CLOSE ×</button>
+    <img src="" alt="">
+    <figcaption class="mono"></figcaption>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>

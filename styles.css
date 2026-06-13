@@ -19,6 +19,7 @@
   --red: #c8362e;
   --red-soft: rgba(200, 54, 46, 0.08);
   --grid: rgba(23, 25, 30, 0.045);
+  --ok: #2b8a3e;
 }
 
 :root[data-theme="dark"] {
@@ -32,6 +33,7 @@
   --red: #e85a50;
   --red-soft: rgba(232, 90, 80, 0.12);
   --grid: rgba(236, 236, 234, 0.05);
+  --ok: #51cf66;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -126,11 +128,13 @@ a { color: inherit; }
 .nav-links a:hover { color: var(--ink); border-bottom-color: var(--red); }
 
 .theme-toggle {
-  font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; letter-spacing: 0.08em;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px;
   background: none; border: 1px solid var(--line-strong); color: var(--ink-soft);
-  padding: 5px 12px; cursor: pointer; border-radius: 2px;
+  cursor: pointer; border-radius: 2px;
 }
-.theme-toggle:hover { border-color: var(--red); color: var(--ink); }
+.theme-toggle:hover { border-color: var(--red); color: var(--red); }
+.theme-toggle svg { width: 17px; height: 17px; display: block; }
 
 /* ============ HERO : drawing sheet ============ */
 .sheet { padding: clamp(2rem, 6vw, 4.5rem) clamp(1.25rem, 5vw, 4rem) 2rem; }
@@ -161,8 +165,11 @@ a { color: inherit; }
 
 .eyebrow {
   font-family: "IBM Plex Mono", monospace;
-  font-size: 0.75rem; letter-spacing: 0.14em; color: var(--muted);
+  font-size: 0.8rem; letter-spacing: 0.14em; color: var(--muted);
   margin-bottom: 1.5rem;
+}
+.eyebrow-name {
+  color: var(--ink); font-weight: 500; letter-spacing: 0.1em;
 }
 
 .sheet h1 {
@@ -363,6 +370,16 @@ summary:hover { color: var(--red); }
 }
 .log-list time { color: var(--red); }
 .log-list span { color: var(--ink-soft); }
+.log-list li.log-hidden { display: none; }
+.log-list.expanded li.log-hidden { display: grid; }
+.log-more {
+  font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; letter-spacing: 0.08em;
+  background: none; border: 1px solid var(--line-strong); color: var(--ink-soft);
+  padding: 0.5rem 1rem; margin-top: 1.2rem; cursor: pointer; border-radius: 2px;
+}
+.log-more:hover { border-color: var(--red); color: var(--red); }
+.now-link { color: var(--red); text-decoration: none; white-space: nowrap; }
+.now-link:hover { text-decoration: underline; }
 
 /* ============ ABOUT ============ */
 .about-grid {
@@ -378,10 +395,9 @@ summary:hover { color: var(--red); }
 .about-photo .media-placeholder {
   width: 100%; aspect-ratio: 4 / 5; object-fit: cover;
   border: 1px solid var(--line-strong); border-radius: 2px;
-  filter: grayscale(1) contrast(1.04);
-  transition: filter 0.35s ease;
+  transition: transform 0.35s ease;
 }
-.about-photo:hover img { filter: grayscale(0) contrast(1); }
+.about-photo:hover img { transform: scale(1.01); }
 .about-photo figcaption { color: var(--muted); }
 
 /* about spec sheet */
@@ -440,7 +456,7 @@ summary:hover { color: var(--red); }
 .contact-form button { margin-top: 1rem; justify-self: start; }
 
 .form-status { font-size: 0.85rem; color: var(--muted); min-height: 1.2em; }
-.form-status.ok { color: var(--red); }
+.form-status.ok { color: var(--ok); }
 
 /* ============ FOOTER ============ */
 .footer { padding: 2rem clamp(1.25rem, 5vw, 4rem) 3rem; display: grid; gap: 1.5rem; }

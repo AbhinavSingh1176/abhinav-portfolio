@@ -1,6 +1,9 @@
 // Abhinav Singh — portfolio v3
 // Deliberately small: theme, form, image fallbacks, lightbox, scroll reveal.
 
+const SUN_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
+const MOON_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+
 // ---------- Theme ----------
 (function initTheme() {
   const saved = localStorage.getItem("theme");
@@ -19,8 +22,9 @@ function toggleTheme() {
 }
 
 function updateThemeLabel(theme) {
-  const label = document.querySelector("[data-theme-label]");
-  if (label) label.textContent = theme === "dark" ? "LIGHT" : "DARK";
+  const icon = document.querySelector("[data-theme-icon]");
+  // Show the icon for the mode you'd switch TO: moon in light, sun in dark.
+  if (icon) icon.innerHTML = theme === "dark" ? SUN_ICON : MOON_ICON;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -68,19 +72,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ---------- Age, to the day ----------
-  // GD&T limit tolerance: age only accumulates, no minus material.
+  // ---------- Age (auto-updates on birthday, July 11 2006) ----------
   const ageCell = document.querySelector("[data-age]");
   if (ageCell) {
     const now = new Date();
     let years = now.getFullYear() - 2006;
-    let lastBday = new Date(now.getFullYear(), 6, 11); // July 11
-    if (now < lastBday) {
-      years -= 1;
-      lastBday = new Date(now.getFullYear() - 1, 6, 11);
-    }
-    const days = Math.floor((now - lastBday) / 86400000);
-    ageCell.textContent = `${years} yr (+${days} d / −0 d)`;
+    const hadBirthday = now >= new Date(now.getFullYear(), 6, 11); // July 11
+    if (!hadBirthday) years -= 1;
+    ageCell.textContent = `${years} yr`;
+  }
+
+  // ---------- Build log: load older entries ----------
+  const logMore = document.getElementById("logMore");
+  const logList = document.getElementById("logList");
+  if (logMore && logList) {
+    logMore.addEventListener("click", () => {
+      logList.classList.add("expanded");
+      logMore.remove();
+    });
   }
 
   // ---------- Lightbox ----------
