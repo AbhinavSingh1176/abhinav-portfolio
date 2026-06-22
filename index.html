@@ -99,6 +99,7 @@
   <main>
     <!-- ============ HERO : drawing sheet ============ -->
     <section class="sheet" aria-label="Introduction">
+      <div class="sheet-stack">
       <div class="sheet-frame">
         <p class="eyebrow"><strong class="eyebrow-name">ABHINAV SINGH</strong> · MECHANICAL ENGINEER · PURDUE UNIVERSITY</p>
         <h1>Works well under pressure.<span class="fn-mark" aria-hidden="true">*</span></h1>
@@ -124,11 +125,12 @@
           <div><span>DATE</span><strong data-stamp>2026-06-10</strong></div>
         </div>
       </div>
+      </div>
     </section>
 
     <!-- ============ NOW ============ -->
-    <section class="section" id="now" aria-labelledby="now-title">
-      <h2 class="section-label" id="now-title"><span class="sec-no">01</span> ON DECK</h2>
+    <section class="section" id="now" data-datum="B" aria-labelledby="now-title">
+      <h2 class="section-label" id="now-title"><span class="sec-no">01</span> ON DECK<span class="datum-tag" aria-hidden="true">B</span></h2>
       <p class="section-note">What I'm working on now, and what's next.</p>
       <ul class="now-list">
         <li><span class="dot dot-live" aria-hidden="true"></span><span class="mono">CO-OP</span><span class="now-text">Owning an EPA Tier 4 emissions audit of a 30L industrial diesel platform at Cummins Inc., from install review through compliance reporting.</span></li>
@@ -142,8 +144,8 @@
          balloon number, swap the image (or leave a placeholder div).
          Extra photos: keep/edit the <details class="more-views"> block;
          delete it entirely if there's only one image. -->
-    <section class="section" id="work" aria-labelledby="work-title">
-      <h2 class="section-label" id="work-title"><span class="sec-no">02</span> PREVIOUS WORK</h2>
+    <section class="section" id="work" data-datum="C" aria-labelledby="work-title">
+      <h2 class="section-label" id="work-title"><span class="sec-no">02</span> PREVIOUS WORK<span class="datum-tag" aria-hidden="true">C</span></h2>
       <p class="section-note">Things I've designed, built, and tested. Each one taught me something the last one couldn't.</p>
 
       <article class="case">
@@ -160,7 +162,7 @@
         <div class="case-body">
           <div class="case-meta mono">
             <span class="balloon" aria-hidden="true">05</span>
-            <span class="status">COMPLETE</span>
+            <span class="status status-stamp">COMPLETE</span>
             <span>APR 2025 – 2026</span>
           </div>
           <h3>Micro Pin-Fin Heatsink Simulation, CTRC</h3>
@@ -201,7 +203,7 @@
         <div class="case-body">
           <div class="case-meta mono">
             <span class="balloon" aria-hidden="true">04</span>
-            <span class="status">COMPLETE</span>
+            <span class="status status-stamp">COMPLETE</span>
             <span>JAN 2025 – MAY 2026</span>
           </div>
           <h3>Powertrain Hardware, ASME Racing</h3>
@@ -242,7 +244,7 @@
         <div class="case-body">
           <div class="case-meta mono">
             <span class="balloon" aria-hidden="true">03</span>
-            <span class="status">COMPLETE</span>
+            <span class="status status-stamp">COMPLETE</span>
             <span>JAN – MAY 2025</span>
           </div>
           <h3>Wheel Rim &amp; Exhaust Manifold: GD&amp;T Study</h3>
@@ -274,7 +276,7 @@
         <div class="case-body">
           <div class="case-meta mono">
             <span class="balloon" aria-hidden="true">02</span>
-            <span class="status">COMPLETE</span>
+            <span class="status status-stamp">COMPLETE</span>
             <span>JAN – MAY 2025</span>
           </div>
           <h3>EV Kart Assembly Manuals, EPICS</h3>
@@ -305,7 +307,7 @@
         <div class="case-body">
           <div class="case-meta mono">
             <span class="balloon" aria-hidden="true">01</span>
-            <span class="status">COMPLETE</span>
+            <span class="status status-stamp">COMPLETE</span>
             <span>AUG – DEC 2024</span>
           </div>
           <h3>Air Purifier Controls, EPICS</h3>
@@ -333,13 +335,13 @@
     </section>
 
     <!-- ============ BUILD LOG ============ -->
-    <section class="section" id="log" aria-labelledby="log-title">
-      <h2 class="section-label" id="log-title"><span class="sec-no">03</span> BUILD LOG</h2>
+    <section class="section" id="log" data-datum="D" aria-labelledby="log-title">
+      <h2 class="section-label" id="log-title"><span class="sec-no">03</span> BUILD LOG<span class="datum-tag" aria-hidden="true">D</span></h2>
       <p class="section-note">A running record of what shipped, newest first.</p>
       <ul class="log-list mono" id="logList">
-        <li><time>2026-06-12</time><span>Portfolio rev 3.8: rebuilt the hero, real about, On Deck section, and a VIM build page.</span></li>
-        <li><time>2026-06-10</time><span>VIM repo initialized. Requirements frozen, spring and DAQ hardware ordered.</span></li>
-        <li><time>2026-06-09</time><span>Cleared Calterm and AVL Concerto onboarding; started mapping the audit test plan.</span></li>
+        <li class="log-new"><time>2026-06-12</time><span>Portfolio rev 3.8: rebuilt the hero, real about, On Deck section, and a VIM build page.</span></li>
+        <li class="log-new"><time>2026-06-10</time><span>VIM repo initialized. Requirements frozen, spring and DAQ hardware ordered.</span></li>
+        <li class="log-new"><time>2026-06-09</time><span>Cleared Calterm and AVL Concerto onboarding; started mapping the audit test plan.</span></li>
         <li><time>2026-06-08</time><span>Assigned engineer for the EPA Tier 4 audit program at Cummins; install review in progress.</span></li>
         <li><time>2026-06-05</time><span>Finished new-hire safety training (18/18) and software access at Seymour.</span></li>
         <li class="log-hidden"><time>2026-06-01</time><span>Started the Combustion Performance &amp; Emissions co-op, Cummins Seymour Engine Plant.</span></li>
@@ -351,8 +353,8 @@
     </section>
 
     <!-- ============ ABOUT ============ -->
-    <section class="section" id="about" aria-labelledby="about-title">
-      <h2 class="section-label" id="about-title"><span class="sec-no">04</span> ABOUT</h2>
+    <section class="section" id="about" data-datum="E" aria-labelledby="about-title">
+      <h2 class="section-label" id="about-title"><span class="sec-no">04</span> ABOUT<span class="datum-tag" aria-hidden="true">E</span></h2>
       <div class="about-grid">
         <div class="about-copy">
           <p>
@@ -412,8 +414,8 @@
     </section>
 
     <!-- ============ EXPERIENCE ============ -->
-    <section class="section" id="experience" aria-labelledby="exp-title">
-      <h2 class="section-label" id="exp-title"><span class="sec-no">05</span> EXPERIENCE</h2>
+    <section class="section" id="experience" data-datum="F" aria-labelledby="exp-title">
+      <h2 class="section-label" id="exp-title"><span class="sec-no">05</span> EXPERIENCE<span class="datum-tag" aria-hidden="true">F</span></h2>
       <p class="section-note">Full bullet points live in the <a href="Abhinav_Singh_Resume.pdf" target="_blank" rel="noopener noreferrer">resume</a>.</p>
       <ul class="exp-list">
         <li>
@@ -460,9 +462,9 @@
     </section>
 
     <!-- ============ CAPABILITIES : datasheet table ============ -->
-    <section class="section" id="capabilities" aria-labelledby="cap-title">
-      <h2 class="section-label" id="cap-title"><span class="sec-no">06</span> CAPABILITIES</h2>
-      <p class="section-note">Self-reported. Ask me about any of them.</p>
+    <section class="section" id="capabilities" data-datum="G" aria-labelledby="cap-title">
+      <h2 class="section-label" id="cap-title"><span class="sec-no">06</span> CAPABILITIES<span class="datum-tag" aria-hidden="true">G</span></h2>
+      <p class="table-caption mono">TABLE 2: CAPABILITY DATASHEET · SELF-REPORTED, TOL ±0.1 · ASK ME ABOUT ANY</p>
       <table class="cap-table">
         <tr><th class="mono">CAD &amp; DESIGN</th><td>SolidWorks · Siemens NX · Autodesk Fusion · Onshape · AutoCAD · GD&amp;T (ASME Y14.5) · DFM/DFA · Fixture Design · Engineering Drawings</td></tr>
         <tr><th class="mono">SIMULATION</th><td>ANSYS Fluent (CFD) · ANSYS Mechanical (FEA) · MATLAB · Simulink</td></tr>
@@ -476,8 +478,8 @@
     </section>
 
     <!-- ============ CONTACT ============ -->
-    <section class="section" id="contact" aria-labelledby="contact-title">
-      <h2 class="section-label" id="contact-title"><span class="sec-no">07</span> CONTACT</h2>
+    <section class="section" id="contact" data-datum="H" aria-labelledby="contact-title">
+      <h2 class="section-label" id="contact-title"><span class="sec-no">07</span> CONTACT<span class="datum-tag" aria-hidden="true">H</span></h2>
       <div class="contact-grid">
         <div class="contact-copy">
           <p>
@@ -523,6 +525,7 @@
       <div><span>LAST UPDATED</span><strong data-stamp>2026-06-10</strong></div>
       <div><span>©</span><strong data-year>2026</strong></div>
     </div>
+    <p class="printed-line">PRINTED: <span data-printed>—</span> · SCALE: 1:1 · SHEET 1 OF 1</p>
   </footer>
 
   <!-- Shared lightbox for project images -->

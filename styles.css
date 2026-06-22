@@ -8,23 +8,27 @@
    ============================================================ */
 
 :root[data-theme="light"] {
-  --paper: #fafaf7;
-  --paper-2: #f2f2ec;
-  --paper-3: #e9e9e2;
+  --paper: #f8f7f3;       /* warm off-white — vellum influence */
+  --paper-2: #f1f0ea;
+  --paper-3: #e7e6df;
   --ink: #13151a;
   --ink-soft: #454a58;
   --muted: #707585;
-  --line: #e1e1db;
-  --line-strong: #c2c3be;
+  --line: #e0dfd8;
+  --line-strong: #c0bfb8;
   --red: #c0302a;
   --red-soft: rgba(192, 48, 42, 0.07);
   --red-glow: rgba(192, 48, 42, 0.14);
   --grid: rgba(19, 21, 26, 0.038);
   --ok: #2a7f3c;
-  --shadow-sm: 0 1px 3px rgba(19,21,26,0.07), 0 1px 2px rgba(19,21,26,0.04);
-  --shadow-md: 0 4px 14px rgba(19,21,26,0.09), 0 2px 5px rgba(19,21,26,0.05);
-  --shadow-lg: 0 16px 40px rgba(19,21,26,0.12), 0 5px 12px rgba(19,21,26,0.06);
+  --shadow-sm: 0 1px 3px rgba(30,24,14,0.07), 0 1px 2px rgba(30,24,14,0.04);
+  --shadow-md: 0 4px 14px rgba(30,24,14,0.09), 0 2px 5px rgba(30,24,14,0.05);
+  --shadow-lg: 0 18px 44px rgba(30,24,14,0.13), 0 6px 14px rgba(30,24,14,0.07);
   --shadow-glow: 0 0 0 3px var(--red-glow);
+  --hud-bg: rgba(248, 247, 243, 0.86);
+  --hud-bd: rgba(192, 191, 184, 0.7);
+  --grain-blend: multiply;
+  --grain-opacity: 0.22;
 }
 
 :root[data-theme="dark"] {
@@ -43,8 +47,12 @@
   --ok: #4ec96a;
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.28), 0 1px 2px rgba(0,0,0,0.18);
   --shadow-md: 0 4px 14px rgba(0,0,0,0.42), 0 2px 5px rgba(0,0,0,0.22);
-  --shadow-lg: 0 16px 40px rgba(0,0,0,0.58), 0 5px 12px rgba(0,0,0,0.28);
+  --shadow-lg: 0 18px 44px rgba(0,0,0,0.6), 0 6px 14px rgba(0,0,0,0.3);
   --shadow-glow: 0 0 0 3px var(--red-glow);
+  --hud-bg: rgba(14, 16, 18, 0.86);
+  --hud-bd: rgba(54, 57, 66, 0.7);
+  --grain-blend: screen;
+  --grain-opacity: 0.14;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -83,6 +91,15 @@ body {
   line-height: 1.65;
   font-size: 16.5px;
   transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Vellum grain — a quiet paper texture over everything. Static, GPU-cheap. */
+body::after {
+  content: ""; position: fixed; inset: 0; z-index: 1000;
+  pointer-events: none;
+  mix-blend-mode: var(--grain-blend);
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
 }
 
 h1, h2, h3 { font-family: "Archivo", sans-serif; text-wrap: balance; }
@@ -158,11 +175,27 @@ a { color: inherit; }
 /* ============ HERO : drawing sheet ============ */
 .sheet { padding: clamp(2rem, 6vw, 4.5rem) clamp(1.25rem, 5vw, 4rem) 2rem; }
 
+/* Two faint ghost sheets behind the hero — drawing-stack depth. */
+.sheet-stack { position: relative; }
+.sheet-stack::before,
+.sheet-stack::after {
+  content: ""; position: absolute; inset: 0;
+  border: 1px solid var(--line);
+  border-radius: 3px; background: var(--paper-2);
+  animation: fade-in 1s ease 0.15s both;
+}
+.sheet-stack::before { transform: translate(9px, 11px) rotate(0.28deg); }
+.sheet-stack::after  { transform: translate(4.5px, 5.5px) rotate(-0.12deg); }
+
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
 .sheet-frame {
   border: 1.5px solid var(--ink);
+  border-radius: 3px;
   padding: clamp(1.75rem, 5vw, 4.5rem);
-  position: relative;
+  position: relative; z-index: 1;
   animation: settle 0.75s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  background-color: var(--paper);
   background-image:
     radial-gradient(ellipse 90% 60% at 50% 0%, var(--red-soft), transparent 70%),
     linear-gradient(var(--grid) 1px, transparent 1px),
@@ -174,6 +207,18 @@ a { color: inherit; }
 .sheet-frame::before {
   content: ""; position: absolute; inset: 7px;
   border: 1px solid var(--line-strong);
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+/* Datum feature label riding the top border of the sheet. */
+.sheet-frame::after {
+  content: "DATUM  A";
+  position: absolute; top: -1px; left: clamp(18px, 4vw, 40px);
+  transform: translateY(-50%);
+  background: var(--paper); padding: 0 8px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.56rem; letter-spacing: 0.18em; color: var(--red);
   pointer-events: none;
 }
 
@@ -283,13 +328,37 @@ a { color: inherit; }
   font-weight: 400; font-size: 1.05rem; color: var(--red);
   letter-spacing: 0.02em;
 }
+.sec-no::before { content: "§\00a0"; opacity: 0.5; font-size: 0.82em; }
 .section-label::after {
-  content: ""; flex: 1; height: 9px; max-width: 240px;
+  content: ""; flex: 1; height: 9px; max-width: 240px; order: 2;
   background:
     linear-gradient(var(--line-strong), var(--line-strong)) center / 100% 1px no-repeat,
     linear-gradient(var(--line-strong), var(--line-strong)) left center / 1px 100% no-repeat,
     linear-gradient(var(--line-strong), var(--line-strong)) right center / 1px 100% no-repeat;
 }
+
+/* GD&T datum feature tag at the end of each section heading. Lights up
+   red when its section is the active datum (mirrored in the HUD). */
+.datum-tag {
+  order: 3;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 19px; height: 19px; position: relative;
+  border: 1.5px solid var(--line-strong); border-radius: 1px;
+  font-family: "IBM Plex Mono", monospace; font-size: 0.62rem; font-weight: 500;
+  color: var(--muted); letter-spacing: 0; line-height: 1;
+  transition: border-color 0.3s ease, color 0.3s ease, background 0.3s ease;
+}
+.datum-tag::before {
+  content: ""; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%);
+  width: 0; height: 0;
+  border-left: 4px solid transparent; border-right: 4px solid transparent;
+  border-top: 5px solid var(--line-strong);
+  transition: border-top-color 0.3s ease;
+}
+.section.is-active .datum-tag {
+  border-color: var(--red); color: var(--red); background: var(--red-soft);
+}
+.section.is-active .datum-tag::before { border-top-color: var(--red); }
 
 .section-note {
   color: var(--muted); font-size: 0.92rem;
@@ -404,6 +473,17 @@ a { color: inherit; }
 .status { display: inline-flex; align-items: center; gap: 6px; }
 .status-live { color: var(--red); font-weight: 500; }
 
+/* Rubber-stamp status badge on project cards. */
+.status-stamp {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.58rem; letter-spacing: 0.16em; line-height: 1.65;
+  padding: 1px 6px 2px; border: 1.5px solid var(--line-strong);
+  border-radius: 1px; color: var(--muted);
+  transform: rotate(-1.5deg); transform-origin: left center; opacity: 0.7;
+  transition: border-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+.case:hover .status-stamp { border-color: var(--red); color: var(--red); opacity: 1; }
+
 .case-body h3 {
   font-size: 1.5rem; font-weight: 700; letter-spacing: -0.015em;
   margin-bottom: 0.65rem;
@@ -457,6 +537,7 @@ summary:hover { color: var(--red); }
   transition: border-left-color 0.2s ease, background 0.15s ease;
   margin-left: -1rem;
 }
+.log-list li.log-new { border-left-color: var(--red-glow); }
 .log-list li:hover {
   border-left-color: var(--red);
   background: var(--red-soft);
@@ -503,7 +584,8 @@ summary:hover { color: var(--red); }
 }
 .about-photo figcaption { color: var(--muted); }
 
-.table-caption { color: var(--muted); margin: 2.25rem 0 0.7rem; }
+.table-caption { color: var(--muted); margin: 2.25rem 0 0.7rem; letter-spacing: 0.1em; }
+.section-label + .table-caption { margin-top: -1.6rem; }
 .about-spec { max-width: 760px; }
 .about-spec th { width: 150px; }
 
@@ -616,6 +698,13 @@ summary:hover { color: var(--red); }
 
 .title-block-footer { max-width: 640px; }
 
+.printed-line {
+  font-family: "IBM Plex Mono", monospace; font-size: 0.6rem;
+  letter-spacing: 0.14em; color: var(--muted);
+  padding-top: 0.85rem; border-top: 1px solid var(--line);
+  max-width: 640px;
+}
+
 /* ============ LIGHTBOX ============ */
 .lightbox {
   border: 1.5px solid var(--ink); border-radius: 4px;
@@ -642,8 +731,88 @@ summary:hover { color: var(--red); }
 }
 .reveal.in { opacity: 1; transform: none; }
 
+/* ============ INSTRUMENT READOUT ============
+   The page behaves like a measurement instrument. A reticle crosshair
+   trails the cursor with spring lag; a corner HUD reads out live cursor
+   position, scroll depth, and the active datum. Injected by script.js,
+   so every page gets it with no markup duplication. Decorative and
+   aria-hidden; the site is fully usable without any of it. */
+
+/* Registration / crop marks — print-alignment corners. */
+.reg-mark {
+  position: fixed; z-index: 90; pointer-events: none;
+  width: 18px; height: 18px; opacity: 0.3;
+}
+.reg-mark::before, .reg-mark::after { content: ""; position: absolute; background: var(--line-strong); }
+.reg-mark::before { width: 1px; height: 100%; left: 50%; transform: translateX(-50%); }
+.reg-mark::after  { height: 1px; width: 100%; top: 50%; transform: translateY(-50%); }
+.reg-tl { top: 14px; left: 14px; }
+.reg-tr { top: 14px; right: 14px; }
+.reg-bl { bottom: 14px; left: 14px; }
+.reg-br { bottom: 14px; right: 14px; }
+
+/* Reticle crosshair — short arms, spring-lagged behind the cursor. */
+.ret-h, .ret-v {
+  position: fixed; z-index: 95; pointer-events: none;
+  background: var(--red); opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.ret-h { height: 1px; width: 72px; transform: translateY(-0.5px); }
+.ret-v { width: 1px; height: 72px; transform: translateX(-0.5px); }
+.ret-node {
+  position: fixed; z-index: 95; pointer-events: none;
+  width: 7px; height: 7px; border: 1px solid var(--red); border-radius: 50%;
+  transform: translate(-50%, -50%); opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* HUD — live position + datum readout, bottom-right. */
+.hud {
+  position: fixed; right: 18px; bottom: 18px; z-index: 95;
+  background: var(--hud-bg);
+  backdrop-filter: blur(16px) saturate(1.6);
+  -webkit-backdrop-filter: blur(16px) saturate(1.6);
+  border: 1px solid var(--hud-bd); border-radius: 5px;
+  box-shadow: var(--shadow-md);
+  font-family: "IBM Plex Mono", monospace; min-width: 184px; overflow: hidden;
+  opacity: 0; transform: translateY(6px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.hud.visible { opacity: 1; transform: none; }
+.hud-header {
+  display: flex; align-items: center; gap: 7px;
+  padding: 0.38rem 0.7rem; border-bottom: 1px solid var(--hud-bd);
+  font-size: 0.58rem; letter-spacing: 0.14em; color: var(--muted);
+}
+.hud-live {
+  width: 5px; height: 5px; border-radius: 50%; background: var(--red);
+  flex-shrink: 0; animation: hud-pulse 2.2s ease-in-out infinite;
+}
+@keyframes hud-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+.hud-row {
+  display: grid; grid-template-columns: 2.6rem 1fr; gap: 0.5rem;
+  padding: 0.3rem 0.7rem; align-items: baseline;
+  border-bottom: 1px solid var(--hud-bd); font-size: 0.68rem;
+}
+.hud-row:last-of-type { border-bottom: none; }
+.hud-k { color: var(--muted); letter-spacing: 0.1em; }
+.hud-v { color: var(--ink); font-weight: 500; letter-spacing: 0.02em; font-size: 0.72rem; }
+.hud-datum-v { color: var(--red); font-weight: 500; letter-spacing: 0.06em; }
+.hud-datum-v.flash { animation: hud-flash 0.3s ease; }
+@keyframes hud-flash { 0% { opacity: 0.2; } 50% { opacity: 1; } 100% { opacity: 1; } }
+.hud-bar-wrap {
+  height: 3px; background: var(--paper-3); margin: 0 0.7rem 0.5rem;
+  border-radius: 2px; overflow: hidden;
+}
+.hud-bar-fill {
+  height: 100%; width: 0; border-radius: 2px;
+  background: linear-gradient(90deg, #1e4fc4 0%, #2fb34a 35%, #efc31f 65%, var(--red) 100%);
+  transition: width 0.12s ease;
+}
+
 /* ============ RESPONSIVE ============ */
 @media (max-width: 820px) {
+  .hud { display: none; }
   .case { grid-template-columns: 1fr; }
   .case-media img, .media-placeholder { max-width: 440px; }
   .contact-grid { grid-template-columns: 1fr; }
@@ -664,8 +833,10 @@ summary:hover { color: var(--red); }
   .exp-right { flex-direction: row; align-items: baseline; gap: 0.8rem; }
   .log-list li { grid-template-columns: 1fr; gap: 0.15rem; }
   .sheet-frame { background-size: auto, 22px 22px, 22px 22px; }
+  .sheet-stack::before, .sheet-stack::after { display: none; }
   .cap-table th { width: 100px; }
   .cap-table th, .cap-table td { padding: 0.65rem 0.75rem; font-size: 0.88rem; }
+  .reg-mark { display: none; }
 }
 
 /* ============ MOTION & PRINT ============ */
@@ -673,9 +844,12 @@ summary:hover { color: var(--red); }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; }
+  .ret-h, .ret-v, .ret-node { display: none; }
 }
 
 @media print {
-  .nav, .theme-toggle, .contact-form { display: none; }
+  .nav, .theme-toggle, .contact-form,
+  .hud, .ret-h, .ret-v, .ret-node, .reg-mark { display: none; }
+  body::after { display: none; }
   .section { border: none; }
 }
