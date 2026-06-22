@@ -251,7 +251,6 @@ a { color: inherit; }
   color: var(--muted);
   margin-bottom: 1.8rem;
 }
-.hero-note::before { content: ""; }
 
 .hero-sub {
   max-width: 54ch; color: var(--ink-soft);
@@ -423,7 +422,6 @@ a { color: inherit; }
   box-shadow: var(--shadow-md);
   transform: scale(1.005);
 }
-.case:hover .case-media img { filter: saturate(1); border-color: var(--red); }
 
 .media-placeholder {
   display: flex; align-items: center; justify-content: center; text-align: center;
@@ -471,7 +469,6 @@ a { color: inherit; }
 }
 
 .status { display: inline-flex; align-items: center; gap: 6px; }
-.status-live { color: var(--red); font-weight: 500; }
 
 /* Rubber-stamp status badge on project cards. */
 .status-stamp {
@@ -487,18 +484,8 @@ a { color: inherit; }
 .case-body h3 {
   font-size: 1.5rem; font-weight: 700; letter-spacing: -0.015em;
   margin-bottom: 0.65rem;
-  transition: color 0.15s ease;
 }
-.case:hover .case-body h3 { color: var(--red); }
 .case-body > p { color: var(--ink-soft); max-width: 62ch; line-height: 1.7; }
-
-.case-link {
-  display: inline-block; margin-top: 1.1rem; text-decoration: none;
-  color: var(--red); font-weight: 500;
-  border-bottom: 1px solid transparent;
-  transition: border-bottom-color 0.15s ease;
-}
-.case-link:hover { border-bottom-color: var(--red); }
 
 details { margin-top: 1.1rem; max-width: 62ch; }
 summary {
@@ -707,6 +694,7 @@ summary:hover { color: var(--red); }
 
 /* ============ LIGHTBOX ============ */
 .lightbox {
+  margin: auto;
   border: 1.5px solid var(--ink); border-radius: 4px;
   background: var(--paper); color: var(--ink);
   padding: 0.9rem; max-width: min(92vw, 1100px);
