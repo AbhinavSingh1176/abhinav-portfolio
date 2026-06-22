@@ -1,4 +1,4 @@
-// Abhinav Singh — portfolio v3
+// Abhinav Singh — portfolio
 // Deliberately small: theme, form, image fallbacks, lightbox, scroll reveal.
 
 const SUN_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
@@ -28,9 +28,11 @@ function updateThemeLabel(theme) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // ---------- Footer year ----------
+  // ---------- Footer year + printed timestamp ----------
   const year = document.querySelector("[data-year]");
   if (year) year.textContent = new Date().getFullYear();
+  const printed = document.querySelector("[data-printed]");
+  if (printed) printed.textContent = new Date().toISOString().slice(0, 10);
 
   // ---------- Image fallbacks ----------
   // Any <img> with data-fallback that fails to load is swapped for a
@@ -138,7 +140,129 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+  // ---------- Instrument readout ----------
+  initInstrument();
 });
+
+// ---------- Instrument readout ----------
+// The page behaves like a measurement instrument: a reticle crosshair
+// trails the cursor with spring lag, and a corner HUD reads out live
+// cursor position, scroll depth, and the active datum (which also lights
+// up that section's GD&T tag). The whole layer is injected here, so every
+// page that loads this script gets it with no markup duplication. It is
+// purely decorative and aria-hidden; nothing here is required to use the site.
+function initInstrument() {
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const lerp = (a, b, t) => a + (b - a) * t;
+
+  // Build the layer once.
+  const frag = document.createDocumentFragment();
+  ["reg-tl", "reg-tr", "reg-bl", "reg-br"].forEach((pos) => {
+    const m = document.createElement("div");
+    m.className = "reg-mark " + pos;
+    m.setAttribute("aria-hidden", "true");
+    frag.appendChild(m);
+  });
+
+  const hud = document.createElement("aside");
+  hud.className = "hud";
+  hud.setAttribute("aria-hidden", "true");
+  hud.innerHTML =
+    '<div class="hud-header"><span class="hud-live"></span> INSTRUMENT · LIVE</div>' +
+    '<div class="hud-row"><span class="hud-k">X</span><span class="hud-v" data-hx>–</span></div>' +
+    '<div class="hud-row"><span class="hud-k">Y</span><span class="hud-v" data-hy>–</span></div>' +
+    '<div class="hud-row"><span class="hud-k">SCR</span><span class="hud-v" data-hs>0.0%</span></div>' +
+    '<div class="hud-row"><span class="hud-k">DAT</span><span class="hud-datum-v" data-hd>A</span></div>' +
+    '<div class="hud-bar-wrap"><div class="hud-bar-fill" data-hbar></div></div>';
+  frag.appendChild(hud);
+
+  let retH, retV, retN;
+  if (finePointer && !reduceMotion) {
+    retH = document.createElement("div"); retH.className = "ret-h"; retH.setAttribute("aria-hidden", "true");
+    retV = document.createElement("div"); retV.className = "ret-v"; retV.setAttribute("aria-hidden", "true");
+    retN = document.createElement("div"); retN.className = "ret-node"; retN.setAttribute("aria-hidden", "true");
+    frag.appendChild(retH); frag.appendChild(retV); frag.appendChild(retN);
+  }
+  document.body.appendChild(frag);
+
+  const hX = hud.querySelector("[data-hx]");
+  const hY = hud.querySelector("[data-hy]");
+  const hS = hud.querySelector("[data-hs]");
+  const hD = hud.querySelector("[data-hd]");
+  const hBar = hud.querySelector("[data-hbar]");
+
+  let W = window.innerWidth, H = window.innerHeight;
+  window.addEventListener("resize", () => { W = window.innerWidth; H = window.innerHeight; }, { passive: true });
+
+  // Datum sections: whichever section's top has passed 45% of the viewport
+  // is the active datum. Drives the HUD letter and the section's GD&T tag.
+  const sections = Array.prototype.slice.call(document.querySelectorAll(".section[data-datum]"));
+  let lastDatum = "A";
+  const activeDatum = () => {
+    let cur = "A";
+    for (let i = 0; i < sections.length; i++) {
+      if (sections[i].getBoundingClientRect().top <= H * 0.45) cur = sections[i].getAttribute("data-datum");
+    }
+    return cur;
+  };
+  const setActiveSection = (d) =>
+    sections.forEach((s) => s.classList.toggle("is-active", s.getAttribute("data-datum") === d));
+
+  // Spring/lerp state.
+  let cx = -200, cy = -200, tx = -200, ty = -200, dx = 0, dy = 0, dScroll = 0;
+  let active = false, idleTimer = null;
+  const kPos = reduceMotion ? 1 : 0.13;
+  const kVal = reduceMotion ? 1 : 0.09;
+  const kScr = reduceMotion ? 1 : 0.07;
+
+  if (finePointer) {
+    window.addEventListener("mousemove", (e) => {
+      tx = e.clientX; ty = e.clientY;
+      if (!active) {
+        active = true;
+        if (retH) { retH.style.opacity = "0.16"; retV.style.opacity = "0.16"; retN.style.opacity = "0.4"; }
+        hud.classList.add("visible");
+      }
+      if (retH) {
+        clearTimeout(idleTimer);
+        idleTimer = setTimeout(() => {
+          retH.style.opacity = "0"; retV.style.opacity = "0"; retN.style.opacity = "0";
+        }, 3000);
+      }
+    }, { passive: true });
+  } else {
+    window.addEventListener("scroll", () => hud.classList.add("visible"), { passive: true, once: true });
+  }
+
+  function tick() {
+    cx = lerp(cx, tx, kPos); cy = lerp(cy, ty, kPos);
+    dx = lerp(dx, W > 0 ? tx / W : 0, kVal);
+    dy = lerp(dy, H > 0 ? ty / H : 0, kVal);
+    const maxScroll = document.documentElement.scrollHeight - H;
+    dScroll = lerp(dScroll, maxScroll > 0 ? window.scrollY / maxScroll : 0, kScr);
+
+    if (retH && active) {
+      retH.style.left = (cx - 36) + "px"; retH.style.top = cy + "px";
+      retV.style.top = (cy - 36) + "px"; retV.style.left = cx + "px";
+      retN.style.left = cx + "px"; retN.style.top = cy + "px";
+    }
+    if (active) { hX.textContent = dx.toFixed(3); hY.textContent = dy.toFixed(3); }
+    hS.textContent = (dScroll * 100).toFixed(1) + "%";
+    hBar.style.width = (dScroll * 100) + "%";
+
+    const d = sections.length ? activeDatum() : "—";
+    if (d !== lastDatum) {
+      lastDatum = d;
+      hD.textContent = d;
+      hD.classList.remove("flash"); void hD.offsetWidth; hD.classList.add("flash");
+      setActiveSection(d);
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
 
 // ---------- Contact form (Formspree) ----------
 async function handleFormSubmit(event) {
