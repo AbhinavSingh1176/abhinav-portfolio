@@ -514,6 +514,14 @@ summary:hover { color: var(--red); }
 }
 
 /* ============ BUILD LOG ============ */
+#log {
+  background-color: var(--paper-2);
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--line-strong) 0 1px,
+    transparent 1px 12px
+  );
+}
 .log-list { list-style: none; max-width: 760px; }
 .log-list li {
   display: grid; grid-template-columns: 110px 1fr; gap: 1.25rem;
@@ -723,30 +731,8 @@ summary:hover { color: var(--red); }
 .reveal.in { opacity: 1; transform: none; }
 
 /* ============ DRAWING DYNAMICS ============
-   Engineering-drawing motion language layered onto the existing site:
-   a cutting-plane line that passes across each section heading, surface-
-   finish hatching on card hover, a "Section A–A" cut that draws itself in
-   below the hero, and a vernier caliper jaw that rides the experience
-   timeline on scroll. All decorative, all motion-safe. */
-
-/* ---- Cutting-plane line sweep across section headings -------------- */
-/* As a heading reveals, a thick red ASME cutting-plane line passes left
-   to right just above it — like a section cut crossing the sheet. */
-.section-label { position: relative; }
-.section-label::before {
-  content: ""; position: absolute; left: 0; top: -0.85rem;
-  width: 100%; height: 2px; pointer-events: none;
-  transform: scaleX(0); transform-origin: left center; opacity: 0;
-  background: repeating-linear-gradient(90deg,
-    var(--red) 0 17px, transparent 17px 25px);
-}
-.section-label.in::before { animation: cut-pass 0.62s cubic-bezier(0.4, 0, 0.2, 1) 0.05s both; }
-@keyframes cut-pass {
-  0%   { transform: scaleX(0); opacity: 0; }
-  12%  { opacity: 0.9; }
-  60%  { transform: scaleX(1); opacity: 0.9; }
-  100% { transform: scaleX(1); opacity: 0; }
-}
+   Surface-finish 45° hatching on project-card hover — same hatch a
+   machined face carries on an engineering drawing. */
 
 /* ---- Surface-finish hatching on project-card hover ---------------- */
 /* The 45° section-line hatch that machined surfaces carry on a drawing,
@@ -759,69 +745,6 @@ summary:hover { color: var(--red); }
   transition: opacity 0.3s ease;
 }
 .case:hover::after { opacity: 0.7; }
-
-/* ---- Section A–A cut: the hero→work transition ------------------- */
-/* The hero is DATUM A; here the sheet is "cut" (Section A–A) to expose
-   the work underneath. The cutting-plane line sweeps across, the
-   crosshatched cut face wipes in below it, then the arrows + label set. */
-.section-cut {
-  max-width: 1200px; margin: 0 auto;
-  padding: 0.5rem clamp(1.25rem, 5vw, 4rem) 0;
-}
-.cut-plane { position: relative; height: 15px; }
-.cut-rule {
-  position: absolute; left: 9px; right: 9px; top: 50%; height: 2.5px;
-  transform: translateY(-50%) scaleX(1); transform-origin: left center;
-  background: repeating-linear-gradient(90deg,
-    var(--red) 0 19px, transparent 19px 27px);
-}
-.cut-end { position: absolute; top: 0; width: 2.5px; height: 100%; background: var(--red); }
-.cut-end.l { left: 9px; }
-.cut-end.r { right: 9px; }
-.cut-end::before {  /* arrowhead — viewing direction, down into the work */
-  content: ""; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%);
-  width: 0; height: 0;
-  border-left: 5px solid transparent; border-right: 5px solid transparent;
-  border-top: 7px solid var(--red);
-}
-.cut-end::after {  /* the section letter */
-  content: "A"; position: absolute; top: -1.25em; left: 50%; transform: translateX(-50%);
-  font-family: "IBM Plex Mono", monospace; font-size: 0.62rem; font-weight: 500; color: var(--red);
-}
-.cut-face {
-  height: clamp(24px, 4vw, 38px); margin-top: 5px;
-  border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink);
-  background-color: var(--paper-2);
-  background-image: repeating-linear-gradient(45deg,
-    var(--line-strong) 0 1px, transparent 1px 7px);
-}
-.cut-label { color: var(--muted); margin-top: 7px; font-size: 0.6rem; letter-spacing: 0.12em; }
-
-/* Armed = pre-draw state (set by JS only when motion is OK); drawn = play. */
-.section-cut.cut-armed .cut-rule { transform: translateY(-50%) scaleX(0); }
-.section-cut.cut-armed .cut-face { clip-path: inset(0 100% 0 0); }
-.section-cut.cut-armed .cut-end,
-.section-cut.cut-armed .cut-label { opacity: 0; }
-.section-cut.cut-drawn .cut-rule {
-  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
-  transform: translateY(-50%) scaleX(1);
-}
-.section-cut.cut-drawn .cut-face {
-  transition: clip-path 0.5s ease 0.35s; clip-path: inset(0 0 0 0);
-}
-.section-cut.cut-drawn .cut-end { transition: opacity 0.3s ease 0.52s; opacity: 1; }
-.section-cut.cut-drawn .cut-label { transition: opacity 0.4s ease 0.72s; opacity: 1; }
-
-/* ---- Vernier caliper jaw on the experience timeline -------------- */
-/* The timeline doubles as a caliper beam; this jaw slides along it with
-   scroll, like a depth gauge tracking how far you've read. */
-.exp-jaw {
-  position: absolute; left: -6px; top: 0; width: 14px; height: 14px;
-  border: 2px solid var(--red); border-right: none; border-radius: 2px 0 0 2px;
-  background: var(--red-soft);
-  transform: translateY(-50%); opacity: 0;
-  transition: opacity 0.3s ease; pointer-events: none; z-index: 2;
-}
 
 /* ============ INSTRUMENT READOUT ============
    The page behaves like a measurement instrument. A reticle crosshair
@@ -941,8 +864,7 @@ summary:hover { color: var(--red); }
 
 @media print {
   .nav, .theme-toggle, .contact-form,
-  .hud, .ret-h, .ret-v, .ret-node, .reg-mark,
-  .section-cut, .exp-jaw { display: none; }
+  .hud, .ret-h, .ret-v, .ret-node, .reg-mark { display: none; }
   body::after { display: none; }
   .section { border: none; }
 }
