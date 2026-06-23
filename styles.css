@@ -17,8 +17,8 @@
   --line: #e0dfd8;
   --line-strong: #c0bfb8;
   --red: #c0302a;
-  --red-soft: rgba(192, 48, 42, 0.07);
-  --red-glow: rgba(192, 48, 42, 0.14);
+  --red-soft: rgba(192, 48, 42, 0.04);
+  --red-glow: rgba(192, 48, 42, 0.09);
   --grid: rgba(19, 21, 26, 0.038);
   --ok: #2a7f3c;
   --shadow-sm: 0 1px 3px rgba(30,24,14,0.07), 0 1px 2px rgba(30,24,14,0.04);
@@ -41,8 +41,8 @@
   --line: #23262e;
   --line-strong: #363942;
   --red: #e85a50;
-  --red-soft: rgba(232, 90, 80, 0.1);
-  --red-glow: rgba(232, 90, 80, 0.2);
+  --red-soft: rgba(232, 90, 80, 0.06);
+  --red-glow: rgba(232, 90, 80, 0.13);
   --grid: rgba(236, 234, 230, 0.032);
   --ok: #4ec96a;
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.28), 0 1px 2px rgba(0,0,0,0.18);
@@ -411,34 +411,6 @@ a { color: inherit; }
 
 .case-media { position: relative; }
 
-/* Leader-line callout — a balloon leader that draws itself onto the part on
-   hover and flags the project's headline result, the way a drawing annotates
-   a feature: anchor dot on the work, leader line out, label at the end. */
-.callout {
-  position: absolute; top: 15%; left: 14px; z-index: 2;
-  display: flex; align-items: center;
-  pointer-events: none;
-  opacity: 0; transform: translateX(-6px);
-  transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
-}
-.case:hover .callout { opacity: 1; transform: none; }
-.callout-dot {
-  width: 6px; height: 6px; border-radius: 50%; flex: none;
-  background: var(--red); box-shadow: 0 0 0 3px var(--red-glow);
-}
-.callout-line {
-  width: 0; height: 1px; background: var(--red); flex: none;
-  transition: width 0.35s cubic-bezier(0.2, 0.7, 0.2, 1) 0.05s;
-}
-.case:hover .callout-line { width: 26px; }
-.callout-tag {
-  background: var(--ink); color: var(--paper);
-  font-family: "IBM Plex Mono", monospace;
-  font-style: normal; font-size: 0.58rem; letter-spacing: 0.1em; line-height: 1;
-  padding: 3px 7px; border-radius: 2px; white-space: nowrap;
-  box-shadow: var(--shadow-sm);
-}
-
 .case-media img,
 .media-placeholder {
   width: 100%; aspect-ratio: 4 / 3; object-fit: cover;
@@ -447,10 +419,10 @@ a { color: inherit; }
   transition: filter 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
 .case-media img:hover {
-  filter: saturate(1.05) brightness(1.0);
+  filter: saturate(1.03) brightness(1.0);
   border-color: var(--ink);
-  box-shadow: var(--shadow-md);
-  transform: scale(1.005);
+  box-shadow: var(--shadow-sm);
+  transform: scale(1.003);
 }
 
 .media-placeholder {
@@ -597,11 +569,11 @@ summary:hover { color: var(--red); }
 .about-photo .media-placeholder {
   width: 100%; aspect-ratio: 4 / 5; object-fit: cover;
   border: 1px solid var(--line-strong); border-radius: 3px;
-  transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.4s ease;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
   box-shadow: var(--shadow-sm);
 }
 .about-photo:hover img {
-  transform: scale(1.015);
+  transform: scale(1.008);
   box-shadow: var(--shadow-md);
 }
 .about-photo figcaption { color: var(--muted); }
@@ -655,15 +627,7 @@ summary:hover { color: var(--red); }
   padding: 0.9rem 1.1rem; border: 1px solid var(--line);
   font-weight: 400;
 }
-/* Column headers — the datasheet's banner row. */
-.cap-table thead th {
-  background: var(--ink); color: var(--paper);
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.66rem; letter-spacing: 0.12em;
-  padding: 0.55rem 1.1rem; border-color: var(--ink);
-}
-/* Row label = the domain (left column). */
-.cap-table tbody th {
+.cap-table th {
   color: var(--ink); width: 150px; background: var(--paper-2);
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.76rem; letter-spacing: 0.06em;
@@ -672,14 +636,6 @@ summary:hover { color: var(--red); }
   color: var(--ink-soft); font-size: 0.95rem;
   line-height: 1.9;
 }
-/* GRADE column — narrow, centered, redline-coded. */
-.cap-grade-h, .cap-grade { width: 88px; text-align: center; white-space: nowrap; }
-.cap-grade {
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 0.66rem; letter-spacing: 0.08em; font-weight: 500;
-  color: var(--muted); line-height: 1.9;
-}
-.cap-grade.core { color: var(--red); }
 
 /* ============ CONTACT ============ */
 .contact-grid {
@@ -734,7 +690,7 @@ summary:hover { color: var(--red); }
 .general-notes li { font-size: 0.72rem; line-height: 1.8; }
 .general-notes li::before { content: counter(list-item) ". "; color: var(--red); }
 
-.title-block-footer { max-width: 720px; }
+.title-block-footer { max-width: 640px; }
 
 .printed-line {
   font-family: "IBM Plex Mono", monospace; font-size: 0.6rem;
@@ -768,8 +724,8 @@ summary:hover { color: var(--red); }
    ring. The transform easing overshoots once (ζ ≈ 0.55) so every element
    snaps in like a part dropping into a fixture, then settles. */
 .reveal {
-  opacity: 0; transform: translateY(16px);
-  transition: opacity 0.5s ease, transform 0.72s cubic-bezier(0.34, 1.4, 0.36, 1);
+  opacity: 0; transform: translateY(12px);
+  transition: opacity 0.45s ease, transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 .reveal.in { opacity: 1; transform: none; }
 
@@ -787,7 +743,7 @@ summary:hover { color: var(--red); }
     var(--red-glow) 0 1px, transparent 1px 8px);
   transition: opacity 0.3s ease;
 }
-.case:hover::after { opacity: 0.7; }
+.case:hover::after { opacity: 0.5; }
 
 /* ============ INSTRUMENT READOUT ============
    The page behaves like a measurement instrument. A reticle crosshair
