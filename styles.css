@@ -409,6 +409,36 @@ a { color: inherit; }
 }
 .case:first-of-type { border-top: none; padding-top: 0; }
 
+.case-media { position: relative; }
+
+/* Leader-line callout — a balloon leader that draws itself onto the part on
+   hover and flags the project's headline result, the way a drawing annotates
+   a feature: anchor dot on the work, leader line out, label at the end. */
+.callout {
+  position: absolute; top: 15%; left: 14px; z-index: 2;
+  display: flex; align-items: center;
+  pointer-events: none;
+  opacity: 0; transform: translateX(-6px);
+  transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.case:hover .callout { opacity: 1; transform: none; }
+.callout-dot {
+  width: 6px; height: 6px; border-radius: 50%; flex: none;
+  background: var(--red); box-shadow: 0 0 0 3px var(--red-glow);
+}
+.callout-line {
+  width: 0; height: 1px; background: var(--red); flex: none;
+  transition: width 0.35s cubic-bezier(0.2, 0.7, 0.2, 1) 0.05s;
+}
+.case:hover .callout-line { width: 26px; }
+.callout-tag {
+  background: var(--ink); color: var(--paper);
+  font-family: "IBM Plex Mono", monospace;
+  font-style: normal; font-size: 0.58rem; letter-spacing: 0.1em; line-height: 1;
+  padding: 3px 7px; border-radius: 2px; white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+}
+
 .case-media img,
 .media-placeholder {
   width: 100%; aspect-ratio: 4 / 3; object-fit: cover;
@@ -514,14 +544,6 @@ summary:hover { color: var(--red); }
 }
 
 /* ============ BUILD LOG ============ */
-#log {
-  background-color: var(--paper-2);
-  background-image: repeating-linear-gradient(
-    45deg,
-    var(--line-strong) 0 1px,
-    transparent 1px 12px
-  );
-}
 .log-list { list-style: none; max-width: 760px; }
 .log-list li {
   display: grid; grid-template-columns: 110px 1fr; gap: 1.25rem;
@@ -529,13 +551,18 @@ summary:hover { color: var(--red); }
   border-bottom: 1px solid var(--line);
   font-size: 0.85rem; line-height: 1.6;
   border-left: 2px solid transparent;
-  transition: border-left-color 0.2s ease, background 0.15s ease;
+  transition: border-left-color 0.2s ease, background-color 0.15s ease;
   margin-left: -1rem;
 }
 .log-list li.log-new { border-left-color: var(--red-glow); }
+/* Hover = a "section view" of that one entry: red glow plus the 45° cut
+   hatching a sectioned feature carries on an engineering drawing. Lives on
+   the highlighted row, not the whole panel. */
 .log-list li:hover {
   border-left-color: var(--red);
-  background: var(--red-soft);
+  background-color: var(--red-soft);
+  background-image: repeating-linear-gradient(45deg,
+    var(--red-glow) 0 1px, transparent 1px 7px);
   border-radius: 0 2px 2px 0;
 }
 .log-list li:last-child { border-bottom: none; }
@@ -628,7 +655,15 @@ summary:hover { color: var(--red); }
   padding: 0.9rem 1.1rem; border: 1px solid var(--line);
   font-weight: 400;
 }
-.cap-table th {
+/* Column headers — the datasheet's banner row. */
+.cap-table thead th {
+  background: var(--ink); color: var(--paper);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.66rem; letter-spacing: 0.12em;
+  padding: 0.55rem 1.1rem; border-color: var(--ink);
+}
+/* Row label = the domain (left column). */
+.cap-table tbody th {
   color: var(--ink); width: 150px; background: var(--paper-2);
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.76rem; letter-spacing: 0.06em;
@@ -637,6 +672,14 @@ summary:hover { color: var(--red); }
   color: var(--ink-soft); font-size: 0.95rem;
   line-height: 1.9;
 }
+/* GRADE column — narrow, centered, redline-coded. */
+.cap-grade-h, .cap-grade { width: 88px; text-align: center; white-space: nowrap; }
+.cap-grade {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.66rem; letter-spacing: 0.08em; font-weight: 500;
+  color: var(--muted); line-height: 1.9;
+}
+.cap-grade.core { color: var(--red); }
 
 /* ============ CONTACT ============ */
 .contact-grid {
@@ -691,7 +734,7 @@ summary:hover { color: var(--red); }
 .general-notes li { font-size: 0.72rem; line-height: 1.8; }
 .general-notes li::before { content: counter(list-item) ". "; color: var(--red); }
 
-.title-block-footer { max-width: 640px; }
+.title-block-footer { max-width: 720px; }
 
 .printed-line {
   font-family: "IBM Plex Mono", monospace; font-size: 0.6rem;
