@@ -54,6 +54,28 @@
   <link rel="stylesheet" href="preview.css" />
 </head>
 <body>
+<!-- ================================================================
+  HOW TO EDIT THIS SITE
+
+  Easiest way: open /admin.html on the live site. It can add build-log
+  entries, upload images, and bump the REV — no GitHub needed (you
+  authenticate once with a repo-scoped token; see instructions there).
+
+  Manual edits, the three usual places:
+  1. BUILD LOG  — add one <li> at the TOP of the #log list.
+  2. WORK       — copy an <article class="case"> block and edit.
+                  Extra photos go in the <details class="more-views">
+                  block — delete that block if a project has only one
+                  image, the "+N MORE VIEWS" toggle disappears with it.
+  3. REV + DATE — the data-rev / data-stamp values in the hero and
+                  footer title blocks (admin.html does this for you).
+
+  Images: put files in images/projects/<project>/ and reference the
+  EXACT case (lowercase "images" — that's how git tracks the folder;
+  GitHub Pages is case-sensitive even though Windows isn't).
+  Any image that's missing or fails to load automatically becomes a
+  labeled placeholder — nothing ever looks broken.
+================================================================ -->
   <div class="thermo" aria-hidden="true"></div>
   <a href="#work" class="skip-link">Skip to work</a>
 
@@ -106,19 +128,6 @@
       </div>
     </section>
 
-    <!-- ============ SECTION A–A : cut from intro into the work ============
-         The hero is DATUM A; here the sheet is "cut" (Section A–A) to
-         expose the work underneath. Decorative — drawn in by script.js. -->
-    <div class="section-cut" aria-hidden="true">
-      <div class="cut-plane">
-        <span class="cut-end l"></span>
-        <span class="cut-rule"></span>
-        <span class="cut-end r"></span>
-      </div>
-      <div class="cut-face"></div>
-      <p class="cut-label mono">SECTION A–A · SCALE 1:1 · MATERIAL: WORK, AS BUILT</p>
-    </div>
-
     <!-- ============ NOW ============ -->
     <section class="section" id="now" data-datum="B" aria-labelledby="now-title">
       <h2 class="section-label" id="now-title"><span class="sec-no">01</span> ON DECK<span class="datum-tag" aria-hidden="true">B</span></h2>
@@ -130,7 +139,11 @@
       </ul>
     </section>
 
-    <!-- ============ WORK : case studies ============ -->
+    <!-- ============ WORK : case studies ============
+         To add a project: copy an <article class="case"> block, bump the
+         balloon number, swap the image (or leave a placeholder div).
+         Extra photos: keep/edit the <details class="more-views"> block;
+         delete it entirely if there's only one image. -->
     <section class="section" id="work" data-datum="C" aria-labelledby="work-title">
       <h2 class="section-label" id="work-title"><span class="sec-no">02</span> PREVIOUS WORK<span class="datum-tag" aria-hidden="true">C</span></h2>
       <p class="section-note">Things I've designed, built, and tested. Each one taught me something the last one couldn't.</p>
@@ -257,6 +270,7 @@
 
       <article class="case">
         <div class="case-media">
+          <!-- Add a manual page or kart photo if you have one: images/projects/epics-karts/main.jpg -->
           <div class="media-placeholder mono">KART-001<br>assembly manual</div>
         </div>
         <div class="case-body">
@@ -287,6 +301,7 @@
 
       <article class="case">
         <div class="case-media">
+          <!-- Add an EPICS device photo if you have one: images/projects/epics/main.jpg -->
           <div class="media-placeholder mono">PEEPS<br>air purification device</div>
         </div>
         <div class="case-body">
