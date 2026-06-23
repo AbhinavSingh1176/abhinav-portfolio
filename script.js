@@ -141,6 +141,49 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // ---------- Section A–A cut: draw-in on scroll ----------
+  // The cut band shows static by default (no-JS / reduced motion safe).
+  // With motion allowed, JS arms it (pre-draw state) then plays the cut
+  // when it scrolls into view: plane sweeps, hatched face wipes in, labels set.
+  const cut = document.querySelector(".section-cut");
+  if (cut && !reduceMotion && "IntersectionObserver" in window) {
+    cut.classList.add("cut-armed");
+    const cutObs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            cut.classList.add("cut-drawn");
+            cutObs.unobserve(cut);
+          }
+        });
+      },
+      { rootMargin: "0px 0px -10% 0px" }
+    );
+    cutObs.observe(cut);
+  }
+
+  // ---------- Vernier caliper jaw on the experience timeline ----------
+  // The timeline beam doubles as a caliper scale; this jaw slides along it
+  // with scroll, tracking how far through the experience you've read.
+  const expList = document.querySelector(".exp-list");
+  if (expList) {
+    const jaw = document.createElement("span");
+    jaw.className = "exp-jaw";
+    jaw.setAttribute("aria-hidden", "true");
+    expList.appendChild(jaw);
+    const placeJaw = () => {
+      const r = expList.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const p = (vh * 0.5 - r.top) / r.height;
+      const clamped = Math.max(0, Math.min(1, p));
+      jaw.style.top = clamped * r.height + "px";
+      jaw.style.opacity = r.top < vh && r.bottom > 0 ? "1" : "0";
+    };
+    window.addEventListener("scroll", placeJaw, { passive: true });
+    window.addEventListener("resize", placeJaw, { passive: true });
+    placeJaw();
+  }
+
   // ---------- Instrument readout ----------
   initInstrument();
 });
