@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Paper Experience — Demo | Abhinav Singh</title>
+<link rel="icon" href="logo-as.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     DEMO — "drawing paper experience"
+     Self-contained on purpose so it renders correctly on the live
+     site (the preview proxy sandboxes external JS). Five paper
+     treatments, each toggle-able from the panel, top-right:
+       1. drafting grid paper      body.pg-grid
+       2. zone margin border       body.pg-zone
+       3. dimension callouts       body.pg-dim
+       4. revision cloud           body.pg-rev
+       5. graphite pencil grain    body.pg-graphite
+     Shares the production palette and type system.
+     ============================================================ */
+
+  :root[data-theme="light"] {
+    --paper:#f8f7f3; --paper-2:#f1f0ea; --paper-3:#e7e6df;
+    --ink:#13151a; --ink-soft:#454a58; --muted:#707585;
+    --line:#e0dfd8; --line-strong:#c0bfb8;
+    --red:#c0302a; --red-soft:rgba(192,48,42,0.07);
+    --blue:#3551a8;
+    --grid-minor:rgba(53,81,168,0.07); --grid-major:rgba(53,81,168,0.14);
+    --shadow-lg:0 18px 44px rgba(30,24,14,0.13), 0 6px 14px rgba(30,24,14,0.07);
+    --shadow-sm:0 1px 3px rgba(30,24,14,0.07), 0 1px 2px rgba(30,24,14,0.04);
+    --graphite-blend:multiply; --graphite-opacity:0.5;
+  }
+  :root[data-theme="dark"] {
+    --paper:#0e1012; --paper-2:#161820; --paper-3:#1d2028;
+    --ink:#eceae6; --ink-soft:#b0b4be; --muted:#767c8a;
+    --line:#23262e; --line-strong:#363942;
+    --red:#e85a50; --red-soft:rgba(232,90,80,0.1);
+    --blue:#7d97e8;
+    --grid-minor:rgba(125,151,232,0.06); --grid-major:rgba(125,151,232,0.12);
+    --shadow-lg:0 18px 44px rgba(0,0,0,0.6), 0 6px 14px rgba(0,0,0,0.3);
+    --shadow-sm:0 1px 3px rgba(0,0,0,0.28), 0 1px 2px rgba(0,0,0,0.18);
+    --graphite-blend:screen; --graphite-opacity:0.3;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family:"IBM Plex Sans",-apple-system,sans-serif;
+    background:var(--paper); color:var(--ink);
+    line-height:1.65; font-size:16.5px;
+    transition:background 0.3s ease, color 0.3s ease;
+    min-height:100vh;
+  }
+
+  h1,h2,h3 { font-family:"Archivo",sans-serif; text-wrap:balance; }
+  .mono { font-family:"IBM Plex Mono",monospace; font-size:0.78rem; letter-spacing:0.04em; }
+  ::selection { background:var(--red); color:#fff; }
+
+  /* ---- 1. DRAFTING GRID PAPER ---------------------------------- */
+  /* 6px minor lines, 30px major lines — graph-paper at 5:1 ratio,
+     the real Clearprint vellum proportion. Off until .pg-grid. */
+  body.pg-grid {
+    background-image:
+      linear-gradient(var(--grid-major) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-major) 1px, transparent 1px),
+      linear-gradient(var(--grid-minor) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-minor) 1px, transparent 1px);
+    background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+    background-position: -1px -1px;
+    /* the board stays put while the sheets glide over it on scroll */
+    background-attachment: fixed;
+  }
+
+  /* ---- 5. GRAPHITE PENCIL GRAIN -------------------------------- */
+  /* Fine noise + a faint diagonal "lead stroke" direction, so the
+     surface reads hand-worked rather than printed. Off until .pg-graphite. */
+  body::after {
+    content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
+    opacity:0; transition:opacity 0.3s ease;
+    mix-blend-mode:var(--graphite-blend);
+    background-image:
+      repeating-linear-gradient(48deg,
+        rgba(60,60,70,0.025) 0 2px, transparent 2px 5px),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+  }
+  body.pg-graphite::after { opacity:var(--graphite-opacity); }
+
+  /* ---- 2. ZONE MARGIN BORDER ----------------------------------- */
+  /* A real drawing border: double rule + zone labels A–D down the
+     sides, 1–8 across top & bottom, with tick marks. Fixed frame.
+     Off until .pg-zone (which also pads body to clear the strips). */
+  .zone-frame { display:none; }
+  body.pg-zone { padding:30px; }
+  body.pg-zone .zone-frame { display:block; }
+  /* Label strips only — these carry the paper background so the zone
+     letters/numbers read cleanly over the grid. The full-frame .zf-edge
+     deliberately stays transparent (border only). */
+  .zf-top, .zf-bottom, .zf-left, .zf-right {
+    position:fixed; z-index:80; pointer-events:none;
+    color:var(--muted); font-family:"IBM Plex Mono",monospace;
+    font-size:0.6rem; letter-spacing:0.06em;
+    display:flex; align-items:center; justify-content:space-around;
+    background:var(--paper);
+  }
+  .zf-top, .zf-bottom { left:30px; right:30px; height:22px; }
+  .zf-top { top:8px; border-bottom:1px solid var(--line-strong); }
+  .zf-bottom { bottom:8px; border-top:1px solid var(--line-strong); }
+  .zf-left, .zf-right { top:30px; bottom:30px; width:22px; flex-direction:column; }
+  .zf-left { left:8px; border-right:1px solid var(--line-strong); }
+  .zf-right { right:8px; border-left:1px solid var(--line-strong); }
+  .zf-edge {
+    position:fixed; z-index:79; pointer-events:none; background:none;
+    border:1.5px solid var(--ink); border-radius:2px;
+    top:8px; left:8px; right:8px; bottom:8px;
+  }
+  .zf-edge::before {
+    content:""; position:absolute; inset:22px;
+    border:1px solid var(--line-strong); border-radius:1px;
+  }
+  .zone-frame span.zone-active { color:var(--red); font-weight:500; }
+
+  /* ---- LAYOUT -------------------------------------------------- */
+  .wrap { max-width:1100px; margin:0 auto; padding:clamp(1.5rem,5vw,3.5rem); }
+
+  .topbar {
+    display:flex; align-items:center; gap:1rem;
+    margin-bottom:clamp(2rem,5vw,3.5rem);
+  }
+  .topbar .name {
+    font-family:"Archivo",sans-serif; font-weight:800;
+    font-size:1rem; letter-spacing:0.06em;
+    display:inline-flex; align-items:center; gap:7px;
+  }
+  .topbar .name::after {
+    content:""; width:7px; height:7px; background:var(--red); border-radius:1px;
+  }
+  .topbar .tag { color:var(--muted); margin-left:0.5rem; }
+
+  /* ---- HERO SHEET --------------------------------------------- */
+  .sheet-frame {
+    position:relative; border:1.5px solid var(--ink); border-radius:3px;
+    background:var(--paper); box-shadow:var(--shadow-lg);
+    padding:clamp(2rem,5vw,4.5rem);
+    padding-bottom:clamp(3.5rem,6vw,5.5rem);
+    margin-bottom:clamp(3rem,7vw,5rem);
+    animation:settle 0.7s cubic-bezier(0.2,0.7,0.2,1) both;
+  }
+  @keyframes settle {
+    from { opacity:0; transform:translateY(18px) scale(0.994); }
+    to   { opacity:1; transform:none; }
+  }
+  .sheet-frame::before {
+    content:""; position:absolute; inset:7px;
+    border:1px solid var(--line-strong); border-radius:2px; pointer-events:none;
+  }
+  .eyebrow {
+    font-family:"IBM Plex Mono",monospace; font-size:0.78rem;
+    letter-spacing:0.14em; color:var(--muted); margin-bottom:1.5rem;
+  }
+  .eyebrow b { color:var(--ink); font-weight:500; }
+  .sheet-frame h1 {
+    font-size:clamp(2.4rem,7vw,4.6rem); font-weight:800; line-height:1.02;
+    letter-spacing:-0.025em; margin-bottom:0.65rem; max-width:16ch;
+    position:relative;
+  }
+  .fn-mark { color:var(--red); }
+  .hero-note { font-family:"IBM Plex Mono",monospace; font-size:0.78rem;
+    letter-spacing:0.04em; color:var(--muted); margin-bottom:1.6rem; }
+  .hero-sub { max-width:54ch; color:var(--ink-soft); font-size:1.05rem; margin-bottom:2rem; }
+
+  .title-block {
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr));
+    border:1px solid var(--ink); background:var(--paper); box-shadow:var(--shadow-sm);
+  }
+  .title-block > div {
+    padding:0.6rem 0.95rem; border-right:1px solid var(--line-strong);
+    display:flex; flex-direction:column; gap:2px;
+  }
+  .title-block > div:last-child { border-right:none; }
+  .title-block span { font-family:"IBM Plex Mono",monospace; font-size:0.6rem;
+    letter-spacing:0.14em; color:var(--muted); text-transform:uppercase; }
+  .title-block strong { font-family:"IBM Plex Mono",monospace; font-size:0.82rem;
+    font-weight:500; letter-spacing:0.03em; }
+
+  /* ---- 3. DIMENSION CALLOUTS ---------------------------------- */
+  /* Real dimension leaders: extension line + arrow + value, pointing
+     at parts of the hero. Hidden until .pg-dim. Desktop only — they
+     need room. */
+  .dim { display:none; }
+  body.pg-dim .dim { display:block; }
+  .dim-leader {
+    position:absolute; pointer-events:none;
+    font-family:"IBM Plex Mono",monospace; font-size:0.58rem;
+    letter-spacing:0.08em; color:var(--red);
+  }
+  /* overall-width dimension, sitting in the empty margin below the title
+     block — where an overall dimension lives on a real drawing. */
+  .dim-width {
+    left:clamp(2rem,5vw,4.5rem); right:clamp(2rem,5vw,4.5rem);
+    bottom:clamp(1.5rem,3.2vw,2.6rem);
+    height:1px; background:var(--red);
+  }
+  .dim-width::before, .dim-width::after {
+    content:""; position:absolute; top:-3px; width:1px; height:7px; background:var(--red);
+  }
+  .dim-width::before { left:0; }
+  .dim-width::after { right:0; }
+  .dim-width .v {
+    position:absolute; left:50%; top:-0.95rem; transform:translateX(-50%);
+    background:var(--paper); padding:0 6px; white-space:nowrap;
+  }
+  .dim-width .arrowL, .dim-width .arrowR {
+    position:absolute; top:-3.5px; width:0; height:0;
+    border-top:4px solid transparent; border-bottom:4px solid transparent;
+  }
+  .dim-width .arrowL { left:0; border-right:7px solid var(--red); }
+  .dim-width .arrowR { right:0; border-left:7px solid var(--red); }
+
+  /* leader pointing at the asterisk footnote */
+  .dim-note {
+    right:clamp(1rem,6vw,5rem); top:calc(50% - 1rem);
+    display:flex; align-items:center; gap:0;
+  }
+  .dim-note .line { width:clamp(40px,8vw,90px); height:1px; background:var(--red); position:relative; }
+  .dim-note .line::before {
+    content:""; position:absolute; left:0; top:-3.5px; width:0; height:0;
+    border-top:4px solid transparent; border-bottom:4px solid transparent;
+    border-right:7px solid var(--red);
+  }
+  .dim-note .v { background:var(--paper); padding:0 6px; white-space:nowrap; }
+
+  /* ---- DIMENSION-LINE SECTION DIVIDER ------------------------- */
+  .divider {
+    display:flex; align-items:center; gap:1rem; margin:0 0 2.5rem;
+    color:var(--muted); font-family:"IBM Plex Mono",monospace;
+    font-size:0.78rem; letter-spacing:0.16em; text-transform:uppercase;
+  }
+  .divider .sec-no { color:var(--red); font-size:1.05rem; }
+  .divider .sec-no::before { content:"§\00a0"; opacity:0.5; font-size:0.82em; }
+  .divider .rule {
+    flex:1; height:7px; position:relative;
+  }
+  /* plain rule by default; becomes a dimension line under .pg-dim */
+  .divider .rule::after {
+    content:""; position:absolute; left:0; right:0; top:50%; height:1px;
+    background:var(--line-strong);
+  }
+  body.pg-dim .divider .rule::after { background:var(--red); opacity:0.55; }
+  body.pg-dim .divider .rule::before {
+    content:""; position:absolute; left:0; right:0; top:50%;
+    transform:translateY(-50%); height:7px;
+    background:
+      linear-gradient(var(--red),var(--red)) left center / 1px 100% no-repeat,
+      linear-gradient(var(--red),var(--red)) right center / 1px 100% no-repeat;
+    opacity:0.55;
+  }
+
+  /* ---- ON DECK list (host for revision cloud) ----------------- */
+  .ondeck { position:relative; max-width:760px; }
+  .ondeck li {
+    list-style:none; display:grid; grid-template-columns:90px 1fr; gap:1rem;
+    padding:1rem 0; border-bottom:1px solid var(--line); align-items:baseline;
+  }
+  .ondeck li:last-child { border-bottom:none; }
+  .ondeck .mono { color:var(--ink); font-weight:500; }
+  .ondeck .body { color:var(--ink-soft); }
+
+  /* ---- 4. REVISION CLOUD -------------------------------------- */
+  /* Authentic scalloped revision cloud (SVG, arc bumps) drawn around
+     the newest item, with a delta triangle revision flag. Generated
+     by JS to fit the element. Hidden until .pg-rev. */
+  .rev-host { position:relative; }
+  .rev-cloud {
+    position:absolute; inset:-14px -10px; z-index:5; pointer-events:none;
+    display:none;
+  }
+  body.pg-rev .rev-cloud { display:block; }
+  .rev-cloud svg { width:100%; height:100%; overflow:visible; }
+  .rev-cloud path { fill:none; stroke:var(--red); stroke-width:1.4; opacity:0.85; }
+  .rev-flag {
+    position:absolute; top:-12px; left:-10px; z-index:6; display:none;
+    width:24px; height:21px; pointer-events:none;
+  }
+  body.pg-rev .rev-flag { display:block; }
+  .rev-flag .tri {
+    position:absolute; inset:0;
+    background:var(--red);
+    clip-path:polygon(0 0, 100% 0, 0 100%);
+  }
+  .rev-flag .n {
+    position:absolute; top:1px; left:3px; color:#fff;
+    font-family:"IBM Plex Mono",monospace; font-size:0.62rem; font-weight:500;
+  }
+
+  /* ---- CONTROL PANEL ------------------------------------------ */
+  .panel {
+    position:fixed; top:14px; right:14px; z-index:200;
+    background:color-mix(in srgb, var(--paper) 90%, transparent);
+    backdrop-filter:blur(14px) saturate(1.4);
+    -webkit-backdrop-filter:blur(14px) saturate(1.4);
+    border:1px solid var(--line-strong); border-radius:6px;
+    box-shadow:var(--shadow-lg); padding:0.7rem 0.85rem;
+    font-family:"IBM Plex Mono",monospace; min-width:210px;
+  }
+  body.pg-zone .panel { top:38px; right:38px; }
+  .panel h2 {
+    font-family:"IBM Plex Mono",monospace; font-size:0.6rem; letter-spacing:0.16em;
+    color:var(--muted); margin-bottom:0.6rem; display:flex; align-items:center; gap:6px;
+    font-weight:400; cursor:pointer; user-select:none;
+  }
+  .panel h2::before { content:""; width:5px; height:5px; border-radius:50%; background:var(--red); flex:none; }
+  .panel .caret { margin-left:auto; transition:transform 0.2s ease; }
+  .panel.collapsed .caret { transform:rotate(-90deg); }
+  .panel.collapsed h2 { margin-bottom:0; }
+  .panel.collapsed .panel-body { display:none; }
+  .panel label {
+    display:flex; align-items:center; gap:0.55rem; padding:0.28rem 0;
+    font-size:0.72rem; color:var(--ink-soft); cursor:pointer;
+  }
+  .panel input { accent-color:var(--red); cursor:pointer; width:14px; height:14px; }
+  .panel .row {
+    display:flex; gap:0.4rem; margin-top:0.6rem; padding-top:0.6rem;
+    border-top:1px solid var(--line);
+  }
+  .panel button {
+    flex:1; font-family:"IBM Plex Mono",monospace; font-size:0.62rem; letter-spacing:0.06em;
+    background:none; border:1px solid var(--line-strong); color:var(--ink-soft);
+    border-radius:3px; padding:0.4rem; cursor:pointer;
+    transition:border-color 0.15s, color 0.15s;
+  }
+  .panel button:hover { border-color:var(--red); color:var(--red); }
+
+  .foot { color:var(--muted); margin-top:3rem; padding-top:1rem; border-top:1px solid var(--line); }
+
+  @media (max-width:760px) {
+    body.pg-dim .dim { display:none; }   /* callouts need width */
+    .panel { left:14px; right:14px; min-width:0; }
+    body.pg-zone .panel { left:38px; right:38px; }
+    .ondeck li { grid-template-columns:1fr; gap:0.15rem; }
+  }
+  @media (prefers-reduced-motion:reduce) {
+    *,*::before,*::after { transition:none !important; animation:none !important; }
+  }
+</style>
+</head>
+<body class="pg-grid pg-zone pg-dim pg-rev pg-graphite">
+
+  <!-- 2. ZONE MARGIN BORDER -->
+  <div class="zone-frame" aria-hidden="true">
+    <div class="zf-edge"></div>
+    <div class="zf-top"></div>
+    <div class="zf-bottom"></div>
+    <div class="zf-left"></div>
+    <div class="zf-right"></div>
+  </div>
+
+  <!-- CONTROL PANEL -->
+  <aside class="panel" aria-label="Demo controls">
+    <h2 id="panelToggle" role="button" tabindex="0" aria-expanded="true">PAPER LAYERS<span class="caret" aria-hidden="true">▾</span></h2>
+    <div class="panel-body">
+      <label><input type="checkbox" data-layer="pg-grid" checked> Grid paper</label>
+      <label><input type="checkbox" data-layer="pg-zone" checked> Zone border</label>
+      <label><input type="checkbox" data-layer="pg-dim" checked> Dimension callouts</label>
+      <label><input type="checkbox" data-layer="pg-rev" checked> Revision cloud</label>
+      <label><input type="checkbox" data-layer="pg-graphite" checked> Graphite grain</label>
+      <div class="row">
+        <button id="allOn">ALL ON</button>
+        <button id="allOff">CLEAN</button>
+        <button id="theme">DARK</button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="wrap">
+    <div class="topbar">
+      <span class="name">ABHINAV SINGH</span>
+      <span class="tag mono">· PAPER EXPERIENCE / DEMO</span>
+    </div>
+
+    <!-- HERO SHEET with dimension callouts -->
+    <section class="sheet-frame">
+      <p class="eyebrow"><b>ABHINAV SINGH</b> · MECHANICAL ENGINEER · PURDUE UNIVERSITY</p>
+      <h1>Works well under pressure.<span class="fn-mark">*</span></h1>
+      <p class="hero-note">* ALSO HEAT, VIBRATION, AND TIGHT TOLERANCES.</p>
+      <p class="hero-sub">
+        I'm a mechanical engineering student at Purdue and a co-op engineer
+        at Cummins. I work on thermal and mechanical systems, mostly the messy
+        part where a model meets real hardware and the two have to agree.
+      </p>
+      <div class="title-block" role="presentation">
+        <div><span>DRAWN BY</span><strong>A.B. SINGH</strong></div>
+        <div><span>LOCATION</span><strong>SEYMOUR, IN</strong></div>
+        <div><span>SCALE</span><strong>NTS</strong></div>
+        <div><span>REV</span><strong>3.8</strong></div>
+        <div><span>DATE</span><strong>2026-06-22</strong></div>
+      </div>
+
+      <!-- 3. DIMENSION CALLOUT: leader to the footnote mark -->
+      <span class="dim dim-leader dim-note" aria-hidden="true">
+        <span class="v">DATUM · ACCENT</span><span class="line"></span>
+      </span>
+
+      <!-- 3. DIMENSION CALLOUT: overall width, below the title block -->
+      <span class="dim dim-leader dim-width" aria-hidden="true">
+        <span class="arrowL"></span><span class="arrowR"></span>
+        <span class="v">OVERALL WIDTH · NTS</span>
+      </span>
+    </section>
+
+    <!-- DIMENSION-LINE DIVIDER -->
+    <div class="divider"><span class="sec-no">01</span><span>ON DECK</span><span class="rule"></span></div>
+
+    <!-- ON DECK with REVISION CLOUD around the newest item -->
+    <ul class="ondeck">
+      <li class="rev-host" id="newest">
+        <span class="rev-cloud" aria-hidden="true"></span>
+        <span class="rev-flag" aria-hidden="true"><span class="tri"></span><span class="n">3</span></span>
+        <span class="mono">CO-OP</span>
+        <span class="body">Owning an EPA Tier&nbsp;4 emissions audit of a 30L industrial diesel
+        platform at Cummins, from install review through compliance reporting.</span>
+      </li>
+      <li>
+        <span class="mono">PROJECT</span>
+        <span class="body">Building a passive vibration isolation module for a 2.5&nbsp;kg
+        robotic sensor payload, from a MATLAB model to validated hardware.</span>
+      </li>
+      <li>
+        <span class="mono">NEXT</span>
+        <span class="body">A 4P4S battery module prototype with embedded thermal
+        instrumentation, informed by a production EV module teardown.</span>
+      </li>
+    </ul>
+
+    <p class="foot mono">DEMO SHEET · TOGGLE LAYERS TOP-RIGHT · NOT LINKED FROM THE LIVE SITE</p>
+  </div>
+
+<script>
+  const root = document.documentElement;
+  const body = document.body;
+
+  // ---- 4. REVISION CLOUD generator ----
+  // Builds a scalloped arc path around the newest On-Deck item, sized to
+  // fit. Defined first so theme/layout changes can safely redraw it.
+  const host = document.getElementById("newest");
+  const cloudWrap = host.querySelector(".rev-cloud");
+  function cloudPath(w, h, bump){
+    // walk the perimeter laying down semicircle bumps (sweep=0 -> outward)
+    const run = (len) => Math.max(2, Math.round(len / bump));
+    const arc = (x,y) => `A ${bump/2} ${bump/2} 0 0 0 ${x} ${y} `;
+    let d = "M 0 0 ", n;
+    n = run(w); for(let i=1;i<=n;i++) d += arc((w*i)/n, 0);     // top
+    n = run(h); for(let i=1;i<=n;i++) d += arc(w, (h*i)/n);     // right
+    n = run(w); for(let i=1;i<=n;i++) d += arc(w-(w*i)/n, h);   // bottom
+    n = run(h); for(let i=1;i<=n;i++) d += arc(0, h-(h*i)/n);   // left
+    return d + "Z";
+  }
+  function drawCloud(){
+    if(!host) return;
+    const r = host.getBoundingClientRect();
+    const w = r.width + 20, h = r.height + 28;
+    cloudWrap.innerHTML =
+      `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+         <path d="${cloudPath(w, h, 13)}"/>
+       </svg>`;
+  }
+
+  // ---- theme ----
+  const themeBtn = document.getElementById("theme");
+  function setTheme(t){
+    root.setAttribute("data-theme", t);
+    themeBtn.textContent = t === "dark" ? "LIGHT" : "DARK";
+    drawCloud();
+  }
+  setTheme(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  themeBtn.addEventListener("click", () =>
+    setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark"));
+
+  // ---- layer toggles ----
+  document.querySelectorAll(".panel input[data-layer]").forEach((cb) => {
+    cb.addEventListener("change", () => {
+      body.classList.toggle(cb.dataset.layer, cb.checked);
+      requestAnimationFrame(drawCloud);
+    });
+  });
+  document.getElementById("allOn").addEventListener("click", () => {
+    document.querySelectorAll(".panel input[data-layer]").forEach((cb) => {
+      cb.checked = true; body.classList.add(cb.dataset.layer);
+    });
+    requestAnimationFrame(drawCloud);
+  });
+  document.getElementById("allOff").addEventListener("click", () => {
+    document.querySelectorAll(".panel input[data-layer]").forEach((cb) => {
+      cb.checked = false; body.classList.remove(cb.dataset.layer);
+    });
+  });
+
+  // ---- 2. ZONE BORDER labels ----
+  // 8 columns across, 4 rows down — standard B-size sheet zoning.
+  (function zones(){
+    const fill = (sel, arr) => {
+      document.querySelector(sel).innerHTML = arr.map((c) => `<span>${c}</span>`).join("");
+    };
+    fill(".zf-top", ["1","2","3","4","5","6","7","8"]);
+    fill(".zf-bottom", ["1","2","3","4","5","6","7","8"]);
+    fill(".zf-left", ["A","B","C","D"]);
+    fill(".zf-right", ["A","B","C","D"]);
+  })();
+
+  // ---- panel collapse (starts collapsed on small screens) ----
+  const panel = document.querySelector(".panel");
+  const panelToggle = document.getElementById("panelToggle");
+  function togglePanel(){
+    const open = !panel.classList.toggle("collapsed");
+    panelToggle.setAttribute("aria-expanded", String(open));
+  }
+  panelToggle.addEventListener("click", togglePanel);
+  panelToggle.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); togglePanel(); }
+  });
+  if (window.matchMedia("(max-width:760px)").matches) {
+    panel.classList.add("collapsed");
+    panelToggle.setAttribute("aria-expanded", "false");
+  }
+
+  drawCloud();
+  window.addEventListener("resize", () => requestAnimationFrame(drawCloud), { passive:true });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawCloud);
+</script>
+</body>
+</html>
