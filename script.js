@@ -55,16 +55,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const thermo = document.querySelector(".thermo");
   const gear = document.querySelector(".gear");
   const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  // scrollHeight is layout-expensive to read, so cache it and refresh only on
+  // resize / content change. Style writes are coalesced into one rAF per frame
+  // no matter how many scroll events fire in between.
+  let scrollMax = 0;
+  const refreshScrollMax = () => { scrollMax = document.documentElement.scrollHeight - window.innerHeight; };
+  let scrollScheduled = false;
+  const renderScroll = () => {
+    scrollScheduled = false;
+    if (thermo) thermo.style.width = (scrollMax > 0 ? (window.scrollY / scrollMax) * 100 : 0) + "%";
+    if (gear && !reduceMotionQuery.matches) gear.style.transform = `rotate(${window.scrollY * 0.35}deg)`;
+  };
   const onScroll = () => {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    if (thermo) thermo.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + "%";
-    if (gear && !reduceMotionQuery.matches) {
-      gear.style.transform = `rotate(${window.scrollY * 0.35}deg)`;
-    }
+    if (!scrollScheduled) { scrollScheduled = true; requestAnimationFrame(renderScroll); }
   };
   window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", onScroll, { passive: true });
-  onScroll();
+  window.addEventListener("resize", () => { refreshScrollMax(); onScroll(); }, { passive: true });
+  refreshScrollMax();
+  renderScroll();
 
   const navTop = document.getElementById("navTop");
   if (navTop) {
@@ -91,6 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
     logMore.addEventListener("click", () => {
       logList.classList.add("expanded");
       logMore.remove();
+      refreshScrollMax();
     });
   }
 
@@ -217,6 +226,13 @@ function initInstrument() {
   const kVal = reduceMotion ? 1 : 0.09;
   const kScr = reduceMotion ? 1 : 0.07;
 
+  // The render loop only runs while something is still moving: wake() starts
+  // it, tick() stops itself once every spring has settled. This replaces a
+  // permanent requestAnimationFrame that ran every frame for the life of the
+  // page even when the cursor and scroll were completely idle.
+  let running = false;
+  function wake() { if (!running) { running = true; requestAnimationFrame(tick); } }
+
   if (finePointer) {
     window.addEventListener("mousemove", (e) => {
       tx = e.clientX; ty = e.clientY;
@@ -231,22 +247,25 @@ function initInstrument() {
           retH.style.opacity = "0"; retV.style.opacity = "0"; retN.style.opacity = "0";
         }, 3000);
       }
+      wake();
     }, { passive: true });
-  } else {
-    window.addEventListener("scroll", () => hud.classList.add("visible"), { passive: true, once: true });
   }
+  // Scroll drives the HUD readout + active datum for every pointer type.
+  window.addEventListener("scroll", () => { hud.classList.add("visible"); wake(); }, { passive: true });
 
   function tick() {
     cx = lerp(cx, tx, kPos); cy = lerp(cy, ty, kPos);
     dx = lerp(dx, W > 0 ? tx / W : 0, kVal);
     dy = lerp(dy, H > 0 ? ty / H : 0, kVal);
     const maxScroll = document.documentElement.scrollHeight - H;
-    dScroll = lerp(dScroll, maxScroll > 0 ? window.scrollY / maxScroll : 0, kScr);
+    const targetScroll = maxScroll > 0 ? window.scrollY / maxScroll : 0;
+    dScroll = lerp(dScroll, targetScroll, kScr);
 
+    // Position with transform only — compositor-friendly, no per-frame layout.
     if (retH && active) {
-      retH.style.left = (cx - 36) + "px"; retH.style.top = cy + "px";
-      retV.style.top = (cy - 36) + "px"; retV.style.left = cx + "px";
-      retN.style.left = cx + "px"; retN.style.top = cy + "px";
+      retH.style.transform = `translate(${cx - 36}px, ${cy}px)`;
+      retV.style.transform = `translate(${cx}px, ${cy - 36}px)`;
+      retN.style.transform = `translate(${cx - 3.5}px, ${cy - 3.5}px)`;
     }
     if (active) { hX.textContent = dx.toFixed(3); hY.textContent = dy.toFixed(3); }
     hS.textContent = (dScroll * 100).toFixed(1) + "%";
@@ -259,9 +278,16 @@ function initInstrument() {
       hD.classList.remove("flash"); void hD.offsetWidth; hD.classList.add("flash");
       setActiveSection(d);
     }
-    requestAnimationFrame(tick);
+
+    // Keep animating only until the cursor and scroll springs have settled,
+    // then release the loop. mousemove / scroll call wake() to resume.
+    const moving =
+      Math.abs(cx - tx) > 0.5 || Math.abs(cy - ty) > 0.5 ||
+      Math.abs(dScroll - targetScroll) > 0.0004;
+    if (moving) requestAnimationFrame(tick);
+    else running = false;
   }
-  requestAnimationFrame(tick);
+  wake(); // prime the HUD scroll readout + active datum once at load
 }
 
 // ---------- Contact form (Formspree) ----------
