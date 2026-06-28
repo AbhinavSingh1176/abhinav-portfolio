@@ -720,9 +720,8 @@ summary:hover { color: var(--red); }
 .lightbox-close:hover { border-color: var(--red); color: var(--red); }
 
 /* ============ SCROLL REVEAL ============ */
-/* Damped-spring settle: real mechanical systems don't ease to rest, they
-   ring. The transform easing overshoots once (ζ ≈ 0.55) so every element
-   snaps in like a part dropping into a fixture, then settles. */
+/* Damped settle: a short rise with a soft ease so content arrives without
+   bounce or pop-in. */
 .reveal {
   opacity: 0; transform: translateY(12px);
   transition: opacity 0.45s ease, transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -765,19 +764,23 @@ summary:hover { color: var(--red); }
 .reg-bl { bottom: 14px; left: 14px; }
 .reg-br { bottom: 14px; right: 14px; }
 
-/* Reticle crosshair — short arms, spring-lagged behind the cursor. */
+/* Reticle crosshair — short arms, spring-lagged behind the cursor. Positioned
+   entirely via JS transform (top/left anchored at 0), so movement stays on the
+   compositor and never triggers layout. */
 .ret-h, .ret-v {
-  position: fixed; z-index: 95; pointer-events: none;
+  position: fixed; top: 0; left: 0; z-index: 95; pointer-events: none;
   background: var(--red); opacity: 0;
   transition: opacity 0.4s ease;
+  will-change: transform;
 }
-.ret-h { height: 1px; width: 72px; transform: translateY(-0.5px); }
-.ret-v { width: 1px; height: 72px; transform: translateX(-0.5px); }
+.ret-h { height: 1px; width: 72px; }
+.ret-v { width: 1px; height: 72px; }
 .ret-node {
-  position: fixed; z-index: 95; pointer-events: none;
+  position: fixed; top: 0; left: 0; z-index: 95; pointer-events: none;
   width: 7px; height: 7px; border: 1px solid var(--red); border-radius: 50%;
-  transform: translate(-50%, -50%); opacity: 0;
+  opacity: 0;
   transition: opacity 0.4s ease;
+  will-change: transform;
 }
 
 /* HUD — live position + datum readout, bottom-right. */
