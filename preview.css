@@ -1,10 +1,11 @@
 /* ============================================================
-   Abhinav Singh — portfolio v4
+   Abhinav Singh — portfolio v5
    System: engineering drawing sheet, elevated.
    Paper / ink / redline-red. Archivo display, IBM Plex Sans body,
    IBM Plex Mono for all metadata. One accent, used like a redline.
-   v4: richer shadow system, backdrop-filter nav, elevated cards,
-   timeline experience, pill-tag capabilities, polished interactive states.
+   v5: quieter red, scroll-driven thermo bar, view-transition theme
+   toggle, drafting break-line dividers, hero dimension line,
+   lightbox with figure navigation.
    ============================================================ */
 
 :root[data-theme="light"] {
@@ -24,7 +25,6 @@
   --shadow-sm: 0 1px 3px rgba(30,24,14,0.07), 0 1px 2px rgba(30,24,14,0.04);
   --shadow-md: 0 4px 14px rgba(30,24,14,0.09), 0 2px 5px rgba(30,24,14,0.05);
   --shadow-lg: 0 18px 44px rgba(30,24,14,0.13), 0 6px 14px rgba(30,24,14,0.07);
-  --shadow-glow: 0 0 0 3px var(--red-glow);
   --hud-bg: rgba(248, 247, 243, 0.86);
   --hud-bd: rgba(192, 191, 184, 0.7);
   --grain-blend: multiply;
@@ -48,7 +48,6 @@
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.28), 0 1px 2px rgba(0,0,0,0.18);
   --shadow-md: 0 4px 14px rgba(0,0,0,0.42), 0 2px 5px rgba(0,0,0,0.22);
   --shadow-lg: 0 18px 44px rgba(0,0,0,0.6), 0 6px 14px rgba(0,0,0,0.3);
-  --shadow-glow: 0 0 0 3px var(--red-glow);
   --hud-bg: rgba(14, 16, 18, 0.86);
   --hud-bd: rgba(54, 57, 66, 0.7);
   --grain-blend: screen;
@@ -57,15 +56,23 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* Thermal scroll indicator */
+/* Thermal scroll indicator. Where scroll-driven animations are supported
+   the bar runs entirely off the main thread; script.js only drives it as
+   a fallback (it checks the same @supports condition). */
 .thermo {
   position: fixed; top: 0; left: 0; z-index: 300;
   height: 2px; width: 0;
   background: linear-gradient(90deg, #1e4fc4, #00a8d8, #2fb34a, #efc31f, #e2622b, #c0302a);
   background-size: 100vw 100%;
   pointer-events: none;
-  transition: opacity 0.2s ease;
 }
+@supports (animation-timeline: scroll()) {
+  .thermo {
+    animation: thermo-grow linear both;
+    animation-timeline: scroll(root);
+  }
+}
+@keyframes thermo-grow { from { width: 0; } to { width: 100%; } }
 
 html { scrollbar-width: thin; scrollbar-color: var(--line-strong) transparent; }
 ::-webkit-scrollbar { width: 11px; height: 11px; }
@@ -92,6 +99,11 @@ body {
   font-size: 16.5px;
   transition: background 0.3s ease, color 0.3s ease;
 }
+
+/* Theme toggle cross-fades the whole page (script.js wraps the attribute
+   swap in a view transition where supported). */
+::view-transition-old(root),
+::view-transition-new(root) { animation-duration: 0.35s; }
 
 /* Vellum grain — a quiet paper texture over everything. Static, GPU-cheap. */
 body::after {
@@ -252,6 +264,36 @@ a { color: inherit; }
   margin-bottom: 1.8rem;
 }
 
+/* Dimension line under the headline — extension ticks at each end, oblique
+   45° architectural ticks where it meets them, and a mono REF label breaking
+   the line. Draws in left-to-right once the sheet has settled. Decorative
+   (aria-hidden); reduced-motion shows it static. */
+.dim-line {
+  position: relative;
+  max-width: min(100%, 30rem);
+  height: 11px;
+  margin: -0.7rem 0 1.9rem;
+  display: flex; align-items: center; justify-content: center;
+  background:
+    linear-gradient(var(--line-strong), var(--line-strong)) center / 100% 1px no-repeat,
+    linear-gradient(var(--line-strong), var(--line-strong)) left center / 1px 100% no-repeat,
+    linear-gradient(var(--line-strong), var(--line-strong)) right center / 1px 100% no-repeat,
+    linear-gradient(45deg, transparent calc(50% - 0.5px), var(--line-strong) calc(50% - 0.5px) calc(50% + 0.5px), transparent calc(50% + 0.5px)) left center / 9px 9px no-repeat,
+    linear-gradient(45deg, transparent calc(50% - 0.5px), var(--line-strong) calc(50% - 0.5px) calc(50% + 0.5px), transparent calc(50% + 0.5px)) right center / 9px 9px no-repeat;
+  animation: dim-draw 0.7s ease 0.85s both;
+}
+.dim-line span {
+  background: var(--paper);
+  padding: 0 9px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.55rem; letter-spacing: 0.18em; color: var(--muted);
+  line-height: 1;
+}
+@keyframes dim-draw {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
 .hero-sub {
   max-width: 54ch; color: var(--ink-soft);
   font-size: 1.075rem; margin-bottom: 2.5rem;
@@ -309,11 +351,47 @@ a { color: inherit; }
   font-size: 0.82rem; font-weight: 500; letter-spacing: 0.03em;
 }
 
+/* Hero title block rises in a beat behind the sheet settle, cell by cell. */
+.sheet .title-block > div { animation: tb-rise 0.45s ease both; }
+.sheet .title-block > div:nth-child(1) { animation-delay: 0.5s; }
+.sheet .title-block > div:nth-child(2) { animation-delay: 0.56s; }
+.sheet .title-block > div:nth-child(3) { animation-delay: 0.62s; }
+.sheet .title-block > div:nth-child(4) { animation-delay: 0.68s; }
+.sheet .title-block > div:nth-child(5) { animation-delay: 0.74s; }
+@keyframes tb-rise {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: none; }
+}
+
 /* ============ SECTIONS ============ */
 .section {
   padding: clamp(3rem, 7.5vw, 5.5rem) clamp(1.25rem, 5vw, 4rem);
   border-bottom: 1px solid var(--line);
   max-width: 1200px;
+  position: relative;
+  /* Skip rendering work for far-off-screen sections; the estimate keeps
+     the scrollbar stable until real layout replaces it. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
+/* Drafting long-break divider: the section rule carries one small break
+   jog near its left end — the symbol a drawing uses where a part is
+   shortened. The plain border stays as the line itself (and is the whole
+   fallback); ::before cuts a short gap in it and ::after draws the jog
+   through the gap, in the line color, via a mask. */
+@supports ((mask: url("")) or (-webkit-mask: url(""))) {
+  .section::before {
+    content: ""; position: absolute; left: 15%; bottom: -1px;
+    width: 18px; height: 3px; background: var(--paper); pointer-events: none;
+  }
+  .section::after {
+    content: ""; position: absolute; left: 15%; bottom: -4px;
+    width: 18px; height: 9px; pointer-events: none;
+    background: var(--line);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 9'%3E%3Cpath d='M0 4.5h5l2.5-3.5 3 7 2.5-3.5h5' fill='none' stroke='%23000'/%3E%3C/svg%3E") center / 18px 9px no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 9'%3E%3Cpath d='M0 4.5h5l2.5-3.5 3 7 2.5-3.5h5' fill='none' stroke='%23000'/%3E%3C/svg%3E") center / 18px 9px no-repeat;
+  }
 }
 
 .section-label {
@@ -653,6 +731,17 @@ summary:hover { color: var(--red); }
 }
 .contact-links a:hover { border-bottom-color: var(--red); color: var(--red); }
 
+/* Copy-to-clipboard button beside the contact email. */
+.copy-btn {
+  font-size: 0.6rem; letter-spacing: 0.1em;
+  padding: 2px 8px; margin-left: 0.6rem;
+  background: none; border: 1px solid var(--line-strong); border-radius: 2px;
+  color: var(--muted); cursor: pointer; vertical-align: 1px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.copy-btn:hover { color: var(--red); border-color: var(--red); }
+.copy-btn.ok { color: var(--ok); border-color: var(--ok); }
+
 .contact-form { display: grid; gap: 0.5rem; }
 .contact-form label {
   font-family: "IBM Plex Mono", monospace; font-size: 0.72rem;
@@ -683,6 +772,10 @@ summary:hover { color: var(--red); }
   padding: 2.5rem clamp(1.25rem, 5vw, 4rem) 3.5rem;
   display: grid; gap: 1.75rem;
 }
+/* Let the footer title block shrink below its columns' min-content on
+   narrow screens (grid items default to min-width:auto, which was forcing
+   horizontal overflow at phone widths). */
+.footer > * { min-width: 0; }
 
 .general-notes { color: var(--muted); max-width: 640px; }
 .general-notes p { letter-spacing: 0.12em; margin-bottom: 0.5rem; color: var(--ink-soft); }
@@ -709,7 +802,7 @@ summary:hover { color: var(--red); }
 }
 .lightbox::backdrop { background: rgba(8, 9, 12, 0.72); backdrop-filter: blur(4px); }
 .lightbox img { display: block; max-width: 100%; max-height: 78vh; border: 1px solid var(--line); border-radius: 2px; }
-.lightbox figcaption { color: var(--muted); margin-top: 0.6rem; }
+.lightbox figcaption { color: var(--muted); }
 .lightbox-close {
   position: absolute; top: 0.9rem; right: 0.9rem;
   background: var(--paper); border: 1px solid var(--line-strong);
@@ -719,9 +812,23 @@ summary:hover { color: var(--red); }
 }
 .lightbox-close:hover { border-color: var(--red); color: var(--red); }
 
+/* Figure navigation row under the image: caption left, PREV/NEXT right.
+   The buttons hide themselves when a project has a single image. */
+.lightbox-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; margin-top: 0.6rem;
+}
+.lightbox-nav { display: flex; gap: 0.4rem; flex: none; }
+.lightbox-nav button {
+  background: var(--paper); border: 1px solid var(--line-strong);
+  border-radius: 3px; color: var(--ink-soft); cursor: pointer;
+  padding: 5px 11px;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.lightbox-nav button:hover { border-color: var(--red); color: var(--red); }
+
 /* ============ SCROLL REVEAL ============ */
-/* Damped settle: a short rise with a soft ease so content arrives without
-   bounce or pop-in. */
+/* Quiet rise-and-settle as content enters the viewport — no overshoot. */
 .reveal {
   opacity: 0; transform: translateY(12px);
   transition: opacity 0.45s ease, transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -869,4 +976,6 @@ summary:hover { color: var(--red); }
   .hud, .ret-h, .ret-v, .ret-node, .reg-mark { display: none; }
   body::after { display: none; }
   .section { border: none; }
+  .section::before, .section::after { display: none; }
+  .dim-line, .sheet .title-block > div { animation: none; }
 }
