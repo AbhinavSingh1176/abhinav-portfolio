@@ -8,9 +8,23 @@
   <meta name="description" content="Build log for VIM-001, a passive vibration isolation module: MATLAB model to validated hardware.">
   <meta name="robots" content="index, follow">
 
+  <!-- Theme before first paint: avoids the light-theme flash for returning
+       dark-mode visitors. Kept tiny and inline on purpose. -->
+  <script>
+    (function () {
+      var t = localStorage.getItem("theme") ||
+        (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", t);
+      var m = document.createElement("meta");
+      m.name = "theme-color";
+      m.content = t === "dark" ? "#0e1012" : "#f8f7f3";
+      document.head.appendChild(m);
+    })();
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -120,11 +134,18 @@
     </div>
   </footer>
 
-  <!-- Shared lightbox for project images -->
+  <!-- Shared lightbox for project images. All images in one gallery form a
+       figure set: arrow keys or the PREV/NEXT controls move between them. -->
   <dialog class="lightbox" id="lightbox">
     <button class="lightbox-close mono" aria-label="Close">CLOSE ×</button>
-    <img src="" alt="">
-    <figcaption class="mono"></figcaption>
+    <img src="" alt="" decoding="async">
+    <div class="lightbox-bar">
+      <figcaption class="mono"></figcaption>
+      <div class="lightbox-nav">
+        <button class="lightbox-prev mono" type="button" aria-label="Previous image">‹ PREV</button>
+        <button class="lightbox-next mono" type="button" aria-label="Next image">NEXT ›</button>
+      </div>
+    </div>
   </dialog>
 
   <script src="script.js"></script>
