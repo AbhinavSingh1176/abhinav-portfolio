@@ -5,20 +5,32 @@ const SUN_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
 const MOON_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
 
 // ---------- Theme ----------
+// data-theme itself is applied by a tiny inline script in <head> before
+// first paint (no flash for dark-mode visitors); here we only sync the
+// toggle icon, with a backstop in case that script didn't run.
 (function initTheme() {
-  const saved = localStorage.getItem("theme");
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const theme = saved || (prefersDark ? "dark" : "light");
-  document.documentElement.setAttribute("data-theme", theme);
-  updateThemeLabel(theme);
+  const root = document.documentElement;
+  if (!root.getAttribute("data-theme")) {
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    root.setAttribute("data-theme", localStorage.getItem("theme") || (prefersDark ? "dark" : "light"));
+  }
+  updateThemeLabel(root.getAttribute("data-theme"));
 })();
 
 function toggleTheme() {
   const root = document.documentElement;
   const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
-  root.setAttribute("data-theme", next);
-  localStorage.setItem("theme", next);
-  updateThemeLabel(next);
+  const apply = () => {
+    root.setAttribute("data-theme", next);
+    localStorage.setItem("theme", next);
+    updateThemeLabel(next);
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.content = next === "dark" ? "#0e1012" : "#f8f7f3";
+  };
+  // Cross-fade the whole page between themes where supported.
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reduce && document.startViewTransition) document.startViewTransition(apply);
+  else apply();
 }
 
 function updateThemeLabel(theme) {
@@ -55,6 +67,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const thermo = document.querySelector(".thermo");
   const gear = document.querySelector(".gear");
   const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  // Where CSS scroll-driven animations exist, the thermo bar runs entirely
+  // off-thread in CSS and JS leaves it alone — except under reduced motion,
+  // where the global animation kill-switch stops the CSS path, so JS (which
+  // is just positional feedback, not motion) takes back over.
+  const cssThermo = CSS.supports("animation-timeline: scroll()") && !reduceMotionQuery.matches;
   // scrollHeight is layout-expensive to read, so cache it and refresh only on
   // resize / content change. Style writes are coalesced into one rAF per frame
   // no matter how many scroll events fire in between.
@@ -63,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let scrollScheduled = false;
   const renderScroll = () => {
     scrollScheduled = false;
-    if (thermo) thermo.style.width = (scrollMax > 0 ? (window.scrollY / scrollMax) * 100 : 0) + "%";
+    if (thermo && !cssThermo) thermo.style.width = (scrollMax > 0 ? (window.scrollY / scrollMax) * 100 : 0) + "%";
     if (gear && !reduceMotionQuery.matches) gear.style.transform = `rotate(${window.scrollY * 0.35}deg)`;
   };
   const onScroll = () => {
@@ -104,25 +121,81 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ---------- Lightbox ----------
-  // Any project image opens in the shared <dialog>. Native behavior
-  // handles Esc; clicking the backdrop closes too.
+  // Any project image opens in the shared <dialog>; every image in the same
+  // project becomes one figure set you can arrow through (buttons or
+  // ArrowLeft/ArrowRight). Native dialog behavior handles Esc; clicking the
+  // backdrop closes too.
   const lightbox = document.getElementById("lightbox");
   if (lightbox && typeof lightbox.showModal === "function") {
     const lbImg = lightbox.querySelector("img");
     const lbCap = lightbox.querySelector("figcaption");
-    document.querySelectorAll(".case-media img, .views-grid img").forEach((img) => {
-      img.addEventListener("click", () => {
-        lbImg.src = img.src;
-        lbImg.alt = img.alt;
-        lbCap.textContent = img.alt.toUpperCase();
-        lightbox.showModal();
+    const lbPrev = lightbox.querySelector(".lightbox-prev");
+    const lbNext = lightbox.querySelector(".lightbox-next");
+    let group = [], index = 0;
+
+    const render = () => {
+      const img = group[index];
+      lbImg.src = img.src;
+      lbImg.alt = img.alt;
+      lbCap.textContent =
+        (group.length > 1 ? `FIG. ${index + 1} / ${group.length} — ` : "") + img.alt.toUpperCase();
+      if (lbPrev) lbPrev.hidden = lbNext.hidden = group.length < 2;
+      if (group.length > 1) {
+        // decode the neighbors before the next arrow press
+        new Image().src = group[(index + 1) % group.length].src;
+        new Image().src = group[(index - 1 + group.length) % group.length].src;
+      }
+    };
+    const step = (d) => {
+      if (group.length < 2) return;
+      index = (index + d + group.length) % group.length;
+      render();
+    };
+
+    // One figure set per media container; a views-grid that isn't inside a
+    // case-media (the VIM gallery) is its own set.
+    const sets = Array.from(document.querySelectorAll(".case-media"));
+    document.querySelectorAll(".views-grid").forEach((g) => {
+      if (!g.closest(".case-media")) sets.push(g);
+    });
+    sets.forEach((box) => {
+      box.querySelectorAll("img").forEach((img) => {
+        img.addEventListener("click", () => {
+          // Re-query at open: images that failed to load have been swapped
+          // for placeholders and should drop out of the set.
+          group = Array.from(box.querySelectorAll("img"));
+          index = Math.max(0, group.indexOf(img));
+          render();
+          lightbox.showModal();
+        });
       });
+    });
+
+    if (lbPrev) lbPrev.addEventListener("click", () => step(-1));
+    if (lbNext) lbNext.addEventListener("click", () => step(1));
+    lightbox.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") step(-1);
+      else if (e.key === "ArrowRight") step(1);
     });
     lightbox.addEventListener("click", (e) => {
       if (e.target === lightbox) lightbox.close();
     });
     lightbox.querySelector(".lightbox-close").addEventListener("click", () => lightbox.close());
   }
+
+  // ---------- Copy email ----------
+  // The mailto link stays a normal link; this button just puts the address
+  // on the clipboard. If the Clipboard API is unavailable, nothing breaks.
+  document.querySelectorAll("[data-copy]").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copy);
+        btn.textContent = "COPIED ✓";
+        btn.classList.add("ok");
+        setTimeout(() => { btn.textContent = "COPY"; btn.classList.remove("ok"); }, 1500);
+      } catch { /* clipboard unavailable — the link beside the button still works */ }
+    });
+  });
 
   // ---------- Scroll reveal ----------
   // Progressive enhancement: content is visible by default; the reveal
@@ -142,8 +215,12 @@ document.addEventListener("DOMContentLoaded", () => {
       { rootMargin: "0px 0px -8% 0px" }
     );
     targets.forEach((el) => {
-      // skip anything already on screen at load — no pop-in above the fold
-      if (el.getBoundingClientRect().top > window.innerHeight) {
+      // Skip anything already on screen at load — no pop-in above the fold.
+      // Measured against the containing section, not the element: sections
+      // use content-visibility, so a skipped section's descendants don't
+      // have trustworthy boxes yet, but the section itself always does.
+      const anchor = el.closest(".section") || el;
+      if (anchor.getBoundingClientRect().top > window.innerHeight) {
         el.classList.add("reveal");
         observer.observe(el);
       }
