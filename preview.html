@@ -48,9 +48,23 @@
     plausible.init()
   </script>
 
+  <!-- Theme before first paint: avoids the light-theme flash for returning
+       dark-mode visitors. Kept tiny and inline on purpose. -->
+  <script>
+    (function () {
+      var t = localStorage.getItem("theme") ||
+        (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", t);
+      var m = document.createElement("meta");
+      m.name = "theme-color";
+      m.content = t === "dark" ? "#0e1012" : "#f8f7f3";
+      document.head.appendChild(m);
+    })();
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="preview.css" />
 </head>
 <body>
@@ -104,6 +118,7 @@
         <p class="eyebrow"><strong class="eyebrow-name">ABHINAV SINGH</strong> · MECHANICAL ENGINEER · PURDUE UNIVERSITY</p>
         <h1>Works well under pressure.<span class="fn-mark" aria-hidden="true">*</span></h1>
         <p class="hero-note mono">* ALSO HEAT, VIBRATION, AND TIGHT TOLERANCES.</p>
+        <div class="dim-line" aria-hidden="true"><span>REF</span></div>
         <p class="hero-sub">
           I'm a mechanical engineering student at Purdue and a co-op engineer
           at Cummins. I work on thermal and mechanical systems, mostly the
@@ -489,7 +504,7 @@
           </p>
           <p class="mono contact-typ">RESPONSE TIME: &lt;24 HR (TYP)</p>
           <ul class="contact-links mono">
-            <li><a href="mailto:abhinavsingh1176@gmail.com">abhinavsingh1176@gmail.com</a></li>
+            <li><a href="mailto:abhinavsingh1176@gmail.com">abhinavsingh1176@gmail.com</a><button class="copy-btn mono" type="button" data-copy="abhinavsingh1176@gmail.com" aria-label="Copy email address">COPY</button></li>
             <li><a href="https://linkedin.com/in/abhinav-bhanupratap-singh" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></li>
             <li><a href="https://github.com/AbhinavSingh1176" target="_blank" rel="noopener noreferrer">GitHub ↗</a></li>
           </ul>
@@ -528,11 +543,18 @@
     <p class="printed-line">PRINTED: <span data-printed>—</span> · SCALE: 1:1 · SHEET 1 OF 1</p>
   </footer>
 
-  <!-- Shared lightbox for project images -->
+  <!-- Shared lightbox for project images. All images in one project form a
+       figure set: arrow keys or the PREV/NEXT controls move between them. -->
   <dialog class="lightbox" id="lightbox">
     <button class="lightbox-close mono" aria-label="Close">CLOSE ×</button>
-    <img src="" alt="">
-    <figcaption class="mono"></figcaption>
+    <img src="" alt="" decoding="async">
+    <div class="lightbox-bar">
+      <figcaption class="mono"></figcaption>
+      <div class="lightbox-nav">
+        <button class="lightbox-prev mono" type="button" aria-label="Previous image">‹ PREV</button>
+        <button class="lightbox-next mono" type="button" aria-label="Next image">NEXT ›</button>
+      </div>
+    </div>
   </dialog>
 
   <script src="preview.js"></script>
