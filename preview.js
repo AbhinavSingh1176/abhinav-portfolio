@@ -133,10 +133,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const lbNext = lightbox.querySelector(".lightbox-next");
     let group = [], index = 0;
 
-    const render = () => {
-      const img = group[index];
+    const swapImage = (img) => {
       lbImg.src = img.src;
       lbImg.alt = img.alt;
+      const show = () => { lbImg.style.opacity = "1"; };
+      if (lbImg.complete) requestAnimationFrame(show);
+      else lbImg.addEventListener("load", show, { once: true });
+    };
+    const render = (fade) => {
+      const img = group[index];
+      if (fade) {
+        // Cross-fade between figures: dip out, swap, ease back in.
+        lbImg.style.opacity = "0";
+        setTimeout(() => swapImage(img), 150);
+      } else {
+        lbImg.style.opacity = "1";
+        swapImage(img);
+      }
       lbCap.textContent =
         (group.length > 1 ? `FIG. ${index + 1} / ${group.length} — ` : "") + img.alt.toUpperCase();
       if (lbPrev) lbPrev.hidden = lbNext.hidden = group.length < 2;
@@ -149,7 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const step = (d) => {
       if (group.length < 2) return;
       index = (index + d + group.length) % group.length;
-      render();
+      render(true);
     };
 
     // One figure set per media container; a views-grid that isn't inside a
@@ -165,7 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
           // for placeholders and should drop out of the set.
           group = Array.from(box.querySelectorAll("img"));
           index = Math.max(0, group.indexOf(img));
-          render();
+          render(false);
           lightbox.showModal();
         });
       });
@@ -293,8 +306,23 @@ function initInstrument() {
     }
     return cur;
   };
-  const setActiveSection = (d) =>
-    sections.forEach((s) => s.classList.toggle("is-active", s.getAttribute("data-datum") === d));
+  // Scroll-spy rides the same datum tracker: the active section lights its
+  // GD&T tag AND its nav link (with aria-current for assistive tech).
+  const navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-links a[href^="#"]'));
+  const setActiveSection = (d) => {
+    let activeId = null;
+    sections.forEach((s) => {
+      const on = s.getAttribute("data-datum") === d;
+      s.classList.toggle("is-active", on);
+      if (on) activeId = s.id;
+    });
+    navLinks.forEach((a) => {
+      const on = activeId && a.getAttribute("href") === "#" + activeId;
+      a.classList.toggle("active", !!on);
+      if (on) a.setAttribute("aria-current", "true");
+      else a.removeAttribute("aria-current");
+    });
+  };
 
   // Spring/lerp state.
   let cx = -200, cy = -200, tx = -200, ty = -200, dx = 0, dy = 0, dScroll = 0;
