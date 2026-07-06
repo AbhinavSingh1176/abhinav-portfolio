@@ -8,6 +8,32 @@
    lightbox with figure navigation.
    ============================================================ */
 
+/* ---- Self-hosted fonts (fonts/*.woff2, latin subsets) ------------- */
+@font-face {
+  font-family: "Archivo"; font-style: normal; font-weight: 600;
+  font-display: swap; src: url("https://raw.githubusercontent.com/AbhinavSingh1176/abhinav-portfolio/refs/heads/claude/website-design-upgrade-jp7xki/fonts/archivo-latin-600-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Archivo"; font-style: normal; font-weight: 700;
+  font-display: swap; src: url("https://raw.githubusercontent.com/AbhinavSingh1176/abhinav-portfolio/refs/heads/claude/website-design-upgrade-jp7xki/fonts/archivo-latin-700-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Archivo"; font-style: normal; font-weight: 800;
+  font-display: swap; src: url("https://raw.githubusercontent.com/AbhinavSingh1176/abhinav-portfolio/refs/heads/claude/website-design-upgrade-jp7xki/fonts/archivo-latin-800-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Sans"; font-style: normal; font-weight: 400;
+  font-display: swap; src: url("https://raw.githubusercontent.com/AbhinavSingh1176/abhinav-portfolio/refs/heads/claude/website-design-upgrade-jp7xki/fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono"; font-style: normal; font-weight: 400;
+  font-display: swap; src: url("https://raw.githubusercontent.com/AbhinavSingh1176/abhinav-portfolio/refs/heads/claude/website-design-upgrade-jp7xki/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono"; font-style: normal; font-weight: 500;
+  font-display: swap; src: url("https://raw.githubusercontent.com/AbhinavSingh1176/abhinav-portfolio/refs/heads/claude/website-design-upgrade-jp7xki/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2");
+}
+
 :root[data-theme="light"] {
   --paper: #f8f7f3;       /* warm off-white — vellum influence */
   --paper-2: #f1f0ea;
@@ -173,6 +199,12 @@ a { color: inherit; }
   transition: color 0.15s ease, border-color 0.15s ease;
 }
 .nav-links a:hover { color: var(--ink); border-bottom-color: var(--red); }
+/* Scroll-spy: the section in view keeps its nav link lit (script.js sets
+   .active + aria-current from the datum tracker). */
+.nav-links a.active { color: var(--ink); border-bottom-color: var(--red); }
+/* Resume — the one persistent recruiter action, quietly distinguished. */
+.nav-links .nav-resume { color: var(--ink); border-bottom-color: var(--red); }
+.nav-links .nav-resume:hover { color: var(--red); }
 
 .theme-toggle {
   display: inline-flex; align-items: center; justify-content: center;
@@ -239,13 +271,17 @@ a { color: inherit; }
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
+/* The name reads first — recruiters get who this is before the tagline. */
+.hero-name {
+  font-family: "Archivo", sans-serif; font-weight: 800;
+  font-size: clamp(1.15rem, 2.4vw, 1.6rem); letter-spacing: 0.02em;
+  color: var(--ink);
+  margin-bottom: 0.2rem;
+}
 .eyebrow {
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.78rem; letter-spacing: 0.14em; color: var(--muted);
   margin-bottom: 1.75rem;
-}
-.eyebrow-name {
-  color: var(--ink); font-weight: 500; letter-spacing: 0.1em;
 }
 
 .sheet h1 {
@@ -296,9 +332,16 @@ a { color: inherit; }
 
 .hero-sub {
   max-width: 54ch; color: var(--ink-soft);
-  font-size: 1.075rem; margin-bottom: 2.5rem;
+  font-size: 1.075rem; margin-bottom: 1.5rem;
   line-height: 1.7;
 }
+
+/* What he's looking for — one line, impossible to miss, quiet to read. */
+.open-to {
+  color: var(--ink-soft); font-size: 0.72rem; letter-spacing: 0.09em;
+  margin-bottom: 1.4rem;
+}
+.open-to strong { color: var(--red); font-weight: 500; letter-spacing: 0.14em; }
 
 .hero-actions { display: flex; gap: 0.7rem; flex-wrap: wrap; margin-bottom: 3.5rem; }
 
@@ -350,6 +393,13 @@ a { color: inherit; }
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.82rem; font-weight: 500; letter-spacing: 0.03em;
 }
+/* Live cells (RESUME / CONTACT in the footer block). */
+.title-block a {
+  color: inherit; text-decoration: none;
+  border-bottom: 1px solid var(--line-strong);
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.title-block a:hover { color: var(--red); border-bottom-color: var(--red); }
 
 /* Hero title block rises in a beat behind the sheet settle, cell by cell. */
 .sheet .title-block > div { animation: tb-rise 0.45s ease both; }
@@ -369,6 +419,7 @@ a { color: inherit; }
   border-bottom: 1px solid var(--line);
   max-width: 1200px;
   position: relative;
+  scroll-margin-top: 62px; /* clear the sticky nav on anchor jumps */
   /* Skip rendering work for far-off-screen sections; the estimate keeps
      the scrollbar stable until real layout replaces it. */
   content-visibility: auto;
@@ -487,6 +538,11 @@ a { color: inherit; }
 }
 .case:first-of-type { border-top: none; padding-top: 0; }
 
+/* Featured first case: the strongest work reads first-among-equals —
+   larger media column, a touch more title. */
+.case:first-of-type { grid-template-columns: minmax(280px, 470px) 1fr; }
+.case:first-of-type .case-body h3 { font-size: 1.72rem; }
+
 .case-media { position: relative; }
 
 .case-media img,
@@ -567,6 +623,21 @@ a { color: inherit; }
 }
 .case-body > p { color: var(--ink-soft); max-width: 62ch; line-height: 1.7; }
 
+/* Outcome-first: the headline result sits right under the title so a
+   skimmer never has to enter the prose to find it. Styled like a quiet
+   drawing callout, not a badge. */
+.case-result {
+  display: flex; align-items: baseline; gap: 0.7rem;
+  margin: -0.15rem 0 0.9rem;
+  font-size: 0.72rem; letter-spacing: 0.07em;
+  color: var(--ink); font-weight: 500;
+}
+.case-result-k {
+  color: var(--red); letter-spacing: 0.16em; flex: none;
+  font-weight: 500;
+}
+.case-result-k::after { content: " ▸"; opacity: 0.6; }
+
 details { margin-top: 1.1rem; max-width: 62ch; }
 summary {
   cursor: pointer; font-family: "IBM Plex Mono", monospace;
@@ -594,7 +665,7 @@ summary:hover { color: var(--red); }
 }
 
 /* ============ BUILD LOG ============ */
-.log-list { list-style: none; max-width: 760px; }
+.log-list { list-style: none; max-width: 780px; }
 .log-list li {
   display: grid; grid-template-columns: 110px 1fr; gap: 1.25rem;
   padding: 0.85rem 0 0.85rem 1rem;
@@ -658,7 +729,7 @@ summary:hover { color: var(--red); }
 
 .table-caption { color: var(--muted); margin: 2.25rem 0 0.7rem; letter-spacing: 0.1em; }
 .section-label + .table-caption { margin-top: -1.6rem; }
-.about-spec { max-width: 760px; }
+.about-spec { max-width: 780px; }
 .about-spec th { width: 150px; }
 
 /* ============ EXPERIENCE ============ */
@@ -713,7 +784,9 @@ summary:hover { color: var(--red); }
 .cap-table td {
   color: var(--ink-soft); font-size: 0.95rem;
   line-height: 1.9;
+  transition: background-color 0.15s ease;
 }
+.cap-table tr:hover td { background-color: var(--red-soft); }
 
 /* ============ CONTACT ============ */
 .contact-grid {
@@ -801,7 +874,11 @@ summary:hover { color: var(--red); }
   box-shadow: var(--shadow-lg);
 }
 .lightbox::backdrop { background: rgba(8, 9, 12, 0.72); backdrop-filter: blur(4px); }
-.lightbox img { display: block; max-width: 100%; max-height: 78vh; border: 1px solid var(--line); border-radius: 2px; }
+.lightbox img {
+  display: block; max-width: 100%; max-height: 78vh;
+  border: 1px solid var(--line); border-radius: 2px;
+  transition: opacity 0.18s ease; /* cross-fade between figures */
+}
 .lightbox figcaption { color: var(--muted); }
 .lightbox-close {
   position: absolute; top: 0.9rem; right: 0.9rem;
@@ -952,7 +1029,8 @@ summary:hover { color: var(--red); }
 
 @media (max-width: 560px) {
   .nav { gap: 0.9rem; flex-wrap: wrap; }
-  .nav-links { gap: 1rem; margin-left: 0; width: 100%; order: 3; }
+  .nav-name { font-size: 0.88rem; letter-spacing: 0.04em; }
+  .nav-links { gap: 0.9rem 1rem; margin-left: 0; width: 100%; order: 3; flex-wrap: wrap; }
   .exp-list li { flex-direction: column; gap: 0.2rem; }
   .exp-right { flex-direction: row; align-items: baseline; gap: 0.8rem; }
   .log-list li { grid-template-columns: 1fr; gap: 0.15rem; }
