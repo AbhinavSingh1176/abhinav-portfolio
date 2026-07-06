@@ -132,6 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const lbPrev = lightbox.querySelector(".lightbox-prev");
     const lbNext = lightbox.querySelector(".lightbox-next");
     let group = [], index = 0;
+    const preNext = new Image(), prePrev = new Image(); // reused neighbor decoders
 
     const swapImage = (img) => {
       lbImg.src = img.src;
@@ -155,8 +156,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (lbPrev) lbPrev.hidden = lbNext.hidden = group.length < 2;
       if (group.length > 1) {
         // decode the neighbors before the next arrow press
-        new Image().src = group[(index + 1) % group.length].src;
-        new Image().src = group[(index - 1 + group.length) % group.length].src;
+        preNext.src = group[(index + 1) % group.length].src;
+        prePrev.src = group[(index - 1 + group.length) % group.length].src;
       }
     };
     const step = (d) => {
@@ -359,11 +360,16 @@ function initInstrument() {
   window.addEventListener("scroll", () => { hud.classList.add("visible"); wake(); }, { passive: true });
 
   function tick() {
+    // All layout READS happen up front, all style WRITES after — otherwise
+    // the datum check would re-measure a layout this frame already dirtied,
+    // forcing a reflow on every animated frame.
+    const maxScroll = document.documentElement.scrollHeight - H;
+    const targetScroll = maxScroll > 0 ? window.scrollY / maxScroll : 0;
+    const d = sections.length ? activeDatum() : "—";
+
     cx = lerp(cx, tx, kPos); cy = lerp(cy, ty, kPos);
     dx = lerp(dx, W > 0 ? tx / W : 0, kVal);
     dy = lerp(dy, H > 0 ? ty / H : 0, kVal);
-    const maxScroll = document.documentElement.scrollHeight - H;
-    const targetScroll = maxScroll > 0 ? window.scrollY / maxScroll : 0;
     dScroll = lerp(dScroll, targetScroll, kScr);
 
     // Position with transform only — compositor-friendly, no per-frame layout.
@@ -376,7 +382,6 @@ function initInstrument() {
     hS.textContent = (dScroll * 100).toFixed(1) + "%";
     hBar.style.width = (dScroll * 100) + "%";
 
-    const d = sections.length ? activeDatum() : "—";
     if (d !== lastDatum) {
       lastDatum = d;
       hD.textContent = d;
