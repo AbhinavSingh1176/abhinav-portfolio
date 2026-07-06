@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Drawing-sheet favicon: paper, sheet frame, redline datum square, AS.
+       Follows the visitor's system theme. -->
+  <style>
+    .paper { fill: #f8f7f3; }
+    .ink   { fill: #13151a; }
+    .frame { fill: none; stroke: #13151a; stroke-width: 1.5; }
+    @media (prefers-color-scheme: dark) {
+      .paper { fill: #0e1012; }
+      .ink   { fill: #eceae6; }
+      .frame { stroke: #eceae6; }
+    }
+  </style>
+  <rect class="paper" width="32" height="32" rx="4"/>
+  <rect class="frame" x="4.25" y="4.25" width="23.5" height="23.5"/>
+  <rect x="7" y="7" width="4" height="4" fill="#c0302a"/>
+  <text class="ink" x="16.5" y="23.5" text-anchor="middle"
+        font-family="Menlo, Consolas, monospace" font-weight="700" font-size="11.5">AS</text>
+</svg>
