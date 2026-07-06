@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Abhinav Singh | Mechanical Engineer</title>
 
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="logo-as.png" type="image/png" />
 
   <meta name="description" content="Abhinav Singh: Purdue mechanical engineer working on battery and thermal systems. Co-op at Cummins. Case studies in vibration isolation, thermal simulation, and powertrain hardware.">
@@ -62,9 +63,9 @@
     })();
   </script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Sans&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Fonts are self-hosted (fonts/*.woff2, declared in styles.css) — no
+       third-party font requests. -->
+  <link rel="preload" href="https://raw.githubusercontent.com/AbhinavSingh1176/abhinav-portfolio/refs/heads/claude/website-design-upgrade-jp7xki/fonts/archivo-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="preview.css" />
 </head>
 <body>
@@ -97,6 +98,7 @@
   <header class="nav" id="top">
     <a class="nav-name" href="#top" id="navTop" title="Back to top" aria-label="Abhinav Singh, back to top">
       <svg class="gear" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+      ABHINAV SINGH
     </a>
     <nav class="nav-links" aria-label="Main">
       <a href="#now">On Deck</a>
@@ -104,6 +106,7 @@
       <a href="#log">Log</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
+      <a class="nav-resume" href="Abhinav_Singh_Resume.pdf" target="_blank" rel="noopener noreferrer">Resume ↗</a>
     </nav>
     <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">
       <span data-theme-icon aria-hidden="true"></span>
@@ -115,7 +118,8 @@
     <section class="sheet" aria-label="Introduction">
       <div class="sheet-stack">
       <div class="sheet-frame">
-        <p class="eyebrow"><strong class="eyebrow-name">ABHINAV SINGH</strong> · MECHANICAL ENGINEER · PURDUE UNIVERSITY</p>
+        <p class="hero-name">Abhinav Singh</p>
+        <p class="eyebrow">MECHANICAL ENGINEER · PURDUE ME '28 · CUMMINS CO-OP · CTRC RESEARCH</p>
         <h1>Works well under pressure.<span class="fn-mark" aria-hidden="true">*</span></h1>
         <p class="hero-note mono">* ALSO HEAT, VIBRATION, AND TIGHT TOLERANCES.</p>
         <div class="dim-line" aria-hidden="true"><span>REF</span></div>
@@ -125,6 +129,7 @@
           messy part where a model meets real hardware and the two have to
           agree.
         </p>
+        <p class="open-to mono"><strong>OPEN TO:</strong> BATTERY · THERMAL · MECHANICAL DESIGN ROLES</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#work">See the work</a>
           <a class="btn" href="Abhinav_Singh_Resume.pdf" target="_blank" rel="noopener noreferrer">Resume (PDF)</a>
@@ -161,7 +166,7 @@
          delete it entirely if there's only one image. -->
     <section class="section" id="work" data-datum="C" aria-labelledby="work-title">
       <h2 class="section-label" id="work-title"><span class="sec-no">02</span> PREVIOUS WORK<span class="datum-tag" aria-hidden="true">C</span></h2>
-      <p class="section-note">Things I've designed, built, and tested. Each one taught me something the last one couldn't.</p>
+      <p class="section-note">Things I've designed, built, and tested. Each one taught me something the last one couldn't. Currently building: <a class="now-link" href="vim.html">VIM-001, an end-to-end design→build→test log →</a></p>
 
       <article class="case">
         <div class="case-media">
@@ -181,6 +186,7 @@
             <span>APR 2025 – 2026</span>
           </div>
           <h3>Micro Pin-Fin Heatsink Simulation, CTRC</h3>
+          <p class="case-result mono"><span class="case-result-k">RESULT</span> −35% SIMULATION COST · ACCURACY HELD</p>
           <p>
             I ran thermal simulation pipelines end to end at Purdue's Cooling Technologies
             Research Center: geometry, meshing, solver setup, and post-processing for
@@ -222,6 +228,7 @@
             <span>JAN 2025 – MAY 2026</span>
           </div>
           <h3>Powertrain Hardware, ASME Racing</h3>
+          <p class="case-result mono"><span class="case-result-k">RESULT</span> PURDUE'S FIRST IN-HOUSE CVT MOUNT · BELT FAILURES CONTAINED</p>
           <p>
             Our kart's CVT had a rough 2025 season. Chassis flex and belt wear got bad
             enough that the team was swapping belts by hand at pit stops, giving away
@@ -263,6 +270,7 @@
             <span>JAN – MAY 2025</span>
           </div>
           <h3>Wheel Rim &amp; Exhaust Manifold: GD&amp;T Study</h3>
+          <p class="case-result mono"><span class="case-result-k">RESULT</span> MANUFACTURING-READY DRAWING PACKAGE · ASME Y14.5</p>
           <p>
             Two components with real-world basis: a 17-inch steel wheel rim built to
             Toyota Prius V (AW60) specifications, and a 4-cylinder exhaust manifold
@@ -295,6 +303,7 @@
             <span>JAN – MAY 2025</span>
           </div>
           <h3>EV Kart Assembly Manuals, EPICS</h3>
+          <p class="case-result mono"><span class="case-result-k">RESULT</span> STANDARDIZED MANUALS SHIPPED TO MSTEM3 TEAMS</p>
           <p>
             As Project Archivist on the Kart Manual team, I wrote the standardized
             assembly manuals for MSTEM3 electric karts headed to high school racing
@@ -326,6 +335,7 @@
             <span>AUG – DEC 2024</span>
           </div>
           <h3>Air Purifier Controls, EPICS</h3>
+          <p class="case-result mono"><span class="case-result-k">RESULT</span> −50% FOOTPRINT · RELIABLE PM/VOC SENSING</p>
           <p>
             PEEPS is a portable air purification device commissioned by a local middle
             school, which set two hard constraints: it had to read particulate matter and
@@ -534,10 +544,12 @@
         <li>SPOTTED AN ERROR? GOOD EYE. EMAIL ME.</li>
       </ol>
     </div>
-    <div class="title-block title-block-footer" role="presentation">
+    <div class="title-block title-block-footer">
       <div><span>DOC</span><strong>PORTFOLIO</strong></div>
       <div><span>REV</span><strong data-rev>3.8</strong></div>
       <div><span>LAST UPDATED</span><strong data-stamp>2026-06-10</strong></div>
+      <div><span>RESUME</span><strong><a href="Abhinav_Singh_Resume.pdf" target="_blank" rel="noopener noreferrer">PDF ↗</a></strong></div>
+      <div><span>CONTACT</span><strong><a href="mailto:abhinavsingh1176@gmail.com">EMAIL ↗</a></strong></div>
       <div><span>©</span><strong data-year>2026</strong></div>
     </div>
     <p class="printed-line">PRINTED: <span data-printed>—</span> · SCALE: 1:1 · SHEET 1 OF 1</p>
