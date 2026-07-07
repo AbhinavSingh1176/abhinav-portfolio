@@ -5,20 +5,32 @@ const SUN_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
 const MOON_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
 
 // ---------- Theme ----------
+// data-theme itself is applied by a tiny inline script in <head> before
+// first paint (no flash for dark-mode visitors); here we only sync the
+// toggle icon, with a backstop in case that script didn't run.
 (function initTheme() {
-  const saved = localStorage.getItem("theme");
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const theme = saved || (prefersDark ? "dark" : "light");
-  document.documentElement.setAttribute("data-theme", theme);
-  updateThemeLabel(theme);
+  const root = document.documentElement;
+  if (!root.getAttribute("data-theme")) {
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    root.setAttribute("data-theme", localStorage.getItem("theme") || (prefersDark ? "dark" : "light"));
+  }
+  updateThemeLabel(root.getAttribute("data-theme"));
 })();
 
 function toggleTheme() {
   const root = document.documentElement;
   const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
-  root.setAttribute("data-theme", next);
-  localStorage.setItem("theme", next);
-  updateThemeLabel(next);
+  const apply = () => {
+    root.setAttribute("data-theme", next);
+    localStorage.setItem("theme", next);
+    updateThemeLabel(next);
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.content = next === "dark" ? "#0e1012" : "#f8f7f3";
+  };
+  // Cross-fade the whole page between themes where supported.
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reduce && document.startViewTransition) document.startViewTransition(apply);
+  else apply();
 }
 
 function updateThemeLabel(theme) {
@@ -55,16 +67,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const thermo = document.querySelector(".thermo");
   const gear = document.querySelector(".gear");
   const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  // Where CSS scroll-driven animations exist, the thermo bar runs entirely
+  // off-thread in CSS and JS leaves it alone — except under reduced motion,
+  // where the global animation kill-switch stops the CSS path, so JS (which
+  // is just positional feedback, not motion) takes back over.
+  const cssThermo = CSS.supports("animation-timeline: scroll()") && !reduceMotionQuery.matches;
+  // scrollHeight is layout-expensive to read, so cache it and refresh only on
+  // resize / content change. Style writes are coalesced into one rAF per frame
+  // no matter how many scroll events fire in between.
+  let scrollMax = 0;
+  const refreshScrollMax = () => { scrollMax = document.documentElement.scrollHeight - window.innerHeight; };
+  let scrollScheduled = false;
+  const renderScroll = () => {
+    scrollScheduled = false;
+    if (thermo && !cssThermo) thermo.style.width = (scrollMax > 0 ? (window.scrollY / scrollMax) * 100 : 0) + "%";
+    if (gear && !reduceMotionQuery.matches) gear.style.transform = `rotate(${window.scrollY * 0.35}deg)`;
+  };
   const onScroll = () => {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    if (thermo) thermo.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + "%";
-    if (gear && !reduceMotionQuery.matches) {
-      gear.style.transform = `rotate(${window.scrollY * 0.35}deg)`;
-    }
+    if (!scrollScheduled) { scrollScheduled = true; requestAnimationFrame(renderScroll); }
   };
   window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", onScroll, { passive: true });
-  onScroll();
+  window.addEventListener("resize", () => { refreshScrollMax(); onScroll(); }, { passive: true });
+  refreshScrollMax();
+  renderScroll();
 
   const navTop = document.getElementById("navTop");
   if (navTop) {
@@ -91,29 +116,100 @@ document.addEventListener("DOMContentLoaded", () => {
     logMore.addEventListener("click", () => {
       logList.classList.add("expanded");
       logMore.remove();
+      refreshScrollMax();
     });
   }
 
   // ---------- Lightbox ----------
-  // Any project image opens in the shared <dialog>. Native behavior
-  // handles Esc; clicking the backdrop closes too.
+  // Any project image opens in the shared <dialog>; every image in the same
+  // project becomes one figure set you can arrow through (buttons or
+  // ArrowLeft/ArrowRight). Native dialog behavior handles Esc; clicking the
+  // backdrop closes too.
   const lightbox = document.getElementById("lightbox");
   if (lightbox && typeof lightbox.showModal === "function") {
     const lbImg = lightbox.querySelector("img");
     const lbCap = lightbox.querySelector("figcaption");
-    document.querySelectorAll(".case-media img, .views-grid img").forEach((img) => {
-      img.addEventListener("click", () => {
-        lbImg.src = img.src;
-        lbImg.alt = img.alt;
-        lbCap.textContent = img.alt.toUpperCase();
-        lightbox.showModal();
+    const lbPrev = lightbox.querySelector(".lightbox-prev");
+    const lbNext = lightbox.querySelector(".lightbox-next");
+    let group = [], index = 0;
+    const preNext = new Image(), prePrev = new Image(); // reused neighbor decoders
+
+    const swapImage = (img) => {
+      lbImg.src = img.src;
+      lbImg.alt = img.alt;
+      const show = () => { lbImg.style.opacity = "1"; };
+      if (lbImg.complete) requestAnimationFrame(show);
+      else lbImg.addEventListener("load", show, { once: true });
+    };
+    const render = (fade) => {
+      const img = group[index];
+      if (fade) {
+        // Cross-fade between figures: dip out, swap, ease back in.
+        lbImg.style.opacity = "0";
+        setTimeout(() => swapImage(img), 150);
+      } else {
+        lbImg.style.opacity = "1";
+        swapImage(img);
+      }
+      lbCap.textContent =
+        (group.length > 1 ? `FIG. ${index + 1} / ${group.length} — ` : "") + img.alt.toUpperCase();
+      if (lbPrev) lbPrev.hidden = lbNext.hidden = group.length < 2;
+      if (group.length > 1) {
+        // decode the neighbors before the next arrow press
+        preNext.src = group[(index + 1) % group.length].src;
+        prePrev.src = group[(index - 1 + group.length) % group.length].src;
+      }
+    };
+    const step = (d) => {
+      if (group.length < 2) return;
+      index = (index + d + group.length) % group.length;
+      render(true);
+    };
+
+    // One figure set per media container; a views-grid that isn't inside a
+    // case-media (the VIM gallery) is its own set.
+    const sets = Array.from(document.querySelectorAll(".case-media"));
+    document.querySelectorAll(".views-grid").forEach((g) => {
+      if (!g.closest(".case-media")) sets.push(g);
+    });
+    sets.forEach((box) => {
+      box.querySelectorAll("img").forEach((img) => {
+        img.addEventListener("click", () => {
+          // Re-query at open: images that failed to load have been swapped
+          // for placeholders and should drop out of the set.
+          group = Array.from(box.querySelectorAll("img"));
+          index = Math.max(0, group.indexOf(img));
+          render(false);
+          lightbox.showModal();
+        });
       });
+    });
+
+    if (lbPrev) lbPrev.addEventListener("click", () => step(-1));
+    if (lbNext) lbNext.addEventListener("click", () => step(1));
+    lightbox.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") step(-1);
+      else if (e.key === "ArrowRight") step(1);
     });
     lightbox.addEventListener("click", (e) => {
       if (e.target === lightbox) lightbox.close();
     });
     lightbox.querySelector(".lightbox-close").addEventListener("click", () => lightbox.close());
   }
+
+  // ---------- Copy email ----------
+  // The mailto link stays a normal link; this button just puts the address
+  // on the clipboard. If the Clipboard API is unavailable, nothing breaks.
+  document.querySelectorAll("[data-copy]").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copy);
+        btn.textContent = "COPIED ✓";
+        btn.classList.add("ok");
+        setTimeout(() => { btn.textContent = "COPY"; btn.classList.remove("ok"); }, 1500);
+      } catch { /* clipboard unavailable — the link beside the button still works */ }
+    });
+  });
 
   // ---------- Scroll reveal ----------
   // Progressive enhancement: content is visible by default; the reveal
@@ -133,8 +229,12 @@ document.addEventListener("DOMContentLoaded", () => {
       { rootMargin: "0px 0px -8% 0px" }
     );
     targets.forEach((el) => {
-      // skip anything already on screen at load — no pop-in above the fold
-      if (el.getBoundingClientRect().top > window.innerHeight) {
+      // Skip anything already on screen at load — no pop-in above the fold.
+      // Measured against the containing section, not the element: sections
+      // use content-visibility, so a skipped section's descendants don't
+      // have trustworthy boxes yet, but the section itself always does.
+      const anchor = el.closest(".section") || el;
+      if (anchor.getBoundingClientRect().top > window.innerHeight) {
         el.classList.add("reveal");
         observer.observe(el);
       }
@@ -207,8 +307,23 @@ function initInstrument() {
     }
     return cur;
   };
-  const setActiveSection = (d) =>
-    sections.forEach((s) => s.classList.toggle("is-active", s.getAttribute("data-datum") === d));
+  // Scroll-spy rides the same datum tracker: the active section lights its
+  // GD&T tag AND its nav link (with aria-current for assistive tech).
+  const navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-links a[href^="#"]'));
+  const setActiveSection = (d) => {
+    let activeId = null;
+    sections.forEach((s) => {
+      const on = s.getAttribute("data-datum") === d;
+      s.classList.toggle("is-active", on);
+      if (on) activeId = s.id;
+    });
+    navLinks.forEach((a) => {
+      const on = activeId && a.getAttribute("href") === "#" + activeId;
+      a.classList.toggle("active", !!on);
+      if (on) a.setAttribute("aria-current", "true");
+      else a.removeAttribute("aria-current");
+    });
+  };
 
   // Spring/lerp state.
   let cx = -200, cy = -200, tx = -200, ty = -200, dx = 0, dy = 0, dScroll = 0;
@@ -216,6 +331,13 @@ function initInstrument() {
   const kPos = reduceMotion ? 1 : 0.13;
   const kVal = reduceMotion ? 1 : 0.09;
   const kScr = reduceMotion ? 1 : 0.07;
+
+  // The render loop only runs while something is still moving: wake() starts
+  // it, tick() stops itself once every spring has settled. This replaces a
+  // permanent requestAnimationFrame that ran every frame for the life of the
+  // page even when the cursor and scroll were completely idle.
+  let running = false;
+  function wake() { if (!running) { running = true; requestAnimationFrame(tick); } }
 
   if (finePointer) {
     window.addEventListener("mousemove", (e) => {
@@ -231,37 +353,51 @@ function initInstrument() {
           retH.style.opacity = "0"; retV.style.opacity = "0"; retN.style.opacity = "0";
         }, 3000);
       }
+      wake();
     }, { passive: true });
-  } else {
-    window.addEventListener("scroll", () => hud.classList.add("visible"), { passive: true, once: true });
   }
+  // Scroll drives the HUD readout + active datum for every pointer type.
+  window.addEventListener("scroll", () => { hud.classList.add("visible"); wake(); }, { passive: true });
 
   function tick() {
+    // All layout READS happen up front, all style WRITES after — otherwise
+    // the datum check would re-measure a layout this frame already dirtied,
+    // forcing a reflow on every animated frame.
+    const maxScroll = document.documentElement.scrollHeight - H;
+    const targetScroll = maxScroll > 0 ? window.scrollY / maxScroll : 0;
+    const d = sections.length ? activeDatum() : "—";
+
     cx = lerp(cx, tx, kPos); cy = lerp(cy, ty, kPos);
     dx = lerp(dx, W > 0 ? tx / W : 0, kVal);
     dy = lerp(dy, H > 0 ? ty / H : 0, kVal);
-    const maxScroll = document.documentElement.scrollHeight - H;
-    dScroll = lerp(dScroll, maxScroll > 0 ? window.scrollY / maxScroll : 0, kScr);
+    dScroll = lerp(dScroll, targetScroll, kScr);
 
+    // Position with transform only — compositor-friendly, no per-frame layout.
     if (retH && active) {
-      retH.style.left = (cx - 36) + "px"; retH.style.top = cy + "px";
-      retV.style.top = (cy - 36) + "px"; retV.style.left = cx + "px";
-      retN.style.left = cx + "px"; retN.style.top = cy + "px";
+      retH.style.transform = `translate(${cx - 36}px, ${cy}px)`;
+      retV.style.transform = `translate(${cx}px, ${cy - 36}px)`;
+      retN.style.transform = `translate(${cx - 3.5}px, ${cy - 3.5}px)`;
     }
     if (active) { hX.textContent = dx.toFixed(3); hY.textContent = dy.toFixed(3); }
     hS.textContent = (dScroll * 100).toFixed(1) + "%";
     hBar.style.width = (dScroll * 100) + "%";
 
-    const d = sections.length ? activeDatum() : "—";
     if (d !== lastDatum) {
       lastDatum = d;
       hD.textContent = d;
       hD.classList.remove("flash"); void hD.offsetWidth; hD.classList.add("flash");
       setActiveSection(d);
     }
-    requestAnimationFrame(tick);
+
+    // Keep animating only until the cursor and scroll springs have settled,
+    // then release the loop. mousemove / scroll call wake() to resume.
+    const moving =
+      Math.abs(cx - tx) > 0.5 || Math.abs(cy - ty) > 0.5 ||
+      Math.abs(dScroll - targetScroll) > 0.0004;
+    if (moving) requestAnimationFrame(tick);
+    else running = false;
   }
-  requestAnimationFrame(tick);
+  wake(); // prime the HUD scroll readout + active datum once at load
 }
 
 // ---------- Contact form (Formspree) ----------
