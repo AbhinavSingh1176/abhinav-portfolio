@@ -106,17 +106,6 @@
     <p class="status" id="tokenStatus"></p>
   </section>
 
-  <!-- ================= LOG ENTRY ================= -->
-  <section class="panel">
-    <h2><span class="no">01</span> ADD BUILD LOG ENTRY</h2>
-    <label for="logDate">Date</label>
-    <input type="date" id="logDate">
-    <label for="logText">What shipped (one line, factual)</label>
-    <input type="text" id="logText" placeholder="VIM Phase 1 complete — MATLAB model validated against hand calcs.">
-    <button onclick="addLogEntry()">Commit log entry</button>
-    <p class="status" id="logStatus"></p>
-  </section>
-
   <!-- ================= IMAGE UPLOAD ================= -->
   <section class="panel">
     <h2><span class="no">02</span> UPLOAD IMAGE</h2>
@@ -163,6 +152,8 @@
     </select>
     <label for="projDates">Dates (as shown, e.g. SEP–DEC 2026)</label>
     <input type="text" id="projDates" placeholder="SEP–DEC 2026">
+    <label for="projResult">Result (one line, shown under the title)</label>
+    <input type="text" id="projResult" placeholder="~35% faster simulation turnaround with accuracy preserved">
     <label for="projDesc">Description (one paragraph)</label>
     <textarea id="projDesc" rows="5" placeholder="What it is, what you did, what the data said."></textarea>
     <label for="projImg">Main image path (leave blank for a placeholder)</label>
@@ -189,7 +180,7 @@ SENSING | 8× T-type thermocouples, embedded"></textarea>
   <section class="panel">
     <h2><span class="no">05</span> NOW LIST</h2>
     <p class="help">The lines under NOW on the main page. Load, edit, commit.
-      LIVE gets the blinking red dot; the label is the mono tag
+      LIVE gets the red dot; the label is the mono tag
       (CO-OP / BUILDING / NEXT).</p>
     <div id="nowRows"></div>
     <div class="row">
@@ -203,7 +194,7 @@ SENSING | 8× T-type thermocouples, embedded"></textarea>
   <!-- ================= REV BUMP ================= -->
   <section class="panel">
     <h2><span class="no">06</span> BUMP REV + DATE</h2>
-    <p class="help">Updates the REV and DATE in both title blocks (hero + footer). Do this after meaningful updates — it's the drawing-revision discipline, kept honest.</p>
+    <p class="help">Updates the REV and DATE in the footer title block. Do this after meaningful updates — it's the drawing-revision discipline, kept honest.</p>
     <label for="revValue">New REV</label>
     <input type="text" id="revValue" placeholder="3.2">
     <button onclick="bumpRev()">Commit rev bump</button>
@@ -290,27 +281,6 @@ SENSING | 8× T-type thermocouples, embedded"></textarea>
     el.classList.toggle("ok", !!ok);
   }
 
-  // ---------- 01: log entry ----------
-  async function addLogEntry() {
-    const date = $("logDate").value || today();
-    const text = $("logText").value.trim();
-    if (!token()) return setStatus("logStatus", "NO TOKEN — SEE PANEL 00.", false);
-    if (!text) return setStatus("logStatus", "WRITE THE LINE FIRST.", false);
-    setStatus("logStatus", "COMMITTING…", false);
-    try {
-      const { text: html, sha } = await getFile("index.html");
-      const marker = '<ul class="log-list mono">';
-      if (!html.includes(marker)) throw new Error("log marker not found in index.html");
-      const entry = `\n        <li><time>${date}</time><span>${escapeHtml(text)}</span></li>`;
-      const updated = html.replace(marker, marker + entry);
-      await putFile("index.html", encodeText(updated), `log: ${text.slice(0, 60)}`, sha);
-      setStatus("logStatus", "COMMITTED. LIVE IN ~1 MIN.", true);
-      $("logText").value = "";
-    } catch (e) {
-      setStatus("logStatus", "FAILED: " + e.message, false);
-    }
-  }
-
   // ---------- 02: image upload ----------
   $("imgFolder").addEventListener("change", () => {
     $("imgFolderCustom").style.display = $("imgFolder").value === "__custom" ? "block" : "none";
@@ -370,7 +340,8 @@ SENSING | 8× T-type thermocouples, embedded"></textarea>
       live: !!a.querySelector(".status-live"),
       dates: (dates?.textContent || "").trim(),
       title: a.querySelector("h3")?.innerHTML.trim() || "",
-      desc: (a.querySelector(".case-body > p")?.innerHTML || "").replace(/\s+/g, " ").trim(),
+      desc: (a.querySelector(".case-body > p:not(.case-meta)")?.innerHTML || "").replace(/\s+/g, " ").trim(),
+      result: (a.querySelector(".case-result")?.innerHTML || "").replace(/<span class="mono">[^<]*<\/span>/, "").replace(/\s+/g, " ").trim(),
       img: img?.getAttribute("src") || "",
       alt: img?.getAttribute("alt") || "",
       fb: img?.getAttribute("data-fallback") || ph?.innerHTML.trim() || "",
@@ -380,7 +351,8 @@ SENSING | 8× T-type thermocouples, embedded"></textarea>
       specs: [...a.querySelectorAll(".spec-table tr")].map(
         (tr) => `${tr.querySelector("th")?.innerHTML.trim()} | ${tr.querySelector("td")?.innerHTML.replace(/\s+/g, " ").trim()}`
       ),
-      repo: a.querySelector(".case-link")?.getAttribute("href") || "",
+      dark: !!a.querySelector(".case-media.media-dark"),
+      repo: a.querySelector(".case-link, .case-body > p > a[target]")?.getAttribute("href") || "",
     };
   }
 
@@ -393,43 +365,36 @@ SENSING | 8× T-type thermocouples, embedded"></textarea>
       ? `<img src="${f.img}" alt="${f.alt}" data-fallback="${f.fb}" loading="lazy">`
       : `<div class="media-placeholder mono">${f.fb}</div>`;
     const more = views.length
-      ? `\n          <details class="more-views">
-            <summary class="mono">+${views.length} MORE VIEWS</summary>
-            <div class="views-grid">\n${views.join("\n")}\n            </div>
-          </details>`
+      ? `\n          <div class="views-grid">\n${views.join("\n")}\n          </div>`
       : "";
     const status = f.live
-      ? `<span class="status status-live"><span class="dot dot-live"></span>IN PROGRESS</span>`
-      : `<span class="status">COMPLETE</span>`;
+      ? `<span class="status status-live">In progress</span>`
+      : `<span class="status">Complete</span>`;
     const specs = f.specs.map((line) => {
       const i = line.indexOf("|");
       const th = (i < 0 ? line : line.slice(0, i)).trim();
       const td = i < 0 ? "" : line.slice(i + 1).trim();
-      return `              <tr><th class="mono">${th}</th><td>${td}</td></tr>`;
+      return `            <tr><th class="mono">${th}</th><td>${td}</td></tr>`;
     });
-    const details = specs.length
-      ? `\n          <details>
-            <summary>Specifications &amp; approach</summary>
-            <table class="spec-table">\n${specs.join("\n")}\n            </table>
-          </details>`
+    const table = specs.length
+      ? `\n          <table class="spec-table">\n${specs.join("\n")}\n          </table>`
+      : "";
+    const result = f.result
+      ? `\n          <div class="case-result"><span class="mono">Result</span> ${f.result}</div>`
       : "";
     const repo = f.repo
-      ? `\n          <a class="case-link mono" href="${f.repo}" target="_blank" rel="noopener noreferrer">BUILD REPO →</a>`
+      ? `\n          <p><a href="${f.repo}" target="_blank" rel="noopener noreferrer">Project repository ↗</a></p>`
       : "";
     return `<article class="case">
-        <div class="case-media">
+        <div class="case-media${f.dark ? " media-dark" : ""}">
           ${media}${more}
         </div>
         <div class="case-body">
-          <div class="case-meta mono">
-            <span class="balloon" aria-hidden="true">${f.balloon}</span>
-            ${status}
-            <span>${f.dates}</span>
-          </div>
-          <h3>${f.title}</h3>
+          <p class="case-meta mono"><span class="balloon">${f.balloon}</span>${status}<span>${f.dates}</span></p>
+          <h3>${f.title}</h3>${result}
           <p>
             ${f.desc}
-          </p>${details}${repo}
+          </p>${table}${repo}
         </div>
       </article>`;
   }
@@ -464,6 +429,7 @@ SENSING | 8× T-type thermocouples, embedded"></textarea>
     $("projStatus").value = c.live ? "live" : "done";
     $("projDates").value = c.dates;
     $("projDesc").value = c.desc;
+    $("projResult").value = c.result;
     $("projImg").value = c.img;
     $("projImgAlt").value = c.alt;
     $("projImgFb").value = c.fb;
@@ -473,7 +439,7 @@ SENSING | 8× T-type thermocouples, embedded"></textarea>
   });
 
   function resetCardForm(keepSelect) {
-    ["projTitle", "projDates", "projDesc", "projImg", "projImgAlt", "projImgFb",
+    ["projTitle", "projDates", "projDesc", "projResult", "projImg", "projImgAlt", "projImgFb",
      "projViews", "projSpecs", "projRepo"].forEach((id) => ($(id).value = ""));
     $("projStatus").value = "live";
     if (!keepSelect) $("projSelect").value = "-1";
@@ -504,12 +470,14 @@ SENSING | 8× T-type thermocouples, embedded"></textarea>
         dates: $("projDates").value.trim(),
         title,
         desc: $("projDesc").value.replace(/\s+/g, " ").trim(),
+        result: $("projResult").value.trim(),
         img: $("projImg").value.trim(),
         alt: $("projImgAlt").value.trim(),
         fb: $("projImgFb").value.trim(),
         views: lines("projViews"),
         specs: lines("projSpecs"),
         repo: $("projRepo").value.trim(),
+        dark: editing ? parseCard(cardCache.blocks[i]).dark : false,
       });
       let updated;
       if (editing) {

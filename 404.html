@@ -4,91 +4,59 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex">
-<title>404 | Abhinav Singh</title>
+<title>Page not found | Abhinav Singh</title>
 <link rel="icon" href="/abhinav-portfolio/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/abhinav-portfolio/logo-as.png" type="image/png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  /* Self-contained on purpose — GitHub Pages serves this from any bad
-     path, so no relative asset can be trusted. Same drawing-sheet palette. */
+  /* Self-contained on purpose: GitHub Pages serves this from any bad path,
+     so fonts load by absolute URL and everything else is inline. */
+  @font-face { font-family:"Archivo"; font-weight:800; font-display:swap;
+    src:url("/abhinav-portfolio/fonts/archivo-latin-800-normal.woff2") format("woff2"); }
+  @font-face { font-family:"IBM Plex Sans"; font-weight:400; font-display:swap;
+    src:url("/abhinav-portfolio/fonts/ibm-plex-sans-latin-400-normal.woff2") format("woff2"); }
+  @font-face { font-family:"IBM Plex Mono"; font-weight:400; font-display:swap;
+    src:url("/abhinav-portfolio/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); }
   :root {
-    --paper:#f8f7f3; --paper-2:#f1f0ea; --ink:#13151a; --ink-soft:#454a58;
-    --muted:#707585; --line:#e0dfd8; --line-strong:#c0bfb8; --red:#c0302a;
-    --grid:rgba(19,21,26,0.038);
+    --paper:#f7f6f2; --surface:#fbfaf7; --ink:#15171b; --ink-soft:#3f4450;
+    --muted:#6c7180; --line-strong:#c4c2ba; --red:#b8322b; --grid:rgba(21,23,27,0.035);
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --paper:#0e1012; --paper-2:#161820; --ink:#eceae6; --ink-soft:#b0b4be;
-      --muted:#767c8a; --line:#23262e; --line-strong:#363942; --red:#e85a50;
-      --grid:rgba(236,234,230,0.032);
+      --paper:#0f1113; --surface:#13161a; --ink:#ecebe7; --ink-soft:#b4b8c1;
+      --muted:#80869a; --line-strong:#3a3f48; --red:#e4675d; --grid:rgba(236,234,230,0.03);
     }
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   body {
-    font-family:"IBM Plex Sans",sans-serif; background:var(--paper); color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,sans-serif; background:var(--paper); color:var(--ink);
     line-height:1.6; min-height:100vh; display:grid; place-items:center;
     padding:clamp(1rem,4vw,3rem);
   }
-  .mono { font-family:"IBM Plex Mono",monospace; font-size:0.78rem; letter-spacing:0.05em; }
   .sheet {
-    border:1.5px solid var(--ink); position:relative; max-width:640px; width:100%;
-    padding:clamp(1.75rem,5vw,3.5rem);
+    border:1.5px solid var(--ink); position:relative; max-width:560px; width:100%;
+    padding:clamp(1.75rem,5vw,3rem); background-color:var(--surface);
     background-image:
       linear-gradient(var(--grid) 1px, transparent 1px),
       linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-    background-size:28px 28px;
+    background-size:24px 24px;
   }
-  .sheet::before {
-    content:""; position:absolute; inset:7px;
-    border:1px solid var(--line-strong); pointer-events:none;
-  }
-  .eyebrow { color:var(--muted); letter-spacing:0.14em; margin-bottom:1.4rem; }
-  h1 {
-    font-family:"Archivo",sans-serif; font-weight:800;
-    font-size:clamp(2rem,7vw,3.2rem); line-height:1.05; letter-spacing:-0.02em;
-    margin-bottom:0.5rem;
-  }
-  h1 .red { color:var(--red); }
-  .sub { color:var(--ink-soft); max-width:46ch; margin-bottom:2rem; }
-  .ncr { width:100%; border-collapse:collapse; margin-bottom:2rem; }
-  .ncr th, .ncr td {
-    text-align:left; vertical-align:top; padding:0.5rem 0.8rem;
-    border:1px solid var(--line); font-weight:400; font-size:0.88rem; color:var(--ink-soft);
-  }
-  .ncr th {
-    font-family:"IBM Plex Mono",monospace; font-size:0.7rem; letter-spacing:0.08em;
-    color:var(--muted); width:130px; background:var(--paper-2);
-  }
-  .btn {
-    font-family:"IBM Plex Mono",monospace; font-size:0.8rem; letter-spacing:0.05em;
-    text-decoration:none; display:inline-block;
-    padding:0.7rem 1.3rem; border:1px solid var(--ink); border-radius:2px;
-    background:var(--ink); color:var(--paper);
-  }
-  .btn:hover { background:var(--red); border-color:var(--red); color:#fff; }
+  .sheet::before { content:""; position:absolute; inset:6px; border:1px solid var(--line-strong); pointer-events:none; }
+  .kicker { font-family:"IBM Plex Mono",monospace; font-size:0.75rem; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:1rem; }
+  h1 { font-family:"Archivo",sans-serif; font-weight:800; font-size:clamp(2rem,7vw,2.8rem);
+    line-height:1.05; letter-spacing:-0.03em; margin-bottom:0.75rem; }
+  p.sub { color:var(--ink-soft); max-width:44ch; margin-bottom:1.75rem; }
+  .btn { display:inline-block; font-size:0.92rem; text-decoration:none;
+    padding:0.8rem 1.2rem; border-radius:3px; background:var(--ink); color:var(--paper); }
+  .btn:hover { background:var(--red); color:#fff; }
 </style>
 </head>
 <body>
   <main class="sheet">
-    <p class="eyebrow mono">DOC: NCR-404 · NONCONFORMANCE REPORT</p>
-    <h1>Part not found<span class="red">.</span></h1>
-    <p class="sub">The page you requested is not in this assembly. Either the
-    drawing was revised and this sheet was superseded, or the part number
-    never existed. No corrective action required on your end.</p>
-    <table class="ncr">
-      <tr><th>DEFECT</th><td>Requested URL returned no material</td></tr>
-      <tr><th>ROOT CAUSE</th><td id="cause">Stale link or mistyped path</td></tr>
-      <tr><th>DISPOSITION</th><td>Return to main assembly</td></tr>
-    </table>
-    <a class="btn" href="/abhinav-portfolio/">← Back to the drawing</a>
+    <p class="kicker">Error 404</p>
+    <h1>Page not found</h1>
+    <p class="sub">This page doesn't exist or has moved. The portfolio is one page, so everything is a click away from the home page.</p>
+    <a class="btn" href="/abhinav-portfolio/">Back to the portfolio</a>
   </main>
-  <script>
-    // Show the path that failed, so stale links are easy to report.
-    const p = location.pathname.replace(/^\/abhinav-portfolio/, "") || "/";
-    document.getElementById("cause").textContent =
-      `Stale link or mistyped path: ${p.slice(0, 80)}`;
-  </script>
 </body>
 </html>

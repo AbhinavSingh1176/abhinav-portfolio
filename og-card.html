@@ -5,89 +5,59 @@
 <meta name="robots" content="noindex, nofollow">
 <title>OG card source — not a page</title>
 <!-- ================================================================
-  This file is the SOURCE for og-image.png (the 1200x630 preview card
-  shown when the site is shared on LinkedIn, iMessage, Slack, etc.).
-  It is not linked from anywhere and not meant to be visited.
-
-  To regenerate after a rev bump or headline change:
-    msedge --headless --screenshot=og-image.png --window-size=1200,630 og-card.html
-  (full command in README)
+  SOURCE for og-image.png (the 1200x630 card shown when the site is
+  shared on LinkedIn, iMessage, Slack). Not linked from anywhere.
+  Regenerate after a headline change — command in README.
 ================================================================ -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+  @font-face { font-family:"Archivo"; font-weight:800; src:url("fonts/archivo-latin-800-normal.woff2") format("woff2"); }
+  @font-face { font-family:"Archivo"; font-weight:600; src:url("fonts/archivo-latin-600-normal.woff2") format("woff2"); }
+  @font-face { font-family:"IBM Plex Mono"; font-weight:400; src:url("fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); }
+  @font-face { font-family:"IBM Plex Mono"; font-weight:500; src:url("fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); }
   /* Fixed light palette — link previews don't have a dark mode. */
   :root {
-    --paper:#fcfcfa; --ink:#17191e; --ink-soft:#4b505c; --muted:#7a7f8c;
-    --line-strong:#b9bab6; --red:#c8362e; --grid:rgba(23,25,30,0.045);
+    --paper:#f7f6f2; --surface:#fbfaf7; --ink:#15171b; --ink-soft:#3f4450; --muted:#6c7180;
+    --line-strong:#c4c2ba; --red:#b8322b; --grid:rgba(21,23,27,0.04);
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   html, body { width:1200px; height:630px; overflow:hidden; }
   body { background:var(--paper); color:var(--ink); }
-  .mono { font-family:"IBM Plex Mono",monospace; }
-
   .sheet {
-    position:absolute; inset:34px;
-    border:2px solid var(--ink);
+    position:absolute; inset:34px; border:2px solid var(--ink);
+    background-color:var(--surface);
     background-image:
       linear-gradient(var(--grid) 1px, transparent 1px),
       linear-gradient(90deg, var(--grid) 1px, transparent 1px);
     background-size:28px 28px;
-    padding:58px 64px 0;
-    display:flex; flex-direction:column;
+    padding:62px 64px 0; display:flex; flex-direction:column;
   }
-  .sheet::before {
-    content:""; position:absolute; inset:8px;
-    border:1px solid var(--line-strong); pointer-events:none;
-  }
-
-  .eyebrow {
-    font-family:"IBM Plex Mono",monospace; font-size:19px;
-    letter-spacing:0.14em; color:var(--muted); margin-bottom:30px;
-  }
-  h1 {
-    font-family:"Archivo",sans-serif; font-weight:800;
-    font-size:88px; line-height:1.04; letter-spacing:-0.02em;
-    max-width:16ch;
-  }
-  .fn-mark { color:var(--red); }
-  .hero-note {
-    font-family:"IBM Plex Mono",monospace; font-size:21px;
-    letter-spacing:0.05em; color:var(--muted); margin-top:18px;
-  }
-
-  .title-block {
-    margin-top:auto; margin-bottom:46px;
-    display:grid; grid-template-columns:1.6fr 1.4fr 0.7fr 1fr;
-    border:1.5px solid var(--ink); background:var(--paper);
-  }
-  .title-block > div {
-    padding:13px 20px 15px; border-right:1px solid var(--line-strong);
-    display:flex; flex-direction:column; gap:4px;
-  }
+  .sheet::before { content:""; position:absolute; inset:8px; border:1px solid var(--line-strong); }
+  .kicker { font-family:"IBM Plex Mono",monospace; font-size:18px; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--muted); margin-bottom:22px; }
+  h1 { font-family:"Archivo",sans-serif; font-weight:800; font-size:96px; line-height:1;
+    letter-spacing:-0.03em; margin-bottom:26px; }
+  .lede { font-family:"Archivo",sans-serif; font-weight:600; font-size:34px; line-height:1.25;
+    letter-spacing:-0.01em; max-width:24ch; }
+  .lede em { font-style:normal; color:var(--red); }
+  .title-block { margin-top:auto; margin-bottom:44px; position:relative;
+    display:grid; grid-template-columns:1.2fr 1.2fr 1fr; border:1.5px solid var(--ink); background:var(--surface); }
+  .title-block > div { padding:12px 20px 14px; border-right:1px solid var(--line-strong);
+    display:flex; flex-direction:column; gap:4px; }
   .title-block > div:last-child { border-right:none; }
-  .title-block span {
-    font-family:"IBM Plex Mono",monospace; font-size:13px;
-    letter-spacing:0.12em; color:var(--muted);
-  }
-  .title-block strong {
-    font-family:"IBM Plex Mono",monospace; font-size:19px;
-    font-weight:500; letter-spacing:0.03em;
-  }
-  .title-block .red { color:var(--red); }
+  .title-block span { font-family:"IBM Plex Mono",monospace; font-size:13px; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--muted); }
+  .title-block strong { font-family:"IBM Plex Mono",monospace; font-size:20px; font-weight:500; }
 </style>
 </head>
 <body>
   <div class="sheet">
-    <p class="eyebrow">ABHINAV SINGH · MECHANICAL ENGINEER · PURDUE ME '28</p>
-    <h1>Works well under pressure.<span class="fn-mark">*</span></h1>
-    <p class="hero-note">* ALSO HEAT, VIBRATION, AND TIGHT TOLERANCES.</p>
+    <p class="kicker">Mechanical Engineer · Purdue ME '28</p>
+    <h1>Abhinav Singh</h1>
+    <p class="lede">Thermal systems, hardware design, and test&nbsp;&amp;&nbsp;validation.</p>
     <div class="title-block">
-      <div><span>DRAWN BY</span><strong>ABHINAV B. SINGH</strong></div>
-      <div><span>DOC</span><strong>PORTFOLIO</strong></div>
-      <div><span>REV</span><strong class="red" data-rev>3.7</strong></div>
-      <div><span>SCALE</span><strong>NTS</strong></div>
+      <div><span>Current</span><strong>Cummins Inc. · Co-op</strong></div>
+      <div><span>Seeking</span><strong>Summer 2027 internships</strong></div>
+      <div><span>Portfolio</span><strong>abhinavsingh1176.github.io</strong></div>
     </div>
   </div>
 </body>
